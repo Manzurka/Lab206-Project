@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class HumanObject {
-    private int strength;
-    private int stealth;
-    private int intelligence;
-    private int health;
+    protected int strength;
+    protected int stealth;
+    protected int intelligence;
+    protected int health;
 
     public HumanObject() {
         strength = 3;
@@ -36,7 +36,7 @@ public class HumanObject {
     public void setHealth(int health) {
         this.health = health;
     }
-    public void attack(HumanObject human) {
-        human.setHealth(-(this.strength));
+    public void attack(HumanObject muggle) {
+        muggle.setHealth(-(this.strength));
     }
 }
