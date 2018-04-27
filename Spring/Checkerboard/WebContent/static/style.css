@@ -1,0 +1,17 @@
+@charset "ISO-8859-1";
+
+.checkerboard {
+	display: block;
+}
+.blue {
+	background-color: blue;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+}
+.darkorchid {
+	background-color: #b32eb3;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+}
