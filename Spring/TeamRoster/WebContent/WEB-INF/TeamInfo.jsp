@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="com.mcajayon.teamroster.models.Team" %>
-<%@ page import="com.mcajayon.teamroster.models.Player" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,24 +9,25 @@
 <title>Team</title>
 </head>
 <body>
-	<% Team team = Team.getTeams().get(Integer.parseInt(request.getParameter("id"))); %>
-	<p><%=team.getTeamName()%>
-	<a href="/TeamRoster/addPlayer?id<%=request.getParameter("id")%>">New Player</a>
-	
+	<p><c:out value="${team.getTeamName()}"/></p>
+	<a href="add_player">New<c:out value="${team.getTeamName()}"/></a>
 	<table>
-		<tr>
+		<thead>
 			<th>First Name</th>
 			<th>Last Name</th>
 			<th>Age</th>
-			<th>Actions</th>
-		</tr>
-		<% for(int i=0; i<team.getPlayers().size(); i++) { %>
-		<tr>
-			<td><%=team.getPlayers().get(i).getFirstName() %></td>
-			<td><%=team.getPlayers().get(i).getLastName() %></td>
-			<td><%=team.getPlayers().get(i).getAge() %></td>
-			<td><a href="/TeamRoster/addPlayer?team_id=<%=request.getParameter("id")%>&player_id=<%=i%>&delete=true">Delete</a></td>
-		<% } %>
+			<th>Action</th>
+		</thead>
+			<c:if test = "${team.getTeamSize()!=0}">
+				<c:forEach var="i" begin="0" end="${team.getTeamSize()-1}">
+					<tr>
+						<td><c:out value="${team.getPlayer(i).getFirstName()}"/></td>
+						<td><c:out value="${team.getPlayer(i).getLastName()}"/></td>
+						<td><c:out value="${team.getPlayer(i).getAge()}"/></td>
+						<td><a href='DeletePlayer?playerId=${i}'>Delete</a></td>
+					</tr>
+				</c:forEach>
+			</c:if>
 	</table>
 </body>
 </html>

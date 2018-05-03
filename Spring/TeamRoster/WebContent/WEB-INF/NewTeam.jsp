@@ -9,8 +9,8 @@
 <body>
 	<p>Create a new team</p>
 	<form action = "/TeamRoster/NewTeam" method="POST">
-	<p>Team Name: <input type="text" name="team_name"></p>
-	<button>Create</button>
+		<p>Team Name: <input type="text" name="team_name"></p>
+		<button>Create</button>
 	</form>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.mcajayon.teamroster.controllers;
 
 import java.io.IOException;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,14 +9,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mcajayon.teamroster.models.Team;
-
+import com.mcajayon.teamroster.models.Roster;
 
 /**
  * Servlet implementation class Teams
  */
-@WebServlet("/Teams")
+@WebServlet("/teams")
 public class Teams extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,28 +34,28 @@ public class Teams extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getParameter("delete")!=null) {
-			Team.getTeams().remove(Integer.parseInt(request.getParameter("id")));
-			response.sendRedirect("/TeamRoster");
+		
+		if (request.getParameter("id") == null) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/NewTeam");
+			view.forward(request, response);
 		}
 		else {
+			int id = Integer.parseInt(request.getParameter("id"));
+			HttpSession session = request.getSession();
+			session.setAttribute("id", id);
+			session.setAttribute("team", (Roster)session.getAttribute("roster")).getTeam(id));
+			
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/TeamInfo");
 			view.forward(request, response);
 		}
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getParameter("id")!=null) {
-			Team.getTeams().get(Integer.parseInt(request.getParameter("id"))).addPlayer(request.getParameter("first_name"),request.getParameter("last_name"), Integer.parseInt(request.getParameter("age")));
-			response.sendRedirect("/TeamRoster/Teams?id=" + request.getParameter("id"));
-		}
-		else {
-			doGet(request, response);
-		}
 	}
-
 }
+	

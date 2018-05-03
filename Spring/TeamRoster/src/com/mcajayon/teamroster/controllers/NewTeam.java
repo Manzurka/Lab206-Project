@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mcajayon.teamroster.models.Team;
+import com.mcajayon.teamroster.models.Roster;
 
 /**
  * Servlet implementation class NewTeam
@@ -31,9 +33,6 @@ public class NewTeam extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		RequestDispatcher view = request.getRequestDispatcher("WEB-INF/NewTeam.jsp");
-		view.forward(request, response);
 	}
 
 	/**
@@ -41,7 +40,14 @@ public class NewTeam extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Team b = new Team(request.getParameter("teams"));
+		String teamName = request.getParameter("teamName");
+		HttpSession session = request.getSession();
+		Team newTeam = new Team(teamName);
+		Roster roster = (Roster) session.getAttribute("roster");
+		roster.addTeam(newTeam);
+		int id = roster.getRosterSize()-1;
+		response.sendRedirect("/TeamRoster/teams?id="+id);
+		
 		
 	}
 
