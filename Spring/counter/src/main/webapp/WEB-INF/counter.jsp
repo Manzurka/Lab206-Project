@@ -8,7 +8,7 @@
 	<title>Current visit count</title>
 </head>
 <body>
-	<p>You have visited <a href='/'>http://localhost:8080/</a><c:out value="${total}"/> times.</p>
+	<p>You have visited <a href='/'>http://your_server</a><c:out value="${counter}"/> times.</p>
 	<a href='/'>Test another visit?</a>
 </body>
 </html>
