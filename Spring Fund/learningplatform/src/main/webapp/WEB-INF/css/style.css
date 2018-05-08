@@ -1,0 +1,11 @@
+ul {
+	display: inline-block;
+}
+
+li {
+	float: right;
+}
+
+li a {
+	display: inline-block;
+}
