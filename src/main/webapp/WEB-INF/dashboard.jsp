@@ -16,9 +16,61 @@
 	</head>
 	<body>
 		<nav class="navbar" id="navvy">
-			<img src="/img/logo.png" id="logo">
-			<a href="#"><i class="fa fa-cog fa-2x"></i></a>
+			<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
+			<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">Name: Mr. Test</li>
+				<li class="nav-item">Points: 5000</li>
+			</ul>
+			<form class="my-2 my-lg-0" id="searchy">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search query..." aria-label="Search query">
+					<div class="input-group-append">
+						<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+					</div>
+				</div>
+			</form>
+			<a href="#"><i class="fa fa-cog fa-2x nav-link"></i></a>
 		</nav>
-		
+			<div class="row">
+				<div class="col-md-6 offset-md-1">
+					
+					<button class="btn btn-info float-right" id="newPost">New Post</button>
+					<h1>Recent Posts</h1>
+					<div id="feed">
+						<div class="row">
+							<div class="col-12">
+							
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 offset-md-2">
+					<div class="row">
+						<div class="col-12">
+							<h1>Leaderboard</h1>
+							<ol>
+								<li>Person</li>
+								<li>Person</li>
+								<li>Person</li>
+								<li>Person</li>
+								<li>Person</li>
+							</ol>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h1>Quicklinks</h1>
+							<ul>
+								<li><a href="#">Link1</a></li>
+								<li><a href="#">Link2</a></li>
+								<li><a href="#">Link3</a></li>
+								<li><a href="#">Link4</a></li>
+								<li><a href="#">Link5</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 	</body>
 </html>
