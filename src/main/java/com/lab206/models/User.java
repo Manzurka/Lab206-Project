@@ -104,6 +104,7 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> dislikedComments;
 	
+	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt=new Date();

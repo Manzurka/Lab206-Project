@@ -72,6 +72,16 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"), 
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> postDislikes;
+    
+    
+ // Tags
+ 	@ManyToMany(fetch = FetchType.LAZY)
+ 	@JoinTable(
+ 			name = "posts_tags",
+ 			joinColumns = @JoinColumn(name = "post_id"),
+ 			inverseJoinColumns = @JoinColumn(name = "tag_id")
+ 	)
+ 	private List<Tag> tags;
 	
 	@PrePersist
 	protected void onCreate() {
