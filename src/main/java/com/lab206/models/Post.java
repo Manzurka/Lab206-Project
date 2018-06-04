@@ -52,7 +52,7 @@ public class Post {
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY)
 	private List<Comment> comments;
 	
-    @OneToOne(mappedBy="post", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Comment answer;
     
 	@ManyToOne(fetch=FetchType.LAZY)
