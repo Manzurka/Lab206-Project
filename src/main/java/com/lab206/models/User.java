@@ -78,17 +78,31 @@ public class User {
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "user_posts", 
+        name = "user_likedPosts", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Post> likedPosts;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "user_comments", 
+        name = "user_dislikedPosts", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Post> dislikedPosts;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_likedComments", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> likedComments;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_dislikedComments", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "comment_id"))
+    private List<Comment> dislikedComments;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -208,6 +222,14 @@ public class User {
 		this.likedPosts = likedPosts;
 	}
 
+	public List<Post> getDislikedPosts() {
+		return dislikedPosts;
+	}
+
+	public void setDislikedPosts(List<Post> dislikedPosts) {
+		this.dislikedPosts = dislikedPosts;
+	}
+
 	public List<Comment> getLikedComments() {
 		return likedComments;
 	}
@@ -215,6 +237,15 @@ public class User {
 	public void setLikedComments(List<Comment> likedComments) {
 		this.likedComments = likedComments;
 	}
-	
+
+	public List<Comment> getDislikedComments() {
+		return dislikedComments;
+	}
+
+	public void setDislikedComments(List<Comment> dislikedComments) {
+		this.dislikedComments = dislikedComments;
+	}
+
+
 
 }
