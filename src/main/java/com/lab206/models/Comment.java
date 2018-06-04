@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -50,12 +51,23 @@ public class Comment {
 	@JoinColumn(name="post_id")
 	private Post post;
 	
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="post_id")
+    private Post question;
+	
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_comments", 
-            joinColumns = @JoinColumn(name = "comment_id"), 
+            name = "user_likedComments", 
+            joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> commentLikes;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_dislikedComments", 
+            joinColumns = @JoinColumn(name = "comment_id"), 
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> commentDislikes;
     
     @PrePersist
 	protected void onCreate() {
@@ -126,5 +138,22 @@ public class Comment {
 	public void setCommentLikes(List<User> commentLikes) {
 		this.commentLikes = commentLikes;
 	}
+
+	public Post getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Post question) {
+		this.question = question;
+	}
+
+	public List<User> getCommentDislikes() {
+		return commentDislikes;
+	}
+
+	public void setCommentDislikes(List<User> commentDislikes) {
+		this.commentDislikes = commentDislikes;
+	}
+	
 	
 }

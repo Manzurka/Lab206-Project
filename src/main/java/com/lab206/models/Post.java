@@ -3,6 +3,7 @@ package com.lab206.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -46,20 +48,30 @@ public class Post {
 	@Column
 	@DateTimeFormat(pattern="MM/dd/yyyy")
 	private Date updatedAt;
+	    
+	@OneToMany(mappedBy="post", fetch=FetchType.LAZY)
+	private List<Comment> comments;
 	
+    @OneToOne(mappedBy="post", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private Comment answer;
+    
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User creator;
 	
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_posts", 
+            name = "user_likedPosts", 
             joinColumns = @JoinColumn(name = "post_id"), 
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> postLikes;
     
-	@OneToMany(mappedBy="post", fetch=FetchType.LAZY) 
-	private List<Comment> comments;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_dislikedPosts", 
+            joinColumns = @JoinColumn(name = "post_id"), 
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> postDislikes;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -137,6 +149,22 @@ public class Post {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public Comment getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Comment answer) {
+		this.answer = answer;
+	}
+
+	public List<User> getPostDislikes() {
+		return postDislikes;
+	}
+
+	public void setPostDislikes(List<User> postDislikes) {
+		this.postDislikes = postDislikes;
 	}
 	
 	
