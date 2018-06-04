@@ -1,0 +1,23 @@
+@charset "ISO-8859-1";
+
+#logo {
+	float: left;
+	max-width: 200px;
+}
+#navvy {
+	background-color: #FFC656;
+}
+#searchy {
+	margin-right: 1em;
+}
+#newPost {
+	margin: .5em 0;
+}
+.avatar {
+	display: inline-block;
+	margin: 0 .5em;
+	max-width: 75px;
+}
+.nav-link {
+	color: #335C67;
+}
