@@ -75,7 +75,7 @@
 									<a href="#" class="view-post">View Post&nbsp;<i class="fa fa-angle-double-down"></i></a>
 								</div>
 								<div class="col-12">
-									<p><a href="#">12 Comments</a> | <a href="#">Show Comments</a></p>
+									<p>12 Comments | <a href="" data-toggle="modal" data-target="#commentModal">Add Comment</a> | <a href="#">Show Comments</a></p>
 								</div>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 									<a href="#" class="view-post">View Post&nbsp;<i class="fa fa-angle-double-down"></i></a>
 								</div>
 								<div class="col-12">
-									<p><a href="#">2 Comments</a> | <a href="#">Show Comments</a></p>
+									<p>2 Comments | <a href="" data-toggle="modal" data-target="#commentModal">Add Comment</a> | <a href="#">Show Comments</a></p>
 								</div>
 							</div>
 						</div>
@@ -237,6 +237,28 @@
 						</div>
 						
 						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		<div id="commentModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Add Comment</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Comment</span>
+							</div>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
 			    	</div>
 				</div>
 			</div>
