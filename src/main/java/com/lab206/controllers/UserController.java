@@ -38,12 +38,17 @@ public class UserController {
     }
 	
 	
-	
-	@RequestMapping(value = {"/", "/dashboard"})
-    public String home(Principal principal, Model model) {
-        String username = principal.getName();
-        model.addAttribute("currentUser", userService.findByUsername(username));
-        return "dashboard.jsp";
+//	
+//	@RequestMapping(value = {"/", "/dashboard"})
+//    public String home(Principal principal, Model model) {
+//        String username = principal.getName();
+//        model.addAttribute("currentUser", userService.findByUsername(username));
+//        return "dashboard.jsp";
+//    }
+//	
+	@RequestMapping("/admins")
+    public String admin(Principal principal, Model model) {
+        return "admin.jsp";
     }
 	
 	

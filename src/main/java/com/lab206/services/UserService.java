@@ -2,7 +2,6 @@ package com.lab206.services;
 
 import java.util.List;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lab206.models.User;
@@ -14,12 +13,10 @@ public class UserService {
 	
 	private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder)     {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository)     {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 	
     // For Login
