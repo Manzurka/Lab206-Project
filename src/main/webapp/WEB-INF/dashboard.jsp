@@ -30,7 +30,9 @@
 					</div>
 				</div>
 			</form>
-			<a href="#"><i class="fa fa-cog fa-2x text-gray-blue"></i></a>
+			<button type="button" class="close" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
+				<i class="fa fa-cog fa nav-link"></i>
+			</button>
 		</nav>
 		<div class="row" id="headerRow">
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
@@ -53,13 +55,16 @@
 								<h4>Help with Django Login/Reg</h4>
 								Uploaded File: <a href="#">file.js</a>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<i class="fa fa-tags"></i>
 								<ul class="list-inline">
 									<li class="list-inline-item">python</li>
 									<li class="list-inline-item">django</li>
 									<li class="list-inline-item">login/reg</li>
 								</ul>
+							</div>
+							<div class="col-sm-1">
+								<a href="#" class="like text-gunmetal"><i class="fa fa-thumbs-up float-right"></i></a>
 							</div>
 						</div>
 						<div class="row">
@@ -84,13 +89,16 @@
 								<h4>JSTL Templating</h4>
 								Uploaded File: <a href="#">index.jsp</a>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<i class="fa fa-tags"></i>
 								<ul class="list-inline">
 									<li class="list-inline-item">java</li>
 									<li class="list-inline-item">jstl</li>
 									<li class="list-inline-item">templating</li>
 								</ul>
+							</div>
+							<div class="col-sm-1">
+								<a href="#" class="like text-gunmetal"><i class="fa fa-thumbs-up float-right"></i></a>
 							</div>
 						</div>
 						<div class="row">
@@ -185,6 +193,50 @@
 							</div>
 						</div>
 						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		<div id="settingsModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Settings</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Avatar</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="inputGroupFile01">
+								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" placeholder="First name">
+							<input type="text" class="form-control" placeholder="Last name">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Email</span>
+							</div>
+							<input type="text" class="form-control" aria-label="Email" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Password</span>
+							</div>
+							<input type="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1">
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
 			    	</div>
 				</div>
 			</div>

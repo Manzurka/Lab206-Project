@@ -34,6 +34,9 @@ body {
 	padding: .5em;
 	border: 1px solid #2B2D42;
 }
+.like:hover {
+	color: #FFC656;
+}
 .bg-ghost-white {
 	background-color: #F9FDFF;
 }
