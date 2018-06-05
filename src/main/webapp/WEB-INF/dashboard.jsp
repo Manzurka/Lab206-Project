@@ -26,51 +26,168 @@
 				<div class="input-group">
 					<input type="text" class="form-control" placeholder="Search query..." aria-label="Search query">
 					<div class="input-group-append">
-						<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+						<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Search</button>
 					</div>
 				</div>
 			</form>
-			<a href="#"><i class="fa fa-cog fa-2x nav-link"></i></a>
+			<a href="#"><i class="fa fa-cog fa-2x text-gray-blue"></i></a>
 		</nav>
-			<div class="row">
-				<div class="col-md-6 offset-md-1">
-					
-					<button class="btn btn-info float-right" id="newPost">New Post</button>
-					<h1>Recent Posts</h1>
-					<div id="feed">
+		<div class="row" id="headerRow">
+			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+				<h1 class="text-ghost-white">Recent Posts</h1>
+			</div>
+			<div class="col-md-3 offset-md-1 rounded-top bg-gunmetal">
+				<h1 class="text-ghost-white">Announcements</h1>
+			</div>
+		</div>
+		<div class="row" id="contentRow">
+			<div class="col-md-6 offset-md-1">
+				<div class="row" id="feed">
+					<div class="col-12 content-panel">
 						<div class="row">
-							<div class="col-12">
-							
+							<div class="col-sm-2">
+								<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+							</div>
+							<div class="col-sm-6">
+								<h4>Help with Django Login/Reg</h4>
+								Uploaded File: <a href="#">file.js</a>
+							</div>
+							<div class="col-sm-4">
+								<i class="fa fa-tags"></i>
+								<ul class="list-inline">
+									<li class="list-inline-item">python</li>
+									<li class="list-inline-item">django</li>
+									<li class="list-inline-item">login/reg</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="container">
+								<div class="col-12">
+									<p>This is content that is comfortably contextual. This is content that is comfortably contextual. This is content that is comfortably contextual. 
+										This is content that is comfortably contextual. This is content that is comfortably contextual. This is content that is comfortably contextual. </p>
+									<a href="#" class="view-post">View Post&nbsp;<i class="fa fa-angle-double-down"></i></a>
+								</div>
+								<div class="col-12">
+									<p><a href="#">12 Comments</a> | <a href="#">Show Comments</a></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 content-panel">
+						<div class="row">
+							<div class="col-sm-2">
+								<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+							</div>
+							<div class="col-sm-6">
+								<h4>JSTL Templating</h4>
+								Uploaded File: <a href="#">index.jsp</a>
+							</div>
+							<div class="col-sm-4">
+								<i class="fa fa-tags"></i>
+								<ul class="list-inline">
+									<li class="list-inline-item">java</li>
+									<li class="list-inline-item">jstl</li>
+									<li class="list-inline-item">templating</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="container">
+								<div class="col-12">
+									<p>This is content that is comfortably contextual. This is content that is comfortably contextual. This is content that is comfortably contextual. 
+										This is content that is comfortably contextual. This is content that is comfortably contextual. This is content that is comfortably contextual. </p>
+									<a href="#" class="view-post">View Post&nbsp;<i class="fa fa-angle-double-down"></i></a>
+								</div>
+								<div class="col-12">
+									<p><a href="#">2 Comments</a> | <a href="#">Show Comments</a></p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-3 offset-md-2">
-					<div class="row">
-						<div class="col-12">
-							<h1>Leaderboard</h1>
-							<ol>
-								<li>Person</li>
-								<li>Person</li>
-								<li>Person</li>
-								<li>Person</li>
-								<li>Person</li>
-							</ol>
-						</div>
+			</div>
+			<div class="col-md-3 offset-md-1">
+				<div class="row">
+					<div class="col-12 content-panel">
+						
 					</div>
-					<div class="row">
-						<div class="col-12">
-							<h1>Quicklinks</h1>
-							<ul>
-								<li><a href="#">Link1</a></li>
-								<li><a href="#">Link2</a></li>
-								<li><a href="#">Link3</a></li>
-								<li><a href="#">Link4</a></li>
-								<li><a href="#">Link5</a></li>
-							</ul>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
+						<h1>Leaderboard</h1>
+					</div>
+					<div class="col-12 content-panel">
+						<ol>
+							<li>Person | 5000 points</li>
+							<li>Person | 3000 points</li>
+							<li>Person | 2000 points</li>
+							<li>Person | 1000 points</li>
+							<li>Person | 500 points</li>
+						</ol>
+						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
+						<h1>Quicklinks</h1>
+					</div>
+					<div class="col-12 content-panel">
+						<ul>
+							<li><a href="#">Link1</a></li>
+							<li><a href="#">Link2</a></li>
+							<li><a href="#">Link3</a></li>
+							<li><a href="#">Link4</a></li>
+							<li><a href="#">Link5</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div id="newPostModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">New Post</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Title</span>
+							</div>
+							<input type="text" class="form-control" aria-label="Title" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Tags</span>
+							</div>
+							<input type="text" class="form-control">
+							<input type="text" class="form-control">
+							<input type="text" class="form-control">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Content</span>
+							</div>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="inputGroupFile01">
+								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+							</div>
+						</div>
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
