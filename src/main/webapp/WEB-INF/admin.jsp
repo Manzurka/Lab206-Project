@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,22 +28,22 @@
 			background-color: #8D99AE;
 			color: white;
 		}
+		table, tr, td, th {
+			padding: 10px;
+		}
 	</style>
 </head>
 <body>
 	<nav>
-	<h1>Lab 206</h1>
+	<h1>Lab 206</h1><span>Admin</span>
 	</nav>
 	
 	<br>
 	
-	<!-- Button trigger modal -->
-<button type="button" class="btn announce" data-toggle="modal" data-target="#exampleModalCenter">
-  Create Announcement
-</button>
+<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement">Create Announcement</button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -52,7 +54,7 @@
       </div>
       <div class="modal-body">
         
-		<form>
+		<form action="" method="post">
 			<label for="subject">Subject: </label>
 			<br>
 			<input type="text" name="subject"/>
@@ -60,9 +62,9 @@
 			<br>
 			<br>
 			
-			<label for="announce">Announcement: </label>
+			<label for="description">Announcement: </label>
 			<br>
-			<textarea rows="4" cols="50" name="announce"/></textarea>
+			<textarea rows="4" cols="50" name="description"/></textarea>
 
       </div>
       <div class="modal-footer">
@@ -78,7 +80,6 @@
 	<br>
 	<br>
 	
-	<!-- Button trigger modal -->
 <button type="button" class="btn announce" data-toggle="modal" data-target="#student">Invite Student</button>
 
 <!-- Modal -->
@@ -93,7 +94,7 @@
       </div>
       <div class="modal-body">
         
-		<form>
+		<form action="" method="post">
 			<label for="firstName">First Name: </label>
 			<br>
 			<input type="text" name="firstName"/>
@@ -123,6 +124,54 @@
 
 	<br>
 	<br>
+
+	
+<button type="button" class="btn" data-toggle="modal" data-target="#remove">Remove Student</button>
+
+<!-- Modal -->
+<div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Remove Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        
+        <table>
+        
+        <tr>
+			<th>First</th>
+			<th>Last</th>
+			<th>Email</th>
+			<th>Points</th>
+			<th>Action</th>
+		</tr>
+        
+		<c:forEach var="user" items="${ all_users }" >
+		<tr>
+			<td><c:out value="${user.firstName}"/></td>
+			<td><c:out value="${user.lastName}"/></td>
+			<td><c:out value="${user.email}"/></td>
+			<td><c:out value="${user.points}"/></td>
+			<td><a href="/user/${ user.id }/delete">Delete</a></td>
+		</tr>
+		</c:forEach>
+		
+		</table>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+	
+	<br>
+	<br>
+	
 	
 	<a href="/dashboard" class="btn dash">To Dashboard</a>
 
