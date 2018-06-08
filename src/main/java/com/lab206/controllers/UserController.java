@@ -1,6 +1,7 @@
 package com.lab206.controllers;
 
 import java.security.Principal;
+import java.util.Random;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lab206.models.Role;
 import com.lab206.models.User;
 import com.lab206.services.UserService;
 import com.lab206.validator.UserValidator;
@@ -35,6 +37,22 @@ public class UserController {
         if(logout != null) {
             model.addAttribute("logoutMessage", "Logout Successful!");
         }
+        
+        
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        
+        while (salt.length() < 16) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        System.out.println(saltStr);
+        
+        
         return "login.jsp";
     }
 	
@@ -46,8 +64,9 @@ public class UserController {
 //        model.addAttribute("currentUser", userService.findByUsername(username));
 //        return "dashboard.jsp";
 //    }
+	
 //	
-	@RequestMapping("/admins")
+	@RequestMapping("/admin")
     public String admin(Principal principal, Model model, @ModelAttribute("announce") User announce, @ModelAttribute("invite") User invite) {
 		model.addAttribute("all_users", userService.findAll());
         return "admin.jsp";
