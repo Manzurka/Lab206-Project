@@ -38,11 +38,11 @@ public class User {
 	private Long id;
 	
 	@Column
-	@Size(min=2)
+	@Size(min=2, max=64)
 	private String firstName;
 	
 	@Column
-	@Size(min=2)
+	@Size(min=2, max=64)
 	private String lastName;
 	
 	@Column
@@ -50,6 +50,7 @@ public class User {
 	private String email;
 	
 	@Column
+	@Size(max=256)
 	private String about;
 	
 	@Column

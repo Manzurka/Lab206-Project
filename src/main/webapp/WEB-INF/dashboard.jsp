@@ -19,8 +19,8 @@
 			<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
 			<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">Name: Mr. Test</li>
-				<li class="nav-item">Points: 5000</li>
+				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
+				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
 			</ul>
 			<form class="my-2 my-lg-0" id="searchy">
 				<div class="input-group">
