@@ -48,7 +48,7 @@ public class UserController {
 //    }
 //	
 	@RequestMapping("/admins")
-    public String admin(Principal principal, Model model) {
+    public String admin(Principal principal, Model model, @ModelAttribute("announce") User announce, @ModelAttribute("invite") User invite) {
 		model.addAttribute("all_users", userService.findAll());
         return "admin.jsp";
     }

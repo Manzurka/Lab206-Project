@@ -31,6 +31,9 @@
 		table, tr, td, th {
 			padding: 10px;
 		}
+		.remove {
+			color: #2E328E;
+		}
 	</style>
 </head>
 <body>
@@ -53,25 +56,24 @@
         </button>
       </div>
       <div class="modal-body">
+            
         
-		<form action="" method="post">
-			<label for="subject">Subject: </label>
-			<br>
-			<input type="text" name="subject"/>
-			
-			<br>
-			<br>
-			
-			<label for="description">Announcement: </label>
-			<br>
-			<textarea rows="4" cols="50" name="description"/></textarea>
+		<form:form method="POST" action="/announce" modelAttribute="announce">
+			<p>
+            	<form:label path="subject">Subject:</form:label>
+            	<form:input path="subject"/>
+        	</p>
+        	<p>
+            	<form:label path="description">Description:</form:label>
+            	<form:input path="description"/>
+        	</p>
 
       </div>
       <div class="modal-footer">
         <input type="submit" class="btn sub" />
       </div>
       
-      </form>
+       </form:form>
       
     </div>
   </div>
@@ -94,29 +96,26 @@
       </div>
       <div class="modal-body">
         
-		<form action="" method="post">
-			<label for="firstName">First Name: </label>
-			<br>
-			<input type="text" name="firstName"/>
-			
-			<br>
-			
-			<label for="lastName">Last Name: </label>
-			<br>
-			<input type="text" name="lastName"/>
-			
-			<br>
-			
-			<label for="email">Email: </label>
-			<br>
-			<input type="text" name="email"/>
+		<form:form method="POST" action="/invite" modelAttribute="invite">
+        <p>
+            <form:label path="fisrtName">First Name:</form:label>
+            <form:input path="fisrtName"/>
+        </p>
+        <p>
+            <form:label path="lastName">Last Name:</form:label>
+            <form:input path="lastName"/>
+        </p>
+        <p>
+            <form:label path="email">Email:</form:label>
+            <form:input path="email"/>
+        </p>
 
       </div>
       <div class="modal-footer">
         <input type="submit" class="btn sub" value="Send Email"/>
       </div>
       
-      </form>
+       </form:form>
       
     </div>
   </div>
@@ -157,7 +156,7 @@
 			<td><c:out value="${user.lastName}"/></td>
 			<td><c:out value="${user.email}"/></td>
 			<td><c:out value="${user.points}"/></td>
-			<td><a href="/user/${ user.id }/delete">Delete</a></td>
+			<td><a href="/user/${ user.id }/delete" class="remove">Delete</a></td>
 		</tr>
 		</c:forEach>
 		
