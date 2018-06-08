@@ -52,7 +52,7 @@ public class Comment {
 	private Post post;
 	
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="post_id")
+    @JoinColumn(name="question_id")
     private Post question;
 	
     @ManyToMany(fetch = FetchType.LAZY)

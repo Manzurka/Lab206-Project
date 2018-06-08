@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -28,7 +29,7 @@ import com.lab206.models.Comment;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -47,6 +48,9 @@ public class User {
 	
 	@Column
 	private Integer points;
+	
+	@Column
+	private String image;
 	
 	@Column
 	@Size(min=8)
@@ -156,6 +160,14 @@ public class User {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getPassword() {
