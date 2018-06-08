@@ -19,6 +19,14 @@ body {
 #newPost {
 	margin: .5em 0;
 }
+#login-body {
+    background-color: #FFC656;
+}
+.peccy {
+    width: 150px;
+    height: 150px;
+    background: transparent;
+}
 .avatar {
 	margin: 0 .5em;
 	max-width: 75px;
