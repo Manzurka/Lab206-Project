@@ -146,7 +146,7 @@
 			<th>First</th>
 			<th>Last</th>
 			<th>Email</th>
-			<th>Points</th>
+			<th>Role</th>
 			<th>Action</th>
 		</tr>
         
@@ -155,7 +155,7 @@
 			<td><c:out value="${user.firstName}"/></td>
 			<td><c:out value="${user.lastName}"/></td>
 			<td><c:out value="${user.email}"/></td>
-			<td><c:out value="${user.points}"/></td>
+			<td><c:out value="${user.roles[0].name}"/></td>
 			<td><a href="/user/${ user.id }/delete" class="remove">Delete</a></td>
 		</tr>
 		</c:forEach>
