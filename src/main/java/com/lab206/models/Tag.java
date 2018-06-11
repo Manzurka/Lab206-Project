@@ -31,6 +31,9 @@ public class Tag {
 	@Size(max = 25)
 	private String subject;
 	
+	@Column
+	private String color;
+	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createdAt;
@@ -87,6 +90,14 @@ public class Tag {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+	
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public Date getCreatedAt() {
