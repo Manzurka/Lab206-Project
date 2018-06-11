@@ -24,6 +24,10 @@
 		.modal-header {
 			background-color: #FFC656;
 		}
+		.students {
+			width: 170%;
+			margin-left: -180px;
+		}
 		.dash {
 			background-color: #8D99AE;
 			color: white;
@@ -34,7 +38,10 @@
 		.remove {
 			color: #2E328E;
 		}
-	</style>
+		.remove:hover {
+			color: #FFC656;
+		}	
+                </style>
 </head>
 <body>
 	<nav>
@@ -130,7 +137,7 @@
 <!-- Modal -->
 <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content students">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Remove Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
