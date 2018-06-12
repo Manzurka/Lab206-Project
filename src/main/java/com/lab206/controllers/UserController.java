@@ -2,6 +2,7 @@ package com.lab206.controllers;
 
 import java.security.Principal;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,19 +16,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lab206.models.Post;
 import com.lab206.models.User;
+import com.lab206.services.PostService;
 import com.lab206.services.UserService;
 import com.lab206.validator.UserValidator;
 
 @Controller
 public class UserController {
 	
+
 	private UserService us;
+	private PostService ps;
 	private UserValidator uv;
 	
 	public UserController(UserService us,
+			PostService ps,
 			UserValidator uv) {
 		this.us = us;
+		this.ps = ps;
 		this.uv = uv;
 	}
 
@@ -71,16 +78,18 @@ public class UserController {
 	}
 	
 	@RequestMapping("/dashboard")
-	public String dashboard(Principal principal,
+	public String dashboard(@ModelAttribute("newPost") Post newPost,
+			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
+		model.addAttribute("posts", ps.allPostsNew());
 		model.addAttribute("currentUser", currentUser);
 		return "dashboard.jsp";
 	}
 	
 	@RequestMapping("/feedback")
-	public String feedback(Principal principal, Model model) {
+	public String feedback(Principal principal,
+                         Model model) {
 		return "feedback.jsp";
 	}
-
 }

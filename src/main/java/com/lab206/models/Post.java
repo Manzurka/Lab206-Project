@@ -66,6 +66,15 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"), 
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> postLikes;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+
+	@JoinTable(
+			name = "posts_tags",
+			joinColumns = @JoinColumn(name = "post_id"),
+			inverseJoinColumns = @JoinColumn(name = "tag_id")
+	)
+	private List<Tag> tags;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -151,6 +160,14 @@ public class Post {
 
 	public void setAnswer(Comment answer) {
 		this.answer = answer;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 	
 }

@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "tags")
 public class Tag {
-
+  
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,6 +30,9 @@ public class Tag {
 	@Column
 	@Size(max = 25)
 	private String subject;
+	
+	@Column
+	private String color;
 	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -54,6 +57,7 @@ public class Tag {
 			inverseJoinColumns = @JoinColumn(name = "quicklink_id")
 	)
 	private List<Quicklink> quicklinks;
+
 	
 	@PrePersist
 	protected void onCreate() {
@@ -88,6 +92,14 @@ public class Tag {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	
+	public String getColor() {
+		return color;
+	}
+	
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -120,5 +132,4 @@ public class Tag {
 	public void setQuicklinks(List<Quicklink> quicklinks) {
 		this.quicklinks = quicklinks;
 	}
-	
 }
