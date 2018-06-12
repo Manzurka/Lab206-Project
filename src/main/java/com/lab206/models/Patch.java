@@ -15,24 +15,22 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "tags")
-public class Tag {
-  
+@Table(name = "patches")
+public class Patch {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
-	@Size(max = 25)
-	private String subject;
+	private String name;
 	
 	@Column
-	private String color;
+	private String image;
 	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -43,38 +41,30 @@ public class Tag {
 	private Date updatedAt;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "posts_tags",
-			joinColumns = @JoinColumn(name = "tag_id"),
-			inverseJoinColumns = @JoinColumn(name = "post_id")
-	)
-	private List<Post> posts;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "quicklinks_tags",
-			joinColumns = @JoinColumn(name = "tag_id"),
-			inverseJoinColumns = @JoinColumn(name = "quicklink_id")
-	)
-	private List<Quicklink> quicklinks;
-
+    @JoinTable(
+        name = "user_patches",
+        joinColumns = @JoinColumn(name = "patch_id"), 
+        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
 	
 	@PrePersist
 	protected void onCreate() {
-		this.createdAt = new Date();
+		this.createdAt=new Date();
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.updatedAt = new Date();
+		this.updatedAt=new Date();
 	}
 	
-	public Tag() {
+	public Patch() {
 		
 	}
 	
-	public Tag(String subject) {
-		this.subject = subject;
+	public Patch(String name,
+			String image) {
+		this.name = name;
+		this.image = image;
 	}
 
 	public Long getId() {
@@ -85,20 +75,20 @@ public class Tag {
 		this.id = id;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getName() {
+		return name;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public String getColor() {
-		return color;
+
+	public String getImage() {
+		return image;
 	}
-	
-	public void setColor(String color) {
-		this.color = color;
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Date getCreatedAt() {
@@ -117,19 +107,12 @@ public class Tag {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<Post> getPosts() {
-		return posts;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
-
-	public List<Quicklink> getQuicklinks() {
-		return quicklinks;
-	}
-
-	public void setQuicklinks(List<Quicklink> quicklinks) {
-		this.quicklinks = quicklinks;
-	}
+	
 }

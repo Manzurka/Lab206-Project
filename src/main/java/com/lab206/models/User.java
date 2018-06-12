@@ -3,6 +3,7 @@ package com.lab206.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -29,21 +32,26 @@ import com.lab206.models.Comment;
 @Entity
 @Table(name="users")
 public class User {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
-	@Size(min=2)
+	@Size(min=2, max=64)
 	private String firstName;
 	
 	@Column
-	@Size(min=2)
+	@Size(min=2, max=64)
 	private String lastName;
 	
 	@Column
 	@Pattern(regexp=".+@.+\\..+")
 	private String email;
+	
+	@Column
+	@Size(max=256)
+	private String about;
 	
 	@Column
 	private Integer points;
@@ -69,8 +77,11 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+	
+    @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private Token token;
 
-	@OneToMany(mappedBy="creator", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="author", fetch=FetchType.LAZY)
 	private List<Post> post;
 	
 	@OneToMany(mappedBy="commenter", fetch=FetchType.LAZY)
@@ -82,13 +93,6 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Post> likedPosts;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "user_dislikedPosts", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "post_id"))
-    private List<Post> dislikedPosts;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -104,6 +108,45 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> dislikedComments;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_badges", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "badge_id"))
+    private List<Badge> badges;
+	
+	@OneToMany(mappedBy = "quicklinkCreator", fetch = FetchType.LAZY)
+	private List<Quicklink> quicklinks;
+	
+	@OneToMany(mappedBy = "projectCreator", fetch = FetchType.LAZY)
+	private List<Project> projects;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "project_collaborators", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private List<Project> joinedProjects;
+	
+	@OneToMany(mappedBy = "feedbackCreator", fetch = FetchType.LAZY)
+	private List<Feedback> feedback;
+	
+	@OneToMany(mappedBy = "reported", fetch = FetchType.LAZY)
+	private List<Report> reportsAgainst;
+	
+	@OneToMany(mappedBy = "reporter", fetch = FetchType.LAZY)
+	private List<Report> reportsFiled;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_patches",
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "patch_id"))
+    private List<Patch> patches;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="cohort_id")
+	private Cohort cohort;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -116,7 +159,19 @@ public class User {
 	}
 	
 	public User() {
-		
+		this.points = 0;
+	}
+	
+	public User(String firstName,
+			String lastName,
+			String email,
+			String about,
+			String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.about = about;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -149,6 +204,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
 	public Integer getPoints() {
@@ -199,6 +262,14 @@ public class User {
 		this.roles = roles;
 	}
 
+	public Token getToken() {
+		return token;
+	}
+
+	public void setToken(Token token) {
+		this.token = token;
+	}
+
 	public List<Post> getPost() {
 		return post;
 	}
@@ -223,14 +294,6 @@ public class User {
 		this.likedPosts = likedPosts;
 	}
 
-	public List<Post> getDislikedPosts() {
-		return dislikedPosts;
-	}
-
-	public void setDislikedPosts(List<Post> dislikedPosts) {
-		this.dislikedPosts = dislikedPosts;
-	}
-
 	public List<Comment> getLikedComments() {
 		return likedComments;
 	}
@@ -247,6 +310,68 @@ public class User {
 		this.dislikedComments = dislikedComments;
 	}
 
+	public List<Badge> getBadges() {
+		return badges;
+	}
 
+	public void setBadges(List<Badge> badges) {
+		this.badges = badges;
+	}
+
+	public List<Quicklink> getQuicklinks() {
+		return quicklinks;
+	}
+
+	public void setQuicklinks(List<Quicklink> quicklinks) {
+		this.quicklinks = quicklinks;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	public List<Project> getJoinedProjects() {
+		return joinedProjects;
+	}
+
+	public void setJoinedProjects(List<Project> joinedProjects) {
+		this.joinedProjects = joinedProjects;
+	}
+
+	public List<Feedback> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<Feedback> feedback) {
+		this.feedback = feedback;
+	}
+
+	public List<Report> getReportsAgainst() {
+		return reportsAgainst;
+	}
+
+	public void setReportsAgainst(List<Report> reportsAgainst) {
+		this.reportsAgainst = reportsAgainst;
+	}
+
+	public List<Report> getReportsFiled() {
+		return reportsFiled;
+	}
+
+	public void setReportsFiled(List<Report> reportsFiled) {
+		this.reportsFiled = reportsFiled;
+	}
+
+	public List<Patch> getPatches() {
+		return patches;
+	}
+
+	public void setPatches(List<Patch> patches) {
+		this.patches = patches;
+	}
 
 }
