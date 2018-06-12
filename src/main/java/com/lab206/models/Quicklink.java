@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -20,19 +21,20 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "tags")
-public class Tag {
-  
+@Table(name = "quicklinks")
+public class Quicklink {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
-	@Size(max = 25)
-	private String subject;
+	@Size(max = 255)
+	private String name;
 	
 	@Column
-	private String color;
+	@Size(max = 255)
+	private String url;
 	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -44,20 +46,15 @@ public class Tag {
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "posts_tags",
-			joinColumns = @JoinColumn(name = "tag_id"),
-			inverseJoinColumns = @JoinColumn(name = "post_id")
-	)
-	private List<Post> posts;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
 			name = "quicklinks_tags",
-			joinColumns = @JoinColumn(name = "tag_id"),
-			inverseJoinColumns = @JoinColumn(name = "quicklink_id")
+			joinColumns = @JoinColumn(name = "quicklink_id"),
+			inverseJoinColumns = @JoinColumn(name = "tag_id")
 	)
-	private List<Quicklink> quicklinks;
-
+	private List<Tag> tags;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User quicklinkCreator;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -69,12 +66,14 @@ public class Tag {
 		this.updatedAt = new Date();
 	}
 	
-	public Tag() {
+	public Quicklink() {
 		
 	}
 	
-	public Tag(String subject) {
-		this.subject = subject;
+	public Quicklink(String name,
+			String url) {
+		this.name = name;
+		this.url = url;
 	}
 
 	public Long getId() {
@@ -85,20 +84,20 @@ public class Tag {
 		this.id = id;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getName() {
+		return name;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public String getColor() {
-		return color;
+
+	public String getUrl() {
+		return url;
 	}
-	
-	public void setColor(String color) {
-		this.color = color;
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Date getCreatedAt() {
@@ -117,19 +116,20 @@ public class Tag {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<Post> getPosts() {
-		return posts;
+	public List<Tag> getTags() {
+		return tags;
 	}
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
-	public List<Quicklink> getQuicklinks() {
-		return quicklinks;
+	public User getQuicklinkCreator() {
+		return quicklinkCreator;
 	}
 
-	public void setQuicklinks(List<Quicklink> quicklinks) {
-		this.quicklinks = quicklinks;
+	public void setQuicklinkCreator(User creator) {
+		this.quicklinkCreator = creator;
 	}
+	
 }

@@ -10,6 +10,7 @@ import com.lab206.models.Role;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
 	
-	List<Role> findByName(String string);
+	List<Role> findAll();
+	List<Role> findByName(String name);
 
 }

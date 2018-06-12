@@ -1,8 +1,11 @@
 @charset "ISO-8859-1";
 
 body {
+	background-image: url("/img/gplaypattern.png");
+	background-repeat: repeat;
 	overflow-x: hidden;
 }
+/* Styles for specific IDs */
 #logo {
 	float: left;
 	max-width: 200px;
@@ -19,6 +22,20 @@ body {
 #newPost {
 	margin: .5em 0;
 }
+#login-body {
+    background-color: #FFC656;
+}
+/* Styles for classes */
+.shadow-small {
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.19);
+	-moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.19);
+	box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.19);
+}
+.peccy {
+    width: 150px;
+    height: 150px;
+    background: transparent;
+}
 .avatar {
 	margin: 0 .5em;
 	max-width: 75px;
@@ -32,11 +49,18 @@ body {
 .content-panel {
 	margin-bottom: .5em;
 	padding: .5em;
-	border: 1px solid #2B2D42;
+	border: 1px solid #E9E9E9;
+	background-color: #FFF;
 }
+.tag {
+	padding: 3px;
+	border-radius: 20px;
+}
+/* Makes thumbs-up yellow on hover */
 .like:hover {
 	color: #FFC656;
 }
+/* Classes for background color */
 .bg-ghost-white {
 	background-color: #F9FDFF;
 }
@@ -55,6 +79,75 @@ body {
 .bg-gray-blue {
 	background-color: #8D99AE;
 }
+/* Background color for tags */
+.bg-outer-space {
+	background-color: #424B54;
+}
+.bg-shimmering-blush {
+	background-color: #DB7F8E;
+}
+.bg-neon-carrot {
+	background-color: #FF9E44;
+}
+.bg-lapis-lazuli {
+	background-color: #1A659E;
+}
+.bg-amazon {
+	background-color: #4A7856;
+}
+.bg-antique-ruby {
+	background-color: #88292F;
+}
+.bg-purple-navy {
+	background-color: #4E598C;
+}
+.bg-rajah {
+	background-color: #FCAF58;
+}
+.bg-deep-space-sparkle {
+	background-color: #395C6B;
+}
+.bg-deep-tuscan-red {
+	background-color: #5F464B;
+}
+.bg-polished-pine {
+	background-color: #68A691;
+}
+/* User created tag background colors */
+.bg-outer-space-light {
+	background-color: #6A7682;
+}
+.bg-shimmering-blush-light {
+	background-color: #EFA5b1;
+}
+.bg-neon-carrot-light {
+	background-color: #F9B575;
+}
+.bg-lapis-lazuli-light {
+	background-color: #4C96CE;
+}
+.bg-amazon-light {
+	background-color: #7CA887;
+}
+.bg-antique-ruby-light {
+	background-color: #BC5E64;
+}
+.bg-purple-navy-light {
+	background-color: #7D8AC4;
+}
+.bg-rajah-light {
+	background-color: #FCC88D;
+}
+.bg-deep-space-sparkle-light {
+	background-color: #6B94A5;
+}
+.bg-deep-tuscan-red-light {
+	background-color: #96767D;
+}
+.bg-polished-pine-light {
+	background-color: #8FD3BC;
+}
+/* Classes for text color */
 .text-ghost-white {
 	color: #F9FDFF;
 }
@@ -72,4 +165,85 @@ body {
 }
 .text-gray-blue {
 	color: #8D99AE;
+}
+.report:hover {
+	color: red;
+}
+.dropdown-menu ul {
+	list-style-type: none;
+}
+.text-button {
+	background-color: transparent;
+ 	border: none;
+	margin-left: -5px;
+	color: #007bff;
+}
+.text-button:hover {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	color: #0056b3;
+	text-decoration: underline;
+}
+
+
+/* Styling for switch */
+.switch {
+  position: relative;
+  top: 7px;
+  margin-left: .5em;
+  display: inline-block;
+  width: 60px;
+  height: 26px;
+}
+
+/* Hides checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 1px;
+  bottom: 1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2E328E;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2E328E;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(34px);
+  -ms-transform: translateX(34px);
+  transform: translateX(34px);
+}
+
+/* Rounded slider */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
