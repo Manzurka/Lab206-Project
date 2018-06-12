@@ -77,5 +77,10 @@ public class UserController {
 		model.addAttribute("currentUser", currentUser);
 		return "dashboard.jsp";
 	}
+	
+	@RequestMapping("/feedback")
+	public String feedback(Principal principal, Model model) {
+		return "feedback.jsp";
+	}
 
 }
