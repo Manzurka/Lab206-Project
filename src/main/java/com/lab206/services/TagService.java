@@ -24,7 +24,7 @@ public class TagService {
 	public List<Tag> allTags() {
 		return tr.findAll();
 	}
-	
+
 	public Tag findTagBySubject(String sub) {
 		return tr.findBySubject(sub);
 	}

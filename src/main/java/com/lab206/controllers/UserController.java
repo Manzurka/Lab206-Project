@@ -2,6 +2,7 @@ package com.lab206.controllers;
 
 import java.security.Principal;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import com.lab206.validator.UserValidator;
 @Controller
 public class UserController {
 	
+
 	private UserService us;
 	private PostService ps;
 	private UserValidator uv;
@@ -84,5 +86,4 @@ public class UserController {
 		model.addAttribute("currentUser", currentUser);
 		return "dashboard.jsp";
 	}
-
 }

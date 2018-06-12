@@ -68,6 +68,7 @@ public class Post {
     private List<User> postLikes;
     
     @ManyToMany(fetch = FetchType.LAZY)
+
 	@JoinTable(
 			name = "posts_tags",
 			joinColumns = @JoinColumn(name = "post_id"),
