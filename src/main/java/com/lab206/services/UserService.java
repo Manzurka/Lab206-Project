@@ -12,25 +12,6 @@ import com.lab206.repositories.UserRepository;
 
 @Service
 public class UserService {
-	
-	private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder)     {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-	
-    // For Login
-    public User findByUsername(String email) {
-        return userRepository.findByEmail(email);
-    }
-    
-	public List<User> findAll() {
-		return userRepository.findAll();
-	}
 
 	private UserRepository ur;
 	private RoleRepository ror;
