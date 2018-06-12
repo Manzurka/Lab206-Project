@@ -54,26 +54,11 @@ public class PostController {
 			model.addAttribute("posts", ps.allPostsNew());
 			return "dashboard.jsp";
 		}
-		List<Tag> tags = new ArrayList<Tag>();
-		tags.add(ts.findTagBySubject(language));
-		if (course != null) {
-			tags.add(ts.findTagBySubject("coursework"));
-		}
-		for (String sub : subjects) {
-			if (sub == "") {
-				continue;
-			} else {
-				if (ts.findTagBySubject(sub) != null) {
-					tags.add(ts.findTagBySubject(sub.toLowerCase().trim()));
-				} else {
-					Tag tag = new Tag(sub.toLowerCase().trim());
-					tags.add(ts.createTag(tag));
-				}
-			}
-		}
+		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
 		newPost.setTags(tags);
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
+		us.increasePoints(currentUser);
 		return "redirect:/dashboard";
 	}
 }

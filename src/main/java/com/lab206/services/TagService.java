@@ -1,5 +1,6 @@
 package com.lab206.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -33,5 +34,28 @@ public class TagService {
 		int num = rand.nextInt(11);
 		tag.setColor(userTagColors.get(num));
 		return tr.save(tag);
+	}
+	
+	public List<Tag> findTagsBySubject(String course, 
+			String language,
+			List<String> subjects) {
+		List<Tag> tags = new ArrayList<Tag>();
+		tags.add(findTagBySubject(language));
+		if (course != null) {
+			tags.add(findTagBySubject("coursework"));
+		}
+		for (String sub : subjects) {
+			if (sub == "") {
+				continue;
+			} else {
+				if (findTagBySubject(sub) != null) {
+					tags.add(findTagBySubject(sub.toLowerCase().trim()));
+				} else {
+					Tag tag = new Tag(sub.toLowerCase().trim());
+					tags.add(createTag(tag));
+				}
+			}
+		}
+		return tags;
 	}
 }

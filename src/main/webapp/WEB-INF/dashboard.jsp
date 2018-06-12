@@ -80,7 +80,7 @@
 									</div>
 									<div class="col-12">
 										<!-- Total comments and show -->
-										<p><c:out value="${post.comments.size()}"/> Comments | <a href="#">Show Comments <i class="fa fa-angle-double-down"></i></a></p>
+										<p><c:out value="${post.comments.size()}"/> Comments | <a href="#commentModal" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a></p>
 									</div>
 								</div>
 							</div>

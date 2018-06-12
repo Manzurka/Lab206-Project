@@ -44,4 +44,9 @@ public class UserService {
 		return ur.findByEmail(email);
 	}
 	
+	public void increasePoints(User user) {
+		user.setPoints(user.getPoints() + 1);
+		ur.save(user);
+	}
+	
 }
