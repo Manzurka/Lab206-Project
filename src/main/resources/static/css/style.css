@@ -172,6 +172,20 @@ body {
 .dropdown-menu ul {
 	list-style-type: none;
 }
+.text-button {
+	background-color: transparent;
+ 	border: none;
+	margin-left: -5px;
+	color: #007bff;
+}
+.text-button:hover {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	color: #0056b3;
+	text-decoration: underline;
+}
+
 
 /* Styling for switch */
 .switch {

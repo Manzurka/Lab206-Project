@@ -37,9 +37,9 @@
 					</li>
 					<li>
             <!-- Logout button -->
-						<form id="logoutForm" method="POST" action="/logout"<i class="fa fa-power-off nav-link" aria-hidden="true"</i>>
+						<form id="logoutForm" method="POST" action="/logout">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						    <input type="submit" value="Logout" />
+						    <button type="submit" class="text-button"><i class="fa fa-power-off nav-link" aria-hidden="true"></i>Logout</button>
 						</form>
 					</li>
 			  	</ul>
