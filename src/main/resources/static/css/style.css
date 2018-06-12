@@ -166,8 +166,14 @@ body {
 .text-gray-blue {
 	color: #8D99AE;
 }
+.report:hover {
+	color: red;
+}
+.dropdown-menu ul {
+	list-style-type: none;
+}
 
-/* The switch - the box around the slider */
+/* Styling for switch */
 .switch {
   position: relative;
   top: 7px;
@@ -177,7 +183,7 @@ body {
   height: 26px;
 }
 
-/* Hide default HTML checkbox */
+/* Hides checkbox */
 .switch input {display:none;}
 
 /* The slider */
@@ -219,7 +225,7 @@ input:checked + .slider:before {
   transform: translateX(34px);
 }
 
-/* Rounded sliders */
+/* Rounded slider */
 .slider.round {
   border-radius: 34px;
 }
