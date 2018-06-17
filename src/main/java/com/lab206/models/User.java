@@ -80,6 +80,9 @@ public class User {
 	
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Token token;
+    
+    @OneToOne(mappedBy="user4avatar", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private File file;
 
 	@OneToMany(mappedBy="author", fetch=FetchType.LAZY)
 	private List<Post> post;
@@ -372,6 +375,22 @@ public class User {
 
 	public void setPatches(List<Patch> patches) {
 		this.patches = patches;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public Cohort getCohort() {
+		return cohort;
+	}
+
+	public void setCohort(Cohort cohort) {
+		this.cohort = cohort;
 	}
 
 }

@@ -47,8 +47,16 @@ public class UserService {
 		return ur.findByEmail(email);
 	}
 	
+	public User findById(Long id) {
+		return ur.findById(id).get();
+	}
+	
 	public void increasePoints(User user) {
 		user.setPoints(user.getPoints() + 1);
+		ur.save(user);
+	}
+	
+	public void save(User user) {
 		ur.save(user);
 	}
 	
