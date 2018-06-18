@@ -23,11 +23,17 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.lab206.models.User;
-import com.lab206.models.Comment;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="posts")
+@JsonIdentityInfo(
+		  scope = Post.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Post {
 	
 	@Id
@@ -51,6 +57,7 @@ public class Post {
 	private Date updatedAt;
 	    
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Comment> comments;
 	
     @OneToOne(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -58,6 +65,7 @@ public class Post {
     
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User author;
 	
     @ManyToMany(fetch = FetchType.LAZY)
@@ -145,6 +153,14 @@ public class Post {
 	public void setPostLikes(List<User> postLikes) {
 		this.postLikes = postLikes;
 	}
+	
+	public void addPostLike(User user) {
+		this.postLikes.add(user);
+	}
+	
+	public void removePostLike(User user) {
+		this.postLikes.remove(user);
+	}
 
 	public List<Comment> getComments() {
 		return comments;
@@ -152,6 +168,10 @@ public class Post {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
 	}
 
 	public Comment getAnswer() {

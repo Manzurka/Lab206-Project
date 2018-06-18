@@ -40,6 +40,11 @@ body {
 	margin: 0 .5em;
 	max-width: 75px;
 }
+.post-avatar {
+	float: left;
+	margin: 0 .5em;
+	max-width: 75px;
+}
 .nav-link {
 	color: #335C67;
 }
@@ -56,9 +61,21 @@ body {
 	padding: 3px;
 	border-radius: 20px;
 }
-/* Makes thumbs-up yellow on hover */
+/* Colors for like, dislike, report */
+.like {
+	color: #FFD34F;
+}
 .like:hover {
-	color: #FFC656;
+	color: #FFBB00;
+}
+.dislike {
+	color: #CFEBDF;
+}
+.dislike:hover {
+	color: #63BCCC;
+}
+.report:hover {
+	color: red;
 }
 /* Classes for background color */
 .bg-ghost-white {
@@ -166,12 +183,10 @@ body {
 .text-gray-blue {
 	color: #8D99AE;
 }
-.report:hover {
-	color: red;
-}
 .dropdown-menu ul {
 	list-style-type: none;
 }
+/* Button colors */
 .text-button {
 	background-color: transparent;
  	border: none;
@@ -185,8 +200,12 @@ body {
 	color: #0056b3;
 	text-decoration: underline;
 }
-
-
+/* List styling */
+.time-list {
+	padding: 0;
+	font-size: 8pt;
+	list-style-type: none;
+}
 /* Styling for switch */
 .switch {
   position: relative;

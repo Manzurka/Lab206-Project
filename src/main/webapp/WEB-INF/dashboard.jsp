@@ -64,6 +64,7 @@
 			<!-- Recent posts header -->
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
 				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>
 				<h1 class="text-ghost-white">Recent Posts</h1>
 			</div>
 			<!-- Announcements header -->
@@ -95,20 +96,22 @@
 									</ul>
 								</div>
 								<div class="col-sm-1">
-									<a href="#" class="like text-gunmetal"><i class="fa fa-thumbs-up float-right"></i></a>
+									<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
 								</div>
 							</div>
 							<div class="row">
 								<div class="container">
 									<div class="col-12">
 										<p><c:out value="${post.content}"/></p>
+										<p><c:out value="${post.author.firstName}"/></p>
 									</div>
 									<div class="col-12">
 										<!-- Total comments and show -->
 										<p>
-                      <c:out value="${post.comments.size()}"/> Comments | <a href="#commentModal" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
-                      <a href="" data-toggle="modal" data-target="#reportModal" class="report text-gunmetal float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-                    </p>
+					                    	<c:out value="${post.comments.size()}"/> Comments | 
+					                    	<a href="#" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
+					                    	<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+					                    </p>
 									</div>
 								</div>
 							</div>
@@ -285,25 +288,56 @@
 			</div>
 		</div>
 		
-		<!-- Comment Modal -->
-		<div id="commentModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+		<!-- View Post Modal -->
+		<div id="showPostModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Add Comment</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+					<!-- Post title -->
+					<div class="modal-header" id="postTitle">
+					
 					</div>
 					<div class="modal-body">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Comment</span>
+						<div class="row">
+							<!-- Post author info -->
+							<div class="col-sm-5" id="userInfo">
+								
 							</div>
-							<textarea class="form-control" aria-label="Content"></textarea>
+							<!-- Post files -->
+							<div class="col-sm-7" id="postFiles">
+								<ul class="list-inline">
+									<li class="list-inline-item">Files:</li>
+									<li class="list-inline-item"><a href="">item1.js</a></li>
+									<li class="list-inline-item"><a href="">item2.js</a></li>
+									<li class="list-inline-item"><a href="">item3.js</a></li>
+									<li class="list-inline-item"><a href="">item4.js</a></li>
+									<li class="list-inline-item"><a href="">item5.js</a></li>
+								</ul>
+							</div>
 						</div>
-						
-						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+						<div class="row">
+							<!-- Post Content -->
+				    		<div class="col-sm-12" id="postContent">
+				    			
+				    		</div>
+				    	</div>
+				    	<div class="row mb-3">
+				    		<!-- New Comment form -->
+				    		<div class="col-sm-12" id="newComment">
+				    			<form:form action="/comment/create" modelAttribute="newComment" id="newCommentForm" method="post">
+				    				<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text">Content</span>
+										</div>
+										<form:textarea path="content" placeholder="Enter comment here" class="form-control" aria-label="Comment text"/>
+									</div>
+									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+				    			</form:form>
+				    		</div>
+				    	</div>
+				    	<div class="row" id="showComments">
+				    		<!-- Show comments -->
+				    		
+				    	</div>
 			    	</div>
 				</div>
 			</div>
@@ -383,9 +417,10 @@
 		</div>
 
 		<!-- Scripts -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="/js/script.js"></script>
 		
 		<!-- Auto-opens new post modal if user was creating post and had errors -->
 		<c:if test="${posting == true}">

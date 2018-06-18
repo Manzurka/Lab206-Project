@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lab206.models.Comment;
 import com.lab206.models.Post;
 import com.lab206.models.User;
 import com.lab206.services.PostService;
@@ -79,6 +80,7 @@ public class UserController {
 	
 	@RequestMapping("/dashboard")
 	public String dashboard(@ModelAttribute("newPost") Post newPost,
+			@ModelAttribute("newComment") Comment newComment,
 			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());

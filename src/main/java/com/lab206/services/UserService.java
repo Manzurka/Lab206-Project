@@ -52,4 +52,8 @@ public class UserService {
 		ur.save(user);
 	}
 	
+	public User findById(Long id) {
+		return ur.findById(id).get();
+	}
+	
 }

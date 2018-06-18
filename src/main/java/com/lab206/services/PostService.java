@@ -27,4 +27,8 @@ public class PostService {
 	public void createPost(Post post) {
 		pr.save(post);
 	}
+	
+	public Post findPostById(Long id) {
+		return pr.findById(id).get();
+	}
 }
