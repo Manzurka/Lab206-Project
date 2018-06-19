@@ -40,7 +40,7 @@ public class CommentService {
 		return cr.findAll();
 	}
 	
-	public List<Comment> findByPostDesc(Post post) {
+	public List<Long> findByPostDesc(Post post) {
 		return cr.findByPostDesc(post);
 	}
 	

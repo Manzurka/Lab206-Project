@@ -98,17 +98,10 @@ $(document).ready(function(){
 		var comments = '';
 		$.when($.ajax("/post/" + post.id + "/comments")).promise().done(function(coms) {
 			comments = coms;
-			console.log(comments);
 			for (var i = 0; i < comments.length; i++) {
-				if (typeof comments[i] == "number") {
-					console.log(comments[i]);
-					$.when($.ajax("/comment/get/" + post.comments[i])).promise().done(function(comment) {
-						console.log(comment);
-						commentUpdated(comment, author);
-					})
-				} else {
-					commentUpdated(comments[i], author);
-				}
+				$.when($.ajax("/comment/get/" + comments[i])).promise().done(function(comment) {
+					commentUpdated(comment, author);
+				})
 			}
 		}) ;
 	}

@@ -14,6 +14,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 	List<Comment> findAll();
 	
-	@Query("SELECT c FROM Comment c WHERE c.post = ?1 ORDER BY c.createdAt DESC")
-	List<Comment> findByPostDesc(Post post);
+	@Query("SELECT c.id FROM Comment c WHERE c.post = ?1 ORDER BY c.createdAt DESC")
+	List<Long> findByPostDesc(Post post);
 }
