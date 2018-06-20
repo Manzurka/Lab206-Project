@@ -52,7 +52,7 @@ public class Comment {
 	private Post post;
 	
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="post_id")
+    @JoinColumn(name="question_id")
     private Post question;
 	
     @ManyToMany(fetch = FetchType.LAZY)
@@ -81,6 +81,10 @@ public class Comment {
 	
 	public Comment() {
 		
+	}
+	
+	public Comment(String content) {
+		this.content = content;
 	}
 
 	public Long getId() {
@@ -131,20 +135,20 @@ public class Comment {
 		this.post = post;
 	}
 
-	public List<User> getCommentLikes() {
-		return commentLikes;
-	}
-
-	public void setCommentLikes(List<User> commentLikes) {
-		this.commentLikes = commentLikes;
-	}
-
 	public Post getQuestion() {
 		return question;
 	}
 
 	public void setQuestion(Post question) {
 		this.question = question;
+	}
+
+	public List<User> getCommentLikes() {
+		return commentLikes;
+	}
+
+	public void setCommentLikes(List<User> commentLikes) {
+		this.commentLikes = commentLikes;
 	}
 
 	public List<User> getCommentDislikes() {
@@ -154,6 +158,5 @@ public class Comment {
 	public void setCommentDislikes(List<User> commentDislikes) {
 		this.commentDislikes = commentDislikes;
 	}
-	
 	
 }

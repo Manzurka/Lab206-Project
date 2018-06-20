@@ -29,6 +29,7 @@ import com.lab206.models.Comment;
 @Entity
 @Table(name="posts")
 public class Post {
+	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +40,7 @@ public class Post {
 	
 	@Column 
 	@NotEmpty
-	private String text;
+	private String content;
 	
 	@Column(updatable=false)
 	@DateTimeFormat(pattern="MM/dd/yyyy")
@@ -52,12 +53,15 @@ public class Post {
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY)
 	private List<Comment> comments;
 	
-    @OneToOne(mappedBy="post", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="post4file", fetch=FetchType.LAZY)
+	private List<File> attachments;
+	
+    @OneToOne(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Comment answer;
     
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
-	private User creator;
+	private User author;
 	
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -67,11 +71,13 @@ public class Post {
     private List<User> postLikes;
     
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_dislikedPosts", 
-            joinColumns = @JoinColumn(name = "post_id"), 
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> postDislikes;
+
+	@JoinTable(
+			name = "posts_tags",
+			joinColumns = @JoinColumn(name = "post_id"),
+			inverseJoinColumns = @JoinColumn(name = "tag_id")
+	)
+	private List<Tag> tags;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -103,12 +109,12 @@ public class Post {
 		this.title = title;
 	}
 
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Date getCreatedAt() {
@@ -127,12 +133,12 @@ public class Post {
 		this.updatedAt = updatedAt;
 	}
 
-	public User getCreator() {
-		return creator;
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
 	public List<User> getPostLikes() {
@@ -159,12 +165,20 @@ public class Post {
 		this.answer = answer;
 	}
 
-	public List<User> getPostDislikes() {
-		return postDislikes;
+	public List<Tag> getTags() {
+		return tags;
 	}
 
-	public void setPostDislikes(List<User> postDislikes) {
-		this.postDislikes = postDislikes;
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public List<File> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<File> attachments) {
+		this.attachments = attachments;
 	}
 	
 	
