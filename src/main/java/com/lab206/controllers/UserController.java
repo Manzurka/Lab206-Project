@@ -87,7 +87,7 @@ public class UserController {
 		return "redirect:/dashboard";
 	}
 	
-	@RequestMapping("/dashboard")
+	@RequestMapping(value = {"/", "/dashboard"})
 	public String dashboard(@ModelAttribute("newPost") Post newPost, 
 			@ModelAttribute("user") User user,
 			Principal principal,

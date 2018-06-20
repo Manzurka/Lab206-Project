@@ -43,6 +43,10 @@ public class UserService {
 		ur.save(user);
 	}
 	
+	public List<User> findAll() {
+		return ur.findAll();
+	}
+	
 	public User findByEmail(String email) {
 		return ur.findByEmail(email);
 	}
@@ -58,6 +62,11 @@ public class UserService {
 	
 	public void save(User user) {
 		ur.save(user);
+	}
+	
+	public void removeUser(User u) {
+		ur.delete(u);
+		
 	}
 	
 }
