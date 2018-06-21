@@ -1,0 +1,84 @@
+@charset "ISO-8859-1";
+
+
+body {
+	overflow-x: hidden;
+}
+#logo {
+	float: left;
+	max-width: 200px;
+}
+#navvy {
+	background-color: #FFC656;
+	margin-bottom: 1em;
+}
+#searchy {
+	margin-right: 1em;
+}
+#headerRow {
+	margin-top: 2em;
+}
+#newPost {
+	margin: .5em 0;
+}
+#bio2 {
+	margin-top: -24px;
+}
+.avatar {
+	margin: 0 .5em;
+	max-width: 75px;
+}
+.avatar2 {
+	margin: 0 .5em;
+	max-width: 95px;
+}
+.nav-link {
+	color: #335C67;
+}
+.view-post {
+	margin-left: 88%;
+}
+.content-panel {
+	margin-bottom: .5em;
+	padding: .5em;
+	border: 1px solid #2B2D42;
+}
+.like:hover {
+	color: #FFC656;
+}
+.bg-ghost-white {
+	background-color: #F9FDFF;
+}
+.bg-cosmic-cobalt {
+	background-color: #2E328E;
+}
+.bg-mustard {
+	background-color: #FFC656;
+}
+.bg-blue-jean {
+	background-color: #63ADF2;
+}
+.bg-gunmetal {
+	background-color: #2B2D42;
+}
+.bg-gray-blue {
+	background-color: #8D99AE;
+}
+.text-ghost-white {
+	color: #F9FDFF;
+}
+.text-cosmic-cobalt {
+	color: #2E328E;
+}
+.text-mustard {
+	color: #FFC656;
+}
+.text-blue-jean {
+	color: #63ADF2;
+}
+.text-gunmetal {
+	color: #2B2D42;
+}
+.text-gray-blue {
+	color: #8D99AE;
+}
