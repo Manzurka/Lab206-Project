@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,8 +19,8 @@
 		<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
 		<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
 		<ul class="navbar-nav mr-auto">
-				<li class="nav-item">Name: Mr. Test</li>
-				<li class="nav-item">Points: 5000</li>
+				<li class="nav-item">Name: ${currentUser.firstName} ${currentUser.lastName}</li>
+				<li class="nav-item">Points: ${currentUser.points}</li>
 			</ul>
 		<form class="my-2 my-lg-0" id="searchy">
 			<div class="input-group">
@@ -45,18 +47,15 @@
 					</div>
 					<div class="col-sm-10">
 						<ul class="list-group list-group-flush">
-					        <li class="list-group-item">First Name: </li>
-					        <li class="list-group-item">Last Name: </li>
-					        <li class="list-group-item"></li>
-					        
-					        
+					        <li class="list-group-item">First Name: ${user.firstName}</li>
+					        <li class="list-group-item">Last Name: ${user.lastName}</li>
 						</ul>
 					</div>
 				</div>
 				<div class="row" id="bio2">
 					<div class="col-sm-12">
 						<ul class="list-group list-group-flush">
-							<li class="list-group-item">Points: </li>
+							<li class="list-group-item">Points: ${user.points}</li>
 					        <li class="list-group-item">Cohort: </li>
 					        <li class="list-group-item">GitHub: </li>
 							<li class="list-group-item">About me: </li>	
@@ -69,14 +68,12 @@
 					  <div class="card-header">Patches</div>
 					  <div class="card-body">
 					    <h5 class="card-title"></h5>
-					    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 					  </div>
 				</div>
 				<div class="card bg-light mb-3" style="max-width: 30rem;">
 					  <div class="card-header">Badges</div>
 					  <div class="card-body">
 					    <h5 class="card-title"></h5>
-					    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 					  </div>
 				</div>
 			</div>
@@ -84,7 +81,7 @@
 	</div>
 	<div class="col-sm-12">
 			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
-				  <div class="card-header bg-white">Projects
+				  <div class="card-header bg-white">Projects:
 				  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
 						Edit Projects
 					</button>
@@ -110,67 +107,62 @@
 					  </div>
 				</div>
 	<div class="row">
-	<h2>Recent Posts</h2>
-		<div class="col-sm-12">	
-			<div class="list-group">
-				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-				  <div class="d-flex w-100 justify-content-between">
-				    <h5 class="mb-1">List group item heading</h5>
-				    <small>3 days ago</small>
-				  </div>
-				  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				  <small>Donec id elit non mi porta.</small>
-				</a>
-				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-				  <div class="d-flex w-100 justify-content-between">
-				    <h5 class="mb-1">List group item heading</h5>
-				    <small class="text-muted">3 days ago</small>
-				  </div>
-				  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				  <small class="text-muted">Donec id elit non mi porta.</small>
-				</a>
-				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-				  <div class="d-flex w-100 justify-content-between">
-				    <h5 class="mb-1">List group item heading</h5>
-				    <small class="text-muted">3 days ago</small>
-				  </div>
-				  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				  <small class="text-muted">Donec id elit non mi porta.</small>
-				</a>
+	<h2>Recent Posts <- </h2>
+		<label class="switch">
+			<input type="checkbox" id="profileComments" name="profileComments" aria-describedby="commentQuestions">
+			<span class="slider round"></span>
+		</label>
+	<h2>-> Recent Comments</h2>	
+	<c:forEach items="${user.post}" var="post">
+			<div class="col-sm-12">	
+				<div class="list-group">					
+					<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					  <div class="d-flex w-100 justify-content-between">
+					    <h5 class="mb-1">${post.title}</h5>
+					    <small class="text-muted">${post.createdAt}</small>
+					  </div>
+					  <p class="mb-1">${post.content}</p>
+					  <c:forEach var="tag" items="${post.tags}">
+							<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+					  </c:forEach>
+					</a>
+				</div>
 			</div>
-		</div>
+	</c:forEach>
 	</div>
 		<div class="row">
 		<h2>Recent Comments:</h2>
+		<c:forEach items="${user.comments}" var="comment">
 			<div class="col-sm-12">
 				<div class="list-group">
 				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
 				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">List group item heading</h5>
-				      <small>3 days ago</small>
+				      <h5 class="mb-1">${comment.title}</h5>
+				      <small class="text-muted">${comment.createdAt}</small>
 				    </div>
-				    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				    <small>Donec id elit non mi porta.</small>
+				    <p class="mb-1">${comment.content}</small>
 				  </a>
 				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
 				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">List group item heading</h5>
-				      <small class="text-muted">3 days ago</small>
+				      <h5 class="mb-1">${comment.title}</h5>
+				      <small class="text-muted">${comment.createdAt}</small>
 				    </div>
-				    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				    <small class="text-muted">Donec id elit non mi porta.</small>
+				    <p class="mb-1">${comment.content}</p>
+				    
 				  </a>
 				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
 				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">List group item heading</h5>
-				      <small class="text-muted">3 days ago</small>
+				      <h5 class="mb-1">${comment.title}</h5>
+				      <small class="text-muted">${comment.createdAt}</small>
 				    </div>
-				    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-				    <small class="text-muted">Donec id elit non mi porta.</small>
+				    <p class="mb-1">${comment.content}</p>
+				    
 				  </a>
 				</div>
+				</c:forEach>
 			</div>
 		</div>
+		
 	</div>
 			<div id="settingsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -231,60 +223,65 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Edit Projects</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+					<form:form action="/project/create" modelAttribute="newProject" method="post">
+						<div class="modal-header">						
+							<h2 class="modal-title">Edit Projects</h2>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<form:textarea path="comment" class="form-control" placeholder="About Project 1"/>
+							
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<form:textarea path="comment" class="form-control" placeholder="About Project 2"/>
+	
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<form:textarea path="comment" class="form-control" placeholder="About Project 3"/>						
+							</div>
+							</div>
+						</form:form>
 					</div>
-					<div class="modal-body">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Thumbnail</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="inputGroupFile01">
-								<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">About this Project</span>
-							</div>
-							<textarea class="form-control" placeholder="About Project 1"></textarea>
-						
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Thumbnail</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="inputGroupFile01">
-								<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">About this Project</span>
-							</div>
-							<textarea class="form-control" placeholder="About Project 2"></textarea>
-
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Thumbnail</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="inputGroupFile01">
-								<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">About this Project</span>
-							</div>
-							<textarea class="form-control" placeholder="About Project 3"></textarea>
-						
-						</div>
+				</div>
+			</div>
 </body>
 </html>
