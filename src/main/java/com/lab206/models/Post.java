@@ -60,6 +60,9 @@ public class Post {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Comment> comments;
 	
+	@OneToMany(mappedBy="post4file", fetch=FetchType.LAZY)
+	private List<File> attachments;
+	
     @OneToOne(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Comment answer;
     
@@ -189,5 +192,14 @@ public class Post {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
+
+	public List<File> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<File> attachments) {
+		this.attachments = attachments;
+	}
+	
 	
 }

@@ -43,17 +43,29 @@ public class UserService {
 		ur.save(user);
 	}
 	
+	public List<User> findAll() {
+		return ur.findAll();
+	}
+	
 	public User findByEmail(String email) {
 		return ur.findByEmail(email);
+	}
+	
+	public User findById(Long id) {
+		return ur.findById(id).get();
 	}
 	
 	public void increasePoints(User user) {
 		user.setPoints(user.getPoints() + 1);
 		ur.save(user);
 	}
+  
+	public void save(User user) {
+		ur.save(user);
+	}
 	
-	public User findById(Long id) {
-		return ur.findById(id).get();
+	public void removeUser(User u) {
+		ur.delete(u);		
 	}
 	
 }
