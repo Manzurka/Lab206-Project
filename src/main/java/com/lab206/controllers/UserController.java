@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lab206.models.Comment;
 import com.lab206.models.File;
 import com.lab206.models.Post;
 import com.lab206.models.User;
@@ -89,6 +90,7 @@ public class UserController {
 	
 	@RequestMapping(value = {"/", "/dashboard"})
 	public String dashboard(@ModelAttribute("newPost") Post newPost, 
+      @ModelAttribute("newComment") Comment newComment,
 			@ModelAttribute("user") User user,
 			Principal principal,
 			Model model) {

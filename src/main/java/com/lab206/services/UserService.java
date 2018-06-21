@@ -59,14 +59,13 @@ public class UserService {
 		user.setPoints(user.getPoints() + 1);
 		ur.save(user);
 	}
-	
+  
 	public void save(User user) {
 		ur.save(user);
 	}
 	
 	public void removeUser(User u) {
-		ur.delete(u);
-		
+		ur.delete(u);		
 	}
 	
 }

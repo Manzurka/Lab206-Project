@@ -27,10 +27,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.lab206.models.Role;
 import com.lab206.models.Post;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lab206.models.Comment;
 
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(
+		  scope = User.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class User {
 	
 	@Id
@@ -85,6 +93,7 @@ public class User {
     private File file;
 
 	@OneToMany(mappedBy="author", fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Post> post;
 	
 	@OneToMany(mappedBy="commenter", fetch=FetchType.LAZY)
@@ -304,6 +313,14 @@ public class User {
 	public void setLikedComments(List<Comment> likedComments) {
 		this.likedComments = likedComments;
 	}
+	
+	public void addLikedComment(Comment comment) {
+		this.likedComments.add(comment);
+	}
+	
+	public void removeLikedComment(Comment comment) {
+		this.likedComments.remove(comment);
+	}
 
 	public List<Comment> getDislikedComments() {
 		return dislikedComments;
@@ -311,6 +328,14 @@ public class User {
 
 	public void setDislikedComments(List<Comment> dislikedComments) {
 		this.dislikedComments = dislikedComments;
+	}
+	
+	public void addDislikedComment(Comment comment) {
+		this.dislikedComments.add(comment);
+	}
+	
+	public void removeDislikedComment(Comment comment) {
+		this.dislikedComments.remove(comment);
 	}
 
 	public List<Badge> getBadges() {

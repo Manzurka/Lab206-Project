@@ -22,10 +22,17 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.lab206.models.User;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lab206.models.Post;
 
 @Entity
 @Table(name="comments")
+@JsonIdentityInfo(
+		  scope = Comment.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Comment {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -45,14 +52,17 @@ public class Comment {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User commenter;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Post post;
 	
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="question_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Post question;
 	
     @ManyToMany(fetch = FetchType.LAZY)
@@ -60,6 +70,7 @@ public class Comment {
             name = "user_likedComments", 
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<User> commentLikes;
     
     @ManyToMany(fetch = FetchType.LAZY)
@@ -67,6 +78,7 @@ public class Comment {
             name = "user_dislikedComments", 
             joinColumns = @JoinColumn(name = "comment_id"), 
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<User> commentDislikes;
     
     @PrePersist
