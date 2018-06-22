@@ -44,7 +44,10 @@
 					</li>
 			  	</ul>
 			</div>
-			<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
+			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
+            <a href="/profile/${currentUser.id}">
+                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+            </a>
 			<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
@@ -83,7 +86,12 @@
 									<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
 								</div>
 								<div class="col-sm-6">
-									<h4><c:out value="${post.title}"/></h4>
+									<h4><c:out value="${post.title}"/>
+										<div style="font-size:.65em">
+											<a href="/post/<c:out value="${post.id}"/>/edit" class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+											<a href="/post/<c:out value="${post.id}"/>/delete" class="delete text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
+										</div>
+									</h4>
 									Uploaded Files:
 									<c:forEach var="file" items="${post.attachments}">
 									  <a href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>
@@ -286,6 +294,86 @@
 			</div>
 		</div>
 		
+		<!-- Edit modal -->
+		<div id="editModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Edit</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form:form action="" modelAttribute="editPost" method="post">
+						<div class="row mb-3">
+							<div class="col-6">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="courseRelated">Course Related</span>
+									</div>
+									<label class="switch">
+										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
+										<span class="slider round"></span>
+									</label>
+								</div>
+							</div>
+							<div class="col-6">
+								
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="newPostLanguage">Language</span>
+									</div>
+									<select class="form-control" id="language" name="language" aria-label="Language" aria-describedby="newPostLanguage">
+										<option>C++</option>
+										<option>C#</option>
+										<option>CSS</option>
+										<option>HTML</option>
+										<option>Java</option>
+										<option>JavaScript</option>
+										<option>Perl</option>
+										<option>PHP</option>
+										<option>Python</option>
+										<option>Ruby</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="editPost-title">Title</span>
+							</div>
+							<form:input path="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Tags</span>
+							</div>
+							<input type="text" class="form-control" id="tag1" name="tag1">
+							<input type="text" class="form-control" id="tag2" name="tag2">
+							<input type="text" class="form-control" id="tag3" name="tag3">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Content</span>
+							</div>
+							<form:textarea path="content" class="form-control" aria-label="Content"/>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="inputGroupFile01">
+								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+							</div>
+						</div>
+						<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+						</form:form>
+			    	</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- Settings Modal -->
 		<div id="settingsModal" class="modal fade" role="dialog">

@@ -89,7 +89,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/", "/dashboard"})
-	public String dashboard(@ModelAttribute("newPost") Post newPost, 
+	public String dashboard(@ModelAttribute("newPost") Post newPost, @ModelAttribute("editPost") Post editPost, 
       @ModelAttribute("newComment") Comment newComment,
 			@ModelAttribute("user") User user,
 			Principal principal,

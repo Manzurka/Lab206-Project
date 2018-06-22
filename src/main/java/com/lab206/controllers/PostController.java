@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lab206.models.Comment;
 import com.lab206.models.File;
 import com.lab206.models.Post;
 import com.lab206.models.Tag;
@@ -72,6 +73,9 @@ public class PostController {
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
 		us.increasePoints(currentUser);
+		Post p = ps.savePost(newPost);
+		User author = us.findByEmail(principal.getName());
+		ps.setPostAuthor(author, p);
 		
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
@@ -84,6 +88,35 @@ public class PostController {
         	}
 		
 		
+		return "redirect:/dashboard";
+	}
+	
+	@RequestMapping("/post/{id}/delete")
+	public String deletePost(@PathVariable("id") Long id) {
+		ps.deletePost(id);
+		return "redirect:/dashboard";
+	}
+	
+	@RequestMapping("/post/{id}/edit")
+	public String editPost(@ModelAttribute("editPost") Post post, @PathVariable("id") Long id, Principal principal, Model model) {
+		User currentUser = us.findByEmail(principal.getName());
+		System.out.println("testing");
+		model.addAttribute("posts", ps.allPostsNew());
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("post", ps.findPostById(id));
+		model.addAttribute("newPost", new Post());
+		model.addAttribute("newComment", new Comment());
+		model.addAttribute("editing", true);
+		return "dashboard.jsp";
+	}
+	
+	@PostMapping("/post/{id}/edit")
+	public String updatePost(Principal principal, @PathVariable("id") Long id, @Valid @ModelAttribute("post") Post post, BindingResult result) {
+		if (result.hasErrors()) {
+			return "dashboard.jsp";
+		}
+		User author = us.findByEmail(principal.getName());
+		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
 	
