@@ -45,10 +45,20 @@
 			  	</ul>
 			</div>
 			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
-            <a href="/profile/${currentUser.id}">
-                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-            </a>
-			<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+             <!-- User profile image, show default if there is no image in the database -->
+			 <c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${currentUser.id}">
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+					  </a>
+				 </c:when>
+				 <c:otherwise>
+		            <a href="/profile/${currentUser.id}">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		            </a>
+	     		</c:otherwise>
+            </c:choose>
+
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
 				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
