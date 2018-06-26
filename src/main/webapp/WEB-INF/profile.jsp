@@ -15,9 +15,47 @@
 <title>Profile Page</title>
 </head>
 <body>
-	<nav class="navbar" id="navvy">
+	<nav class="navbar mb-3" id="navvy">
+	<div class="dropdown">
+			  <button class="close" type="button" data-toggle="dropdown">
+			  <i class="fa fa-bars" aria-hidden="true"></i></button>
+			  	<ul class="dropdown-menu test">
+            <!-- Settings button -->
+			    	<li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
+						<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
+					</li>
+            <!-- Help button -->
+			      	<li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
+						<i class="fa fa-question-circle nav-link" aria-hidden="true"></i>Help</a>
+					</li>
+            <!-- Feedback button -->
+					<li><a href="#feedbackModal" data-toggle="modal" data-target="#feedbackModal" aria-label="Feedback">
+						<i class="fa fa-comment nav-link" aria-hidden="true"></i>Feedback</a>
+					</li>
+					<li>
+            <!-- Logout button -->
+						<form id="logoutForm" method="POST" action="/logout">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						    <button type="submit" class="text-button"><i class="fa fa-power-off nav-link" aria-hidden="true"></i>Logout</button>
+						</form>
+					</li>
+			  	</ul>
+			</div>
 		<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
-		<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		 <!-- User profile image, show default if there is no image in the database -->
+			 <c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${currentUser.id}">
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+					  </a>
+				 </c:when>
+				 <c:otherwise>
+		            <a href="/profile/${currentUser.id}">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		            </a>
+	     		</c:otherwise>
+            </c:choose>
+		
 		<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: ${currentUser.firstName} ${currentUser.lastName}</li>
 				<li class="nav-item">Points: ${currentUser.points}</li>
@@ -38,13 +76,25 @@
 		
 	
 	
-	<div class="row">
+	<div class="row mb-3">
 		
 			<div class="align-center col-sm-7">
 				<div class="row">
-					<div class="col-sm-2">	
-						<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
-					</div>
+					<div class="col-sm-2">
+					 <!-- User profile image, show default if there is no image in the database -->
+			 <c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${currentUser.id}">
+						<img class="avatar2" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+					  </a>
+				 </c:when>
+				 <c:otherwise>
+		            <a href="/profile/${currentUser.id}">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
+		            </a>
+	     		</c:otherwise>
+            </c:choose>
+			</div>
 					<div class="col-sm-10">
 						<ul class="list-group list-group-flush">
 					        <li class="list-group-item">First Name: ${user.firstName}</li>
@@ -90,17 +140,17 @@
 					  	<div class="row">
 					  		<div class="col-sm-4">
 							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
 								    <p class="card-text">Project 1 info and Thumbnails.</p>
 							</div>
 							<div class="col-sm-4">
 							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
 								    <p class="card-text">Project 2 info and Thumbnails.</p>
 							</div>
 							<div class="col-sm-4">
 							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
 								    <p class="card-text">Project 3 info and Thumbnails.</p>
 							</div>
 						</div>
@@ -137,30 +187,15 @@
 				<div class="list-group">
 				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
 				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">${comment.title}</h5>
+				      
 				      <small class="text-muted">${comment.createdAt}</small>
 				    </div>
 				    <p class="mb-1">${comment.content}</small>
 				  </a>
-				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">${comment.title}</h5>
-				      <small class="text-muted">${comment.createdAt}</small>
-				    </div>
-				    <p class="mb-1">${comment.content}</p>
-				    
-				  </a>
-				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-				    <div class="d-flex w-100 justify-content-between">
-				      <h5 class="mb-1">${comment.title}</h5>
-				      <small class="text-muted">${comment.createdAt}</small>
-				    </div>
-				    <p class="mb-1">${comment.content}</p>
-				    
-				  </a>
 				</div>
-				</c:forEach>
+				
 			</div>
+			</c:forEach>
 		</div>
 		
 	</div>
@@ -244,7 +279,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="comment" class="form-control" placeholder="About Project 1"/>
+								<form:textarea path="" class="form-control" placeholder="About Project 1"/>
 							
 							</div>
 							<div class="input-group mb-3">
@@ -260,7 +295,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="comment" class="form-control" placeholder="About Project 2"/>
+								<form:textarea path="" class="form-control" placeholder="About Project 2"/>
 	
 							</div>
 							<div class="input-group mb-3">
@@ -276,12 +311,85 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="comment" class="form-control" placeholder="About Project 3"/>						
+								<form:textarea path="" class="form-control" placeholder="About Project 3"/>						
 							</div>
 							</div>
 						</form:form>
 					</div>
 				</div>
 			</div>
+			<!-- Help Modal -->
+		<div id="helpModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Help</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h3>FAQ: Rules and Etiquette</h3>
+						<ul>
+							<li>Please be professional and respectful of others.</li>
+							<li>Do not overuse the dislike button.</li>
+							<li>Do not share exam codes. Plagiarism is not tolerated on this platform and will be reported.</li>
+							<li>Do not share ANY Amazon related information and internal links.</li>
+							<li>If you have any suggestion(s) or if something is not working, please submit your feedback on the top left menu and click on the <i class="fa fa-comment text-gunmetal" aria-hidden="true"></i>.</a></li>
+							<li>If you would like to file a report, please click the <i class="fa fa-flag text-gunmetal" aria-hidden="true"></i> on a post located on the bottom right.</li>
+						</ul>
+						</div>
+			    	</div>
+				</div>
+			</div>
+			
+		<!-- Report Modal -->
+		<div id="reportModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">File a Report</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+							</div>
+							<p>If this post or comment(s) related have abusive or unprofessional content, please submit your report. We will review the content and remove anything that does not follow our platform's Rules and Etiquette found on the help page.</p>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Feedback Modal -->
+		<div id="feedbackModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Submit feedback</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+							</div>
+							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+			
 </body>
 </html>

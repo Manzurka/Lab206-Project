@@ -2,8 +2,6 @@ package com.lab206.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lab206.models.Comment;
 import com.lab206.models.File;
 import com.lab206.models.Post;
+import com.lab206.models.Project;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
+import com.lab206.services.CommentService;
 import com.lab206.services.PostService;
 import com.lab206.services.UserService;
 import com.lab206.validator.UserValidator;
@@ -39,14 +40,16 @@ public class UserController {
 
 	private UserService us;
 	private PostService ps;
+	private CommentService cs;
 	private UserValidator uv;
 	
 	public UserController(UserService us,
-			PostService ps,
+			PostService ps, CommentService cs,
 			UserValidator uv) {
 		this.us = us;
 		this.ps = ps;
 		this.uv = uv;
+		this.cs = cs;
 	}
 
 	@RequestMapping("/login") 
@@ -182,4 +185,15 @@ public class UserController {
 	    response.getOutputStream().write(item.getData());
 	    response.getOutputStream().close();
 	}
+	@RequestMapping("/profile/{id}") 
+	  public String dashboard(Principal principal, Model model, @ModelAttribute("newProject") Project newProject, @PathVariable("id") Long id) { 
+	    User currentUser = us.findByEmail(principal.getName()); 
+	    model.addAttribute("posts", ps.allPostsNew()); 
+	    model.addAttribute("currentUser", currentUser); 
+	    model.addAttribute("user", us.findById(id)); 
+	    model.addAttribute("comments", cs.findAll());
+	    return "profile.jsp"; 
+	  }
+
+
 }
