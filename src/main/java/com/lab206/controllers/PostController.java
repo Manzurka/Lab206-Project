@@ -120,18 +120,5 @@ public class PostController {
 		return "redirect:/dashboard";
 	}
 	
-	@RequestMapping("/showFile/{id}")
-		public String showFiles(HttpServletRequest request,
-					HttpServletResponse response,
-					@PathVariable ("id") Long id,
-					Model model) throws ServletException, IOException {
-			File item = fileUploadDao.findById(id).get();  
-	        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-	        response.getOutputStream().write(item.getData());
-	        response.getOutputStream().close();
-	        model.addAttribute("show", response);
-	        
-	        return "redirect:/dashboard";
-	}
-//	image/docx, image/pdf, image/txt, image/css, image/js 
+
 }
