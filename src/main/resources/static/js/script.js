@@ -129,5 +129,12 @@ $(document).ready(function(){
 			}
 		})).promise().done();
 	});
-	
-})
+// edit function to retrieve info from database
+	var getPost = function(id) {
+		$.ajax({
+			url: "/post/get/" + id
+		}).then(function(post) {
+			console.log(post);
+			return post;
+		});
+	}

@@ -44,15 +44,26 @@
 					</li>
 			  	</ul>
 			</div>
-			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
-            <a href="/profile/${currentUser.id}">
-                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-            </a>
-			<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+			
+			 <!-- User profile image, show default if there is no image in the database -->
+			 <c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${currentUser.id}">
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+					  </a>
+				 </c:when>
+				 <c:otherwise>
+		            <a href="/profile/${currentUser.id}">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		            </a>
+	     		</c:otherwise>
+            </c:choose>
+
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
 				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
 			</ul>
+			
 			<!-- Search bar -->
 			<form class="my-2 my-lg-0" id="searchy">
 				<div class="input-group">
@@ -88,7 +99,7 @@
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
-											<a href="/post/<c:out value="${post.id}"/>/edit" class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
 											<a href="/post/<c:out value="${post.id}"/>/delete" class="delete text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</h4>
@@ -305,7 +316,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form:form action="" modelAttribute="editPost" method="post">
+						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="newPostForm">
 						<div class="row mb-3">
 							<div class="col-6">
 								<div class="input-group">
@@ -339,11 +350,12 @@
 								</div>
 							</div>
 						</div>
+			            <form:errors path="title"/>
 						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="editPost-title">Title</span>
+							<div class="input-group-prepend">	
+								<span class="input-group-text" id="newPost-title">Title</span>
 							</div>
-							<form:input path="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
+							<input name="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
@@ -353,21 +365,60 @@
 							<input type="text" class="form-control" id="tag2" name="tag2">
 							<input type="text" class="form-control" id="tag3" name="tag3">
 						</div>
+						<form:errors path="content"/>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">Content</span>
 							</div>
-							<form:textarea path="content" class="form-control" aria-label="Content"/>
+							<textarea name="content" class="form-control" aria-label="Content"></textarea>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text">File</span>
+								
+								<span class="input-group-text">File#1</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="inputGroupFile01">
+								<input type="file" name="file" class="custom-file-input" id="inputGroupFile01">
 								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 							</div>
 						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File#2</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" name="file" class="custom-file-input" id="inputGroupFile02">
+								<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+							</div>	
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File#3</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" name="file" class="custom-file-input" id="inputGroupFile03">
+								<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File#4</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" name="file" class="custom-file-input" id="inputGroupFile04">
+								<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">File#5</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" name="file" class="custom-file-input" id="inputGroupFile05">
+								<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
+							</div>
+						</div>
+						
 						<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
 						</form:form>
 			    	</div>
