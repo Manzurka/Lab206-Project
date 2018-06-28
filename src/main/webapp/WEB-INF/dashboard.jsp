@@ -99,7 +99,7 @@
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
-											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" data-post-id='<c:out value="${post.id}"/>' class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
 											<a href="/post/<c:out value="${post.id}"/>/delete" class="delete text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</h4>
@@ -316,7 +316,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="newPostForm">
+						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="editIdPost">
 						<div class="row mb-3">
 							<div class="col-6">
 								<div class="input-group">
@@ -324,7 +324,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
+										<input type="checkbox" id="currentCourse" name="course" aria-describedby="courseRelated">
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -335,7 +335,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="newPostLanguage">Language</span>
 									</div>
-									<select class="form-control" id="language" name="language" aria-label="Language" aria-describedby="newPostLanguage">
+									<select class="form-control" id="currentLanguage" name="language" aria-label="Language" aria-describedby="newPostLanguage">
 										<option>C++</option>
 										<option>C#</option>
 										<option>CSS</option>
@@ -355,22 +355,22 @@
 							<div class="input-group-prepend">	
 								<span class="input-group-text" id="newPost-title">Title</span>
 							</div>
-							<input name="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
+							<input name="title" id="currentTitle" class="form-control" aria-label="Title"/>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">Tags</span>
 							</div>
-							<input type="text" class="form-control" id="tag1" name="tag1">
-							<input type="text" class="form-control" id="tag2" name="tag2">
-							<input type="text" class="form-control" id="tag3" name="tag3">
+							<input type="text" class="form-control" id="currentTag1" name="tag1">
+							<input type="text" class="form-control" id="currentTag2" name="tag2">
+							<input type="text" class="form-control" id="currentTag3" name="tag3">
 						</div>
 						<form:errors path="content"/>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">Content</span>
 							</div>
-							<textarea name="content" class="form-control" aria-label="Content"></textarea>
+							<textarea name="content" id="currentContent" class="form-control" aria-label="Content"></textarea>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
@@ -378,7 +378,7 @@
 								<span class="input-group-text">File#1</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="inputGroupFile01">
+								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile01">
 								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 							</div>
 						</div>
@@ -387,7 +387,7 @@
 								<span class="input-group-text">File#2</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="inputGroupFile02">
+								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile02">
 								<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
 							</div>	
 						</div>
@@ -396,7 +396,7 @@
 								<span class="input-group-text">File#3</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="inputGroupFile03">
+								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile03">
 								<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
 							</div>
 						</div>
@@ -405,7 +405,7 @@
 								<span class="input-group-text">File#4</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="inputGroupFile04">
+								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile04">
 								<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
 							</div>
 						</div>
@@ -414,7 +414,7 @@
 								<span class="input-group-text">File#5</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="inputGroupFile05">
+								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile05">
 								<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
 							</div>
 						</div>

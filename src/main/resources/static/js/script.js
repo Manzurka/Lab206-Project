@@ -129,12 +129,26 @@ $(document).ready(function(){
 			}
 		})).promise().done();
 	});
-// edit function to retrieve info from database
-	var getPost = function(id) {
+// edit function to retrieve info from database 
+	$("#editIdPost").click(function(){
+		var postid = $(this).attr('data-post-id')
 		$.ajax({
-			url: "/post/get/" + id
+			url: "/post/show/" + postid
 		}).then(function(post) {
 			console.log(post);
+			$('#currentCoarse').val(`${post.course}`);
+			$('#currentLanguage').val(`${post.language}`);
+			$('#currentTitle').val(`${post.title}`);
+			$('#currentContent').html(`${post.content}`);
+			$('#currentTag1').val(`${post.post.tags.subject}`);
+			$('#currentTag2').val(`${post.tag2}`);
+			$('#currentTag3').val(`${post.tag3}`);
+			$('#currentInputGroupFile01').val(`${post.file}`);
+			$('#currentInputGroupFile02').val(`${post.file}`);
+			$('#currentInputGroupFile03').val(`${post.file}`);
+			$('#currentInputGroupFile04').val(`${post.file}`);
+			$('#currentInputGroupFile05').val(`${post.file}`);
 			return post;
 		});
-	}
+	})
+});
