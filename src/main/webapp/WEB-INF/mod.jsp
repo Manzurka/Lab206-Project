@@ -35,7 +35,7 @@
 	<tr>
 		<td><a href="" class="c_feedback" data-target="#showFeed" data-toggle="modal" data-feed-id="<c:out value="${feedback.id}"/>" title="View Feedback"><c:out value="${feedback.content}"/></a></td>
 		<td><c:out value="${feedback.rating}"/></td>
-		<td><a href="profile/${feedback.feedbackCreator.id}" title="View Profile"><c:out value="${feedback.feedbackCreator.firstName} ${feedback.feedbackCreator.lastName}"/></a></td>
+		<td><a href="profile/${feedback.feedbackCreator.id}" title="View Profile" target="_blank"><c:out value="${feedback.feedbackCreator.firstName} ${feedback.feedbackCreator.lastName}"/></a></td>
 		<td><c:out value="${feedback.reviewed}"/></td>
 	</tr>
 	

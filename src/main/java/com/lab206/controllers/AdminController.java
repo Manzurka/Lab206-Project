@@ -96,6 +96,15 @@ public class AdminController {
 		return "redirect:/admin";
     }
 	
+	// Updating a Users role to Moderator or Admin 
+	@RequestMapping("/newMod")
+    public String newMod(HttpServletRequest request) {
+		String newMod = request.getParameter("newMod");
+		String vehicle = request.getParameter("vehicle");
+		//us.saveUserWithModRole(newMod);
+		return "redirect:/admin";
+    }
+	
 	// Deletes the selected user
 	@RequestMapping("/user/{id}/delete")
 	public String removeUser(@PathVariable("id") Long id, Principal p) {

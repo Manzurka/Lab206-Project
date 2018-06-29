@@ -1,6 +1,5 @@
 $('.c_feedback').click(function() {
 	var displayFeedback = $(this).attr('data-feed-id');
-	console.log(displayFeedback)
 	$.ajax({
 		url: "/post/feedbacks/" + displayFeedback
 	}).then(function(feed) {

@@ -100,6 +100,7 @@
         <p>
             <label for=email>Email Address: </label>
             <input type="text" name="email"/>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </p>
 
       </div>
@@ -113,6 +114,47 @@
   </div>
 </div>
 
+	<br>
+	<br>
+	
+<button type="button" class="btn" data-toggle="modal" data-target="#newMod">Update Student Role</button>
+
+<!-- Modal -->
+<div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content students">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Update Student Role</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        
+        <form method="POST" action="/newMod">
+	        <p>
+	            <label for=newMod>Email Address: </label>
+	            <input type="text" name="newMod"/>
+	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        </p>
+	        <p>
+	        	<input type="checkbox" name="vehicle"> I have a boat
+	        </p>
+
+	      </div>
+	      <div class="modal-footer">
+	        <input type="submit" class="btn sub" value="Update Role"/>
+	      </div>
+      
+       </form>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+	
 	<br>
 	<br>
 
