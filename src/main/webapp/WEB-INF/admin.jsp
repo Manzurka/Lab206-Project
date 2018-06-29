@@ -48,14 +48,14 @@
 	<br> 
   	<br>
 	
-<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement">Create Announcement</button>
+<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement"><i class="fas fa-bullhorn"></i> Create Announcement</button>
 
 <!-- Modal -->
 <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New Announcement</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-bullhorn"></i> New Announcement</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -87,14 +87,14 @@
 	<br>
 	<br>
 	
-<button type="button" class="btn announce" data-toggle="modal" data-target="#student">Invite Student</button>
+<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
 
 <!-- Modal -->
 <div class="modal fade" id="student" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Register New Student</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-plus"></i> Register New Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -122,14 +122,14 @@
 	<br>
 	<br>
 	
-<button type="button" class="btn" data-toggle="modal" data-target="#newMod">Update Student Role</button>
+<button type="button" class="btn" data-toggle="modal" data-target="#newMod"><i class="fas fa-pen-fancy"></i> Update Student Role</button>
 
 <!-- Modal -->
 <div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content students">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Update Student Role</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-pen-fancy"></i> Update Student Role</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -160,14 +160,14 @@
 	<br>
 
 	
-<button type="button" class="btn" data-toggle="modal" data-target="#remove">Remove Student</button>
+<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
 
 <!-- Modal -->
 <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content students">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Remove Student</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-times"></i> Remove Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
