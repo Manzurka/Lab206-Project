@@ -20,7 +20,7 @@ public class FeedbackService {
 		return fr.findAll();
 	}
 	
-	public Feedback findById(Long id) {
+	public Feedback findFeedbackById(Long id) {
 		return fr.findById(id).get();
 	}
 

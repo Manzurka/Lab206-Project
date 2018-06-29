@@ -49,7 +49,7 @@
 			 <c:choose>
 				 <c:when test="${currentUser.file.getId() != null}">
 					  <a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
 					  </a>
 				 </c:when>
 				 <c:otherwise>
@@ -104,6 +104,7 @@
 		            </a>
 	     		</c:otherwise>
             </c:choose>
+
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
@@ -134,7 +135,6 @@
 								<div class="container">
 									<div class="col-12">
 										<p><c:out value="${post.content}"/></p>
-										<p><c:out value="${post.author.firstName}"/></p>
 									</div>
 									<div class="col-12">
 										<!-- Total comments and show -->

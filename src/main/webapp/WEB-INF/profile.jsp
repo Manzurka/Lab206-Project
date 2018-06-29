@@ -41,7 +41,7 @@
 					</li>
 			  	</ul>
 			</div>
-		<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
+		<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>
 		 <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
 				 <c:when test="${currentUser.file.getId() != null}">

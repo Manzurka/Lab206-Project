@@ -2,51 +2,16 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>LAB_206 | Admin</title>
+<link rel="stylesheet" href="/css/admin.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-	<style>
-		body {
-			margin-left: 30px;
-			margin-right: 30px;
-		}
-		nav {
-			padding: 15px;
-			background-color: #FFC656;
-		}
-		.announceTable {
-			float: right;
-			height: 500px;
-    		overflow-y: auto;
-		}
-		button, .sub {
-			background-color: #2E328E;
-			color: white;
-		}
-		.modal-header {
-			background-color: #FFC656;
-		}
-		.students {
-			width: 170%;
-			margin-left: -180px;
-		}
-		.dash:hover {
-			color: #FFC656;
-		}
-		table, tr, td, th {
-			padding: 10px;
-		}
-		.remove {
-			color: #2E328E;
-		}
-		.remove:hover {
-			color: #FFC656;
-		}	
-      </style>
+
 </head>
 <body>
 	<nav>
@@ -70,7 +35,7 @@
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><c:out value="${announcement.createdAt}"/></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy / HH:mm a" /></td>
 	</tr>
 	
 	</c:forEach>
@@ -198,7 +163,9 @@
 	<br>
 	<br>
 	
-	
+	<a href="/mod" class="btn dash">Moderator Page</a> 
+  	<br> 
+  	<br> 
 	<a href="/dashboard" class="btn dash"><i class="fas fa-home"></i> Dashboard</a>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

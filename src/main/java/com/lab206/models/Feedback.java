@@ -18,6 +18,8 @@ import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "feedbacks")
 public class Feedback {
@@ -47,6 +49,7 @@ public class Feedback {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User feedbackCreator;
 	
 	@PrePersist

@@ -176,15 +176,7 @@ public class UserController {
 		}
 		}
 	
-	@RequestMapping(value = "/imageDisplay", method = RequestMethod.GET)
-	  public void showImage(@RequestParam("id") Long userId, HttpServletResponse response,HttpServletRequest request) 
-	          throws ServletException, IOException{
-		Long imageId = us.findById(userId).getFile().getId();
-		File item = fileUploadDao.findById(imageId).get();      
-	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-	    response.getOutputStream().write(item.getData());
-	    response.getOutputStream().close();
-	}
+
 	@RequestMapping("/profile/{id}") 
 	  public String dashboard(Principal principal, Model model, @ModelAttribute("newProject") Project newProject, @PathVariable("id") Long id) { 
 	    User currentUser = us.findByEmail(principal.getName()); 
