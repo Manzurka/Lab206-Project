@@ -9,15 +9,20 @@
 <title>Lab 206 | Moderator</title>
 <link rel="stylesheet" href="/css/moderator.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-</head>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"></head>
 <body>
 
 	<a href="/dashboard" class="btn"><i class="fas fa-home"></i> Dashboard</a>
+	
+	<br>
+	
+	<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
+	   <a href="/admin" class="btn"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
+	 </c:if>
 
 	<div class="col-md-7 feedbackTable">
 
-	<h1>Associate Feedback</h1>
+	<h1><i class="far fa-lightbulb"></i> Associate Feedback</h1>
 
 	<table class="table">
 	<thead>
@@ -83,7 +88,14 @@
 
       </div>
       <div class="modal-footer">
+      
+      <form:form action="/reviewed" method="post" modelAttribute="review">
+      
+      	<form:input type="hidden" path="reviewed" value="true"/>
         <input type="submit" class="btn reviewed" value="Mark as Reviewed"/>
+        
+      </form:form>
+        
       </div>
       
       
@@ -95,7 +107,7 @@
 	
 	<div class="col-md-7 reportTable">
 
-	<h1>Associate Reports</h1>
+	<h1><i class="far fa-flag"></i> Associate Reports</h1>
 
 	<table class="table">
 	<thead>

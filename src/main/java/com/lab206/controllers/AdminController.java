@@ -100,8 +100,7 @@ public class AdminController {
 	@RequestMapping("/newMod")
     public String newMod(HttpServletRequest request) {
 		String newMod = request.getParameter("newMod");
-		String vehicle = request.getParameter("vehicle");
-		//us.saveUserWithModRole(newMod);
+		us.updateUserWithModRole(us.findByEmail(newMod));
 		return "redirect:/admin";
     }
 	

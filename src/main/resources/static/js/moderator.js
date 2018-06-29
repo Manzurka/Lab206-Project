@@ -3,7 +3,6 @@ $('.c_feedback').click(function() {
 	$.ajax({
 		url: "/post/feedbacks/" + displayFeedback
 	}).then(function(feed) {
-		console.log(feed);
 		console.log("Is this reviewed: " + feed.reviewed);
 		$('#feedContent').html(feed.content);
 		$('#feedRating').html(feed.rating);

@@ -35,10 +35,19 @@ public class ModController {
 	}
 	
 	@RequestMapping("/mod")
-    public String mod(Principal principal, Model model, @ModelAttribute("feedback") Feedback feedback) {
+    public String mod(Principal principal, Model model, @ModelAttribute("feedback") Feedback feedback, @ModelAttribute("review") Feedback review) {
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
+		String email = principal.getName();
+		model.addAttribute("currentUser", us.findByEmail(email));
         return "mod.jsp";
     }
+	
+	@PostMapping("/reviewed")
+    public String review(Principal principal, Model model, @ModelAttribute("review") Feedback review) {
+		review.setReviewed(review.getReviewed());
+        return "redirect:/mod";
+    }
+	
 
 }

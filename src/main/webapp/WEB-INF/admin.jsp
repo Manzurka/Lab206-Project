@@ -10,8 +10,7 @@
 <title>LAB_206 | Admin</title>
 <link rel="stylesheet" href="/css/admin.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 	<nav>
@@ -35,13 +34,19 @@
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy / HH:mm a" /></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy / hh:mm a" /></td>
 	</tr>
 	
 	</c:forEach>
 	
 	</table>
 	</div>
+	
+	<a href="/dashboard" class="btn dash"><i class="fas fa-home"></i> Dashboard</a>
+  	<br> 
+	<a href="/mod" class="btn dash"><i class="fas fa-user-ninja"></i> Moderator Page</a> 
+	<br> 
+  	<br>
 	
 <button type="button" class="btn announce" data-toggle="modal" data-target="#announcement">Create Announcement</button>
 
@@ -138,10 +143,6 @@
 	            <input type="text" name="newMod"/>
 	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	        </p>
-	        <p>
-	        	<input type="checkbox" name="vehicle"> I have a boat
-	        </p>
-
 	      </div>
 	      <div class="modal-footer">
 	        <input type="submit" class="btn sub" value="Update Role"/>
@@ -201,14 +202,6 @@
     </div>
   </div>
 </div>
-	
-	<br>
-	<br>
-	
-	<a href="/mod" class="btn dash">Moderator Page</a> 
-  	<br> 
-  	<br> 
-	<a href="/dashboard" class="btn dash"><i class="fas fa-home"></i> Dashboard</a>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
