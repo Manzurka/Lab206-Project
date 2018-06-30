@@ -47,6 +47,9 @@ public class AdminController {
     public String admin(Principal principal, Model model, @ModelAttribute("announce") Announcement announce) {
 		model.addAttribute("all_users", us.findAll());
 		model.addAttribute("all_announcements", as.findAll());
+		
+		String email = principal.getName();
+		model.addAttribute("currentUser", us.findByEmail(email));
         return "admin.jsp";
     }
 	

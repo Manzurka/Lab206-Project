@@ -38,6 +38,7 @@ public class ModController {
     public String mod(Principal principal, Model model, @ModelAttribute("feedback") Feedback feedback, @ModelAttribute("review") Feedback review) {
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
+		
 		String email = principal.getName();
 		model.addAttribute("currentUser", us.findByEmail(email));
         return "mod.jsp";

@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"></head>
 <body>
 
+	<div id="name">
+		<h1>Welcome <b><c:out value="${currentUser.firstName}"></c:out></b></h1>
+	</div>
+
 	<a href="/dashboard" class="btn"><i class="fas fa-home"></i> Dashboard</a>
 	
 	<br>
@@ -19,6 +23,9 @@
 	<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
 	   <a href="/admin" class="btn"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
 	 </c:if>
+	 
+	 <br>
+	 <br>
 
 	<div class="col-md-7 feedbackTable">
 
@@ -142,6 +149,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	
+	<!-- Located within the static folder -->
 	<script src="/js/moderator.js"></script>
 
 </body>

@@ -14,7 +14,8 @@
 </head>
 <body>
 	<nav>
-	<h1>Lab 206</h1><span>Admin</span>
+	<h1>Welcome <b><c:out value="${currentUser.firstName}"></c:out></b></h1>
+	<span>Admin Dashboard</span>
 	</nav>
 	
 	<br>
@@ -86,7 +87,7 @@
 
 	<br>
 	<br>
-	
+
 <button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
 
 <!-- Modal -->
@@ -118,16 +119,17 @@
     </div>
   </div>
 </div>
-
+	
 	<br>
 	<br>
 	
+	<!-- Update Student Role Modal -->	
 <button type="button" class="btn" data-toggle="modal" data-target="#newMod"><i class="fas fa-pen-fancy"></i> Update Student Role</button>
 
 <!-- Modal -->
-<div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content students">
+<div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-pen-fancy"></i> Update Student Role</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -135,9 +137,10 @@
         </button>
       </div>
       <div class="modal-body">
+      
+      <p>You may update a users role in becoming a Moderator. Please enter in the users email address below:</p>
         
-        
-        <form method="POST" action="/newMod">
+		<form method="POST" action="/newMod">
 	        <p>
 	            <label for=newMod>Email Address: </label>
 	            <input type="text" name="newMod"/>
@@ -149,30 +152,28 @@
 	      </div>
       
        </form>
-        
-        
-      </div>
+
+      
     </div>
   </div>
 </div>
-	
-	<br>
-	<br>
 
+	<br>
+	<br>
 	
 <button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
 
-<!-- Modal -->
+<!-- Deleting a Student Modal -->
 <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content students">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-times"></i> Remove Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body student">
         
         
         <table>
@@ -191,7 +192,7 @@
 			<td><c:out value="${user.lastName}"/></td>
 			<td><c:out value="${user.email}"/></td>
 			<td><c:out value="${user.roles[0].name}"/></td>
-			<td><a href="/user/${ user.id }/delete" class="remove">Delete</a></td>
+			<td><a href="/user/${ user.id }/delete" class="remove">Remove</a></td>
 		</tr>
 		</c:forEach>
 		
