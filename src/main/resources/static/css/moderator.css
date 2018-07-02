@@ -24,6 +24,11 @@ td a:hover {
 table, tr, td, th {
 	padding: 30px;
 }
+.reviewed {
+	background-color: #2E328E;
+	color: white;
+}
 .reviewed:hover {
 	background-color: #FFC656;
+	color: black;
 }

@@ -21,21 +21,23 @@
 	<br>
 	
 	<div class="col-md-6 announceTable">
+	
 	<h2>Recent Announcements</h2>	
 	
-	<table class="table">
+	<table class="table table-striped">
+	<thead>
 	<tr>
 		<th>Subject</th>
 		<th>Description</th>
 		<th>Created At</th>
 	</tr>
-	
+	</thead>
 	<c:forEach var="announcement" items="${ all_announcements }" >
 	
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy / hh:mm a" /></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
 	</tr>
 	
 	</c:forEach>
@@ -138,7 +140,7 @@
       </div>
       <div class="modal-body">
       
-      <p>You may update a users role in becoming a Moderator. Please enter in the users email address below:</p>
+      <p>You may update a users role in becoming a new <code>Moderator</code>. Please enter in the users email address below:</p>
         
 		<form method="POST" action="/newMod">
 	        <p>

@@ -22,7 +22,7 @@
 	
 	<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
 	   <a href="/admin" class="btn"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
-	 </c:if>
+	</c:if>
 	 
 	 <br>
 	 <br>
@@ -86,7 +86,7 @@
 		<td><p id="feedContent"></p></td>
 		<td><p id="feedRating"></p></td>
 		<td><p id="feedSubmitter"></p></td>
-		<td><p id="feedReviewed"></p></td>
+		<td><p id="feedReview"></p></td>
 	</tr>
 	
 	
@@ -96,12 +96,7 @@
       </div>
       <div class="modal-footer">
       
-      <form:form action="/reviewed" method="post" modelAttribute="review">
-      
-      	<form:input type="hidden" path="reviewed" value="true"/>
-        <input type="submit" class="btn reviewed" value="Mark as Reviewed"/>
-        
-      </form:form>
+        <a href="" class="btn reviewed">Mark as Reviewed</a>
         
       </div>
       

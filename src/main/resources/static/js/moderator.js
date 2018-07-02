@@ -7,6 +7,14 @@ $('.c_feedback').click(function() {
 		$('#feedContent').html(feed.content);
 		$('#feedRating').html(feed.rating);
 		$('#feedSubmitter').html(feed.feedbackCreator.firstName + ' ' + feed.feedbackCreator.lastName);
-		$('#feedReviewed').html(feed.reviewed);
+		$('#feedReview').html(feed.reviewed);
 	});
 });
+
+const limitText = (text, count) => {
+	text.slice(0, count) + (text.length > count ? "..." : "");
+}
+
+console.log("Test: "+ document.getElementById('feedContent').innerHTML)
+limitText(document.getElementById('feedContent').innerHTML, 40);
+

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lab206.models.Feedback;
+import com.lab206.models.User;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.FeedbackService;
 import com.lab206.services.ReportService;
@@ -44,9 +45,9 @@ public class ModController {
         return "mod.jsp";
     }
 	
-	@PostMapping("/reviewed")
-    public String review(Principal principal, Model model, @ModelAttribute("review") Feedback review) {
-		review.setReviewed(review.getReviewed());
+	@RequestMapping("/{id}/reviewed")
+    public String review(Principal principal, Model model, @PathVariable("id") Long id) {
+		//Feedback feedback = fs.findFeedbackById(id);
         return "redirect:/mod";
     }
 	
