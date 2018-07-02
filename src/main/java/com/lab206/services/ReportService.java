@@ -22,7 +22,7 @@ public class ReportService {
 		return rr.findAll();
 	}
 	
-	public Report findById(Long id) {
+	public Report findReportById(Long id) {
 		return rr.findById(id).get();
 	}
 

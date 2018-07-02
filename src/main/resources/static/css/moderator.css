@@ -5,6 +5,29 @@
 	margin-right: 40px;
 }
 
+#announceButton {
+	position: relative;
+	bottom: 5px;
+	margin-left: 5px;
+}
+
+.announce {	
+	background-color: #2E328E;
+	color: white;
+}
+
+#announcements, #announceButton {
+	display: inline-block;
+}
+
+
+.announceTable {
+	float: right;
+	height: 500px;
+  	overflow-y: auto;
+  	margin-top: 8px;
+}
+
 a:hover {
 	color: #FFC656;
 }
@@ -29,6 +52,11 @@ table, tr, td, th {
 	color: white;
 }
 .reviewed:hover {
+	background-color: #FFC656;
+	color: black;
+}
+
+.sub {
 	background-color: #FFC656;
 	color: black;
 }

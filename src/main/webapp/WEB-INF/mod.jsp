@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,8 +27,43 @@
 	 
 	 <br>
 	 <br>
+	 
+	 <div class="col-md-6 announceTable">
+	
+	<div id="announcements">
+		<h2><i class="fas fa-bullhorn"></i> Recent Announcements</h2>
+	</div>
+	
+	<div id='announceButton'>
+		<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement">Create Announcement</button>
+	</div>
+	
 
-	<div class="col-md-7 feedbackTable">
+	<table class="table">
+	<thead>
+	<tr>
+		<th>Subject</th>
+		<th>Description</th>
+		<th>Created At</th>
+	</tr>
+	</thead>
+		
+	<c:forEach var="announcement" items="${ all_announcements }" >
+	
+	<tr>
+		<td><c:out value="${announcement.subject}"/></td>
+		<td><c:out value="${announcement.content}"/></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
+	</tr>
+	
+	</c:forEach>
+	
+	</table>
+	</div>
+
+	<!-- FEEDBACK TABLE -->
+
+	<div class="col-md-6 feedbackTable">
 
 	<h1><i class="far fa-lightbulb"></i> Associate Feedback</h1>
 
@@ -57,6 +93,7 @@
 	</tbody>
 	</table>
 	</div>
+
 	
 	<!-- Feedback Modal -->
 
@@ -107,7 +144,9 @@
 
 	<br>
 	
-	<div class="col-md-7 reportTable">
+	<!-- REPORTS TABLE -->
+	
+	<div class="col-md-6 reportTable">
 
 	<h1><i class="far fa-flag"></i> Associate Reports</h1>
 
@@ -115,9 +154,8 @@
 	<thead>
 	<tr>
 		<th scope="col">Content</th>
-		<th scope="col">Rating</th>
+		<th scope="col">Reported By</th>
 		<th scope="col">Reporter</th>
-		<th scope="col">Reported</th>
 		<th scope="col">Reviewed</th>
 	</tr>
 	</thead>
@@ -126,10 +164,9 @@
 	<c:forEach var="report" items="${ all_reports }" >
 	
 	<tr>
-		<td><a href="/report/${ report.id }" title="View Report"><c:out value="${report.content}"/></a></td>
-		<td><c:out value="${report.rating}"/></td>
-		<td><a href="" title="View Profile"><c:out value=""/></a></td>
-		<td><c:out value=""/></td>
+		<td><a href="" class='c_report' data-target="#showReport" data-toggle="modal" data-report-id="<c:out value="${report.id}"/>" title="View Report"><c:out value="${report.content}"/></a></td>
+		<td><a href="profile/${report.reported.id}" title="View Profile" target='_blank'><c:out value="${report.reported.firstName} ${report.reported.lastName}"/></a></td>
+		<td><c:out value="${report.reporter.firstName} ${report.reporter.lastName}"/></td>
 		<td><c:out value="${report.reviewed}"/></td>
 	</tr>
 	
@@ -138,7 +175,91 @@
 	
 	</tbody>
 	</table>
-	</div>	
+	</div>
+	
+	
+
+	<!-- Report Modal -->
+
+<div class="modal fade" id="showReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            
+ 	<table class="table">
+	<thead>
+	<tr>
+		<th scope="col">Content</th>
+		<th scope="col">Reported By</th>
+		<th scope="col">Reporter</th>
+		<th scope="col">Reviewed</th>
+	</tr>
+	</thead>
+	<tbody>
+	
+	<tr>
+		<td><p id="reportContent"></p></td>
+		<td><p id="reportBy"></p></td>
+		<td><p id="reporter"></p></td>
+		<td><p id="reportReview"></p></td>
+	</tr>
+	
+	
+	</tbody>
+	</table>
+
+      </div>
+      <div class="modal-footer">
+      
+        <a class="btn reviewed">Mark as Reviewed</a>
+        
+      </div>
+      
+      
+    </div>
+  </div>
+</div>	
+	
+	
+<!-- Announcement Modal -->
+<div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New Announcement</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            
+        
+		<form:form method="POST" action="/mod/announce" modelAttribute="announce">
+			<p>
+            	<form:label path="subject">Subject:</form:label>
+            	<form:input path="subject"/>
+        	</p>
+        	<p>
+            	<form:label path="content">Description:</form:label>
+            	<form:textarea path="content"/>
+        	</p>
+
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn sub" />
+      </div>
+      
+       </form:form>
+      
+    </div>
+  </div>
+</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

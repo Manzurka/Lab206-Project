@@ -4,11 +4,13 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lab206.models.Announcement;
 import com.lab206.models.Feedback;
 import com.lab206.models.User;
 import com.lab206.services.AnnouncementService;
@@ -36,13 +38,28 @@ public class ModController {
 	}
 	
 	@RequestMapping("/mod")
-    public String mod(Principal principal, Model model, @ModelAttribute("feedback") Feedback feedback, @ModelAttribute("review") Feedback review) {
+    public String mod(Principal principal, Model model,
+    		@ModelAttribute("feedback") Feedback feedback,
+    		@ModelAttribute("review") Feedback review,
+    		@ModelAttribute("announce") Announcement announce) {
+		model.addAttribute("all_announcements", as.findAll());
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
 				
 		String email = principal.getName();
 		model.addAttribute("currentUser", us.findByEmail(email));
         return "mod.jsp";
+    }
+	
+	@RequestMapping("/mod/announce")
+    public String announce(Principal principal, Model model, @ModelAttribute("announce") Announcement announce, BindingResult result) {
+		if (result.hasErrors()) {
+			model.addAttribute("all_announcements", as.findAll());
+			return "mod.jsp";
+		}
+		as.createAnnouncement(announce);
+		model.addAttribute("all_announcements", as.findAll());
+        return "redirect:/mod";
     }
 	
 	// Route for marking a Feedback as reviewed(true). This route is displaying within the feedback modal
