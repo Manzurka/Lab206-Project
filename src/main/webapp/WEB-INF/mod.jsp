@@ -96,7 +96,7 @@
       </div>
       <div class="modal-footer">
       
-        <a href="" class="btn reviewed">Mark as Reviewed</a>
+        <a id='reviewMark' class="btn reviewed">Mark as Reviewed</a>
         
       </div>
       

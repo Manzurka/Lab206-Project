@@ -39,15 +39,18 @@ public class ModController {
     public String mod(Principal principal, Model model, @ModelAttribute("feedback") Feedback feedback, @ModelAttribute("review") Feedback review) {
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
-		
+				
 		String email = principal.getName();
 		model.addAttribute("currentUser", us.findByEmail(email));
         return "mod.jsp";
     }
 	
+	// Route for marking a Feedback as reviewed(true). This route is displaying within the feedback modal
 	@RequestMapping("/{id}/reviewed")
-    public String review(Principal principal, Model model, @PathVariable("id") Long id) {
-		//Feedback feedback = fs.findFeedbackById(id);
+    public String review(@PathVariable("id") Long id) {
+		Feedback feedback = fs.findFeedbackById(id);
+		fs.updateReview(feedback);
+		System.out.println("Updated Review: " + feedback.getReviewed());
         return "redirect:/mod";
     }
 	
