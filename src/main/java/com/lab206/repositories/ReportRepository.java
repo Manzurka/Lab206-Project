@@ -8,6 +8,6 @@ import com.lab206.models.Report;
 
 public interface ReportRepository extends CrudRepository<Report, Long> {
 	
-	List <Report> findAll();
+	List <Report> findByOrderByIdDesc();
 
 }

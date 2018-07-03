@@ -50,6 +50,7 @@
 		<th>Subject</th>
 		<th>Description</th>
 		<th>Created At</th>
+		<th>Action</th>
 	</tr>
 	</thead>
 		
@@ -60,6 +61,7 @@
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
 		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
+		<td><a href='/announcement/${announcement.id}/archive'>Archive</a></td>
 	</tr>
 	
 	</c:forEach>

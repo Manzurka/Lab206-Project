@@ -81,5 +81,14 @@ public class ModController {
         return "redirect:/mod";
     }
 	
+	
+	// Archiving Announcements (Deleting)
+	@RequestMapping("/announcement/{id}/archive")
+    public String archiveAnnouncements(@PathVariable("id") Long id) {
+		Announcement archive = as.findById(id);
+		as.removeAnnouncement(archive);
+        return "redirect:/mod";
+    }
+	
 
 }

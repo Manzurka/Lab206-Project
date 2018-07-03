@@ -17,7 +17,7 @@ public class FeedbackService {
 	}
 	
 	public List<Feedback> findAll() {
-		return fr.findAll();
+		return fr.findByOrderByIdDesc();
 	}
 	
 	public Feedback findFeedbackById(Long id) {

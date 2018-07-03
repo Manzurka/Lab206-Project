@@ -19,7 +19,7 @@ public class ReportService {
 	
 	
 	public List<Report> findAll() {
-		return rr.findAll();
+		return rr.findByOrderByIdDesc();
 	}
 	
 	public Report findReportById(Long id) {

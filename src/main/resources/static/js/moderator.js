@@ -67,7 +67,7 @@ for(let i = 0; i < 5; i++) {
 let counter;
 
 const counterFunction = () => {
-	counter = setTimeout(showPage, 1500);
+	counter = setTimeout(showPage, 1000);
 }
 
 const showPage = () => {
