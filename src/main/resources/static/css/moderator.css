@@ -47,13 +47,17 @@ td a:hover {
 table, tr, td, th {
 	padding: 30px;
 }
-.reviewed {
+.reviewedButton {
 	background-color: #2E328E;
 	color: white;
 }
-.reviewed:hover {
+.reviewedButton:hover {
 	background-color: #FFC656;
 	color: black;
+}
+
+.reviewComplete {
+	background-color: white;
 }
 
 .sub {

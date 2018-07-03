@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lab206.models.Announcement;
 import com.lab206.models.Feedback;
+import com.lab206.models.Report;
 import com.lab206.models.User;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.FeedbackService;
@@ -63,11 +64,20 @@ public class ModController {
     }
 	
 	// Route for marking a Feedback as reviewed(true). This route is displaying within the feedback modal
-	@RequestMapping("/{id}/reviewed")
-    public String review(@PathVariable("id") Long id) {
+	@RequestMapping("/feedback/{id}/reviewed")
+    public String feedReview(@PathVariable("id") Long id, Model model) {
 		Feedback feedback = fs.findFeedbackById(id);
 		fs.updateReview(feedback);
 		System.out.println("Updated Review: " + feedback.getReviewed());
+		
+        return "redirect:/mod";
+    }
+	
+	@RequestMapping("/report/{id}/reviewed")
+    public String reportReview(@PathVariable("id") Long id) {
+		Report report = rs.findReportById(id);
+		rs.updateReportReview(report);
+		System.out.println("Updated Review: " + report.getReviewed());
         return "redirect:/mod";
     }
 	

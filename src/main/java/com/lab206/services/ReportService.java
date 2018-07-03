@@ -25,5 +25,10 @@ public class ReportService {
 	public Report findReportById(Long id) {
 		return rr.findById(id).get();
 	}
+	
+	public void updateReportReview(Report report) {
+		report.setReviewed(true);
+		rr.save(report);
+	}
 
 }

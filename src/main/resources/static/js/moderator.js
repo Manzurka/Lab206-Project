@@ -10,11 +10,26 @@ $('.c_feedback').click(function() {
 		$('#feedRating').html(feed.rating);
 		//$('img').attr('src', feed.file.data);
 		$('#feedSubmitter').html(`${feed.feedbackCreator.firstName} ${feed.feedbackCreator.lastName}`);
+		
+		if (feed.reviewed !== true) {
+			$('#reviewMark').html('<a>Mark as Reviewed</a>');
+			$('#reviewMark').attr("href", `/feedback/${feed.id}/reviewed`);
+			$('#reviewMark').addClass('btn reviewedButton');
+			
+		}
+		else {
+			$('#reviewMark').html('<span>This Feedback has been reviewed</span>');
+			$('#reviewMark').removeClass();
+			$('#reviewMark').removeAttr( "href" )
+		}
+		
 		$('#feedReview').html(feed.reviewed);
 		
 		// Assigning the href to and grabbing the correct ID.
 		//This is marking the correct Feedback as of being reviewed
-		$('#reviewMark').attr("href", `/${feed.id}/reviewed`);
+		
+		
+				
 	});
 });
 
@@ -31,10 +46,11 @@ $('.c_report').click(function() {
 		$('#reportBy').html(`${report.reported.firstName} ${report.reported.lastName}`);
 		$('#reporter').html(`${report.reporter.firstName} ${report.reporter.lastName}`);
 		$('#reportReview').html(report.reviewed);
+	
 		
 		// Assigning the href to and grabbing the correct ID.
 		//This is marking the correct Report as of being reviewed
-//		$('#reviewMark').attr("href", `/${feed.id}/reviewed`);
+		$('#reportMarkedAsReviewed').attr("href", `/report/${report.id}/reviewed`);
 	});
 });
 
