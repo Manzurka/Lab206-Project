@@ -63,4 +63,15 @@ for(let i = 0; i < 5; i++) {
 }
 
 
+// For Displaying the loading screen
+let counter;
+
+const counterFunction = () => {
+	counter = setTimeout(showPage, 1500);
+}
+
+const showPage = () => {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("block").style.display = "block";
+}
 
