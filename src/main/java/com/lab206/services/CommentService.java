@@ -71,5 +71,7 @@ public class CommentService {
 		user.removeDislikedComment(comment);
 		ur.save(user);
 	}
-	
+	public List<Comment> commentsContaining(String keyword){
+		return cr.findByContentContaining(keyword);
+	}
 }

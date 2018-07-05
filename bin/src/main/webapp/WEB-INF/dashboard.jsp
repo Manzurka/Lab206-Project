@@ -44,20 +44,12 @@
 					</li>
 			  	</ul>
 			</div>
-
-			
-			 <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
 			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
              <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
 				 <c:when test="${currentUser.file.getId() != null}">
 					  <a href="/profile/${currentUser.id}">
 						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
-
 					  </a>
 				 </c:when>
 				 <c:otherwise>
@@ -71,17 +63,10 @@
 				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
 				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
 			</ul>
-			
 			<!-- Search bar -->
-			<form class="my-2 my-lg-0" id="searchy" action="/search">
+			<form class="my-2 my-lg-0" id="searchy">
 				<div class="input-group">
-					<input name="keyword" type="text" class="form-control" placeholder="Search query..." aria-label="Search query"/>
-					<select name="category">
-						<option>Posts</option>
-						<option>Comments</option>
-						<option>Users</option>
-						<option>Tags</option>
-					</select>
+					<input type="text" class="form-control" placeholder="Search query..." aria-label="Search query">
 					<div class="input-group-append">
 						<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Search</button>
 					</div>
@@ -91,22 +76,10 @@
 		<div class="row" id="headerRow">
 			<!-- Recent posts header -->
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
-					<c:choose>
-						<c:when test="${searchResults == true}">
-							<h1 class="text-ghost-white">Search Results
-								<c:if test="${posts !=null}"> for posts</c:if>
-								<c:if test="${comments !=null}"> for comments</c:if>
-								<c:if test="${users !=null}"> for users</c:if>
-								<c:if test="${tags !=null}"> for tags</c:if>
-							</h1>
-						</c:when>
-						<c:otherwise>
-							<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-							<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>			
-							<h1 class="text-ghost-white">Recent Posts</h1>
-						</c:otherwise>
-					</c:choose>
-				</div>
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>
+				<h1 class="text-ghost-white">Recent Posts</h1>
+			</div>
 			<!-- Announcements header -->
 			<div class="col-md-3 offset-md-1 rounded-top bg-gunmetal">
 				<h1 class="text-ghost-white">Announcements</h1>
@@ -115,85 +88,6 @@
 		<div class="row" id="contentRow">
 			<div class="col-md-6 offset-md-1">
 				<div class="row" id="feed">
-
-					
-					<!--Search Results-->
-					<!--for comments-->
-					<c:forEach var="comment" items="${comments}">
-							<div class="col-12 content-panel">
-								<div class="row">
-										<div class="container">
-											<div class="col-12">
-												<p><c:out value="${comment.content}"/></p>
-												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href="/post/${comment.post.id}">${comment.post.title}</a></p>
-											</div>
-										</div>
-								</div>		
-							</div>
-					</c:forEach>
-					<!--for users-->
-					<c:forEach var="user" items="${users}">
-							<div class="col-12 content-panel">
-									<div class="row">
-										<div class="col-12">
-												<div class="col-sm-6">
-													<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
-												</div>
-												<div class="col-sm-2">
-												<!-- User profile image, show default if there is no image in the database -->
-													<c:choose>
-															<c:when test="${user.file.getId() != null}">
-																<a href="/profile/${user.id}">
-																<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-																</a>
-															</c:when>
-															<c:otherwise>
-															<a href="/profile/${user.id}">
-																<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-															</a>
-															</c:otherwise>
-													</c:choose>
-												</div>
-										</div>			
-									</div>
-							</div>
-					</c:forEach>
-					<!--for tags-->
-					<c:if test="${tags != null}">
-							<c:forEach var="post" items="${tags}">
-									<div class="col-12 content-panel">
-											<div class="row">
-												<div class="col-12">
-													<h4><a href="/post/${post.id}">${post.title}</a></h4>
-													<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-														<ul class="list-inline">
-																<i class="fa fa-tags"></i>
-															<!-- Iterate through tags in each post -->
-															<c:forEach var="tag" items="${post.tags}">
-																<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-															</c:forEach>
-														</ul>
-													<p>Uploaded Files:
-														<c:forEach var="file" items="${post.attachments}">
-															<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-														</c:forEach>
-													</p>
-													<p>${post.content}</p>
-													<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
-														value ="${post.createdAt}"></fmt:formatDate></i></p>
-													<p>
-															<c:out value="${post.comments.size()}"/> Comments | 
-															<a href="#" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
-															<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-													</p>
-												</div>
-											</div>
-									</div>
-							</c:forEach>
-						</c:if>
-
-
-
 					<!-- Iterate through posts to fill recent posts -->
 					<c:forEach var="post" items="${posts}"> 
 						<div class="col-12 content-panel">
@@ -214,7 +108,7 @@
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
-											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" data-post-id='<c:out value="${post.id}"/>' class="edit text-gray-blue testingEdit"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+											<a href="/post/<c:out value="${post.id}"/>/edit" class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
 											<a href="/post/<c:out value="${post.id}"/>/delete" class="delete text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</h4>
@@ -430,7 +324,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="editIdPost">
+						<form:form action="" modelAttribute="editPost" method="post">
 						<div class="row mb-3">
 							<div class="col-6">
 								<div class="input-group">
@@ -438,7 +332,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated" checked="false">
+										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -449,90 +343,50 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="newPostLanguage">Language</span>
 									</div>
-									<select class="form-control" id="currentLanguage" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option value="c++">C++</option>
-										<option value="c#">C#</option>
-										<option value="css">CSS</option>
-										<option value="html">HTML</option>
-										<option value="java">Java</option>
-										<option value="javascript">JavaScript</option>
-										<option value="perl">Perl</option>
-										<option value="php">PHP</option>
-										<option value="python">Python</option>
-										<option value="ruby">Ruby</option>
+									<select class="form-control" id="language" name="language" aria-label="Language" aria-describedby="newPostLanguage">
+										<option>C++</option>
+										<option>C#</option>
+										<option>CSS</option>
+										<option>HTML</option>
+										<option>Java</option>
+										<option>JavaScript</option>
+										<option>Perl</option>
+										<option>PHP</option>
+										<option>Python</option>
+										<option>Ruby</option>
 									</select>
 								</div>
 							</div>
 						</div>
-			            <form:errors path="title"/>
 						<div class="input-group mb-3">
-							<div class="input-group-prepend">	
-								<span class="input-group-text" id="newPost-title">Title</span>
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="editPost-title">Title</span>
 							</div>
-							<input name="title" id="currentTitle" class="form-control" aria-label="Title"/>
+							<form:input path="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">Tags</span>
 							</div>
-							<input type="text" class="form-control" id="currentTag1" name="tag1">
-							<input type="text" class="form-control" id="currentTag2" name="tag2">
-							<input type="text" class="form-control" id="currentTag3" name="tag3">
+							<input type="text" class="form-control" id="tag1" name="tag1">
+							<input type="text" class="form-control" id="tag2" name="tag2">
+							<input type="text" class="form-control" id="tag3" name="tag3">
 						</div>
-						<form:errors path="content"/>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">Content</span>
 							</div>
-							<textarea name="content" id="currentContent" class="form-control" aria-label="Content"></textarea>
+							<form:textarea path="content" class="form-control" aria-label="Content"/>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								
-								<span class="input-group-text">File#1</span>
+								<span class="input-group-text">File</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile01">
+								<input type="file" class="custom-file-input" id="inputGroupFile01">
 								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 							</div>
 						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">File#2</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile02">
-								<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-							</div>	
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">File#3</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile03">
-								<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">File#4</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile04">
-								<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">File#5</span>
-							</div>
-							<div class="custom-file">
-								<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile05">
-								<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
-							</div>
-						</div>
-						
 						<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
 						</form:form>
 			    	</div>
