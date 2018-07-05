@@ -278,6 +278,7 @@
 	
 	<!-- Located within the static folder -->
 	<script src="/js/moderator.js"></script>
+	<script src="/js/notify.js"></script>
 
 </body>
 </html>
