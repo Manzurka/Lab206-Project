@@ -18,4 +18,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 	List<Long> findByPostDesc(Post post);
 	
 	void save(Post post);
+	
+	List<Comment> findByContentContaining(String keyword);
 }

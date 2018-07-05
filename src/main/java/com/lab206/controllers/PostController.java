@@ -79,11 +79,15 @@ public class PostController {
 		
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
+        			if(aFile.getOriginalFilename().contains(".jpg") 
+        					|| aFile.getOriginalFilename().contains(".gif") 
+        					|| aFile.getOriginalFilename().contains(".png")) {
 	        		File uploadedFile = new File();
 	                uploadedFile.setFileName(aFile.getOriginalFilename());
 	                uploadedFile.setData(aFile.getBytes());
 	                uploadedFile.setPost4file(newPost);
 	                fileUploadDao.save(uploadedFile);
+        		}
         		}
         	}
 		

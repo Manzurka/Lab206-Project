@@ -1,0 +1,22 @@
+@charset "ISO-8859-1";
+
+a:hover {
+	color: #FFC656;
+	}
+	.feedbackTable, .reportTable {
+		height: 500px;
+    	overflow-y: auto;
+	}
+	thead {
+		background-color: #FFC656;
+	}
+	
+	td a:hover {
+		color: #2E328E;
+	}
+	table, tr, td, th {
+			padding: 30px;
+	}
+	.reviewed:hover {
+		background-color: #FFC656;
+	}

@@ -64,15 +64,9 @@
 				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
 			</ul>
 			<!-- Search bar -->
-			<form class="my-2 my-lg-0" id="searchy" action="/search">
+			<form class="my-2 my-lg-0" id="searchy">
 				<div class="input-group">
-					<input name="keyword" type="text" class="form-control" placeholder="Search query..." aria-label="Search query"/>
-					<select name="category">
-						<option>Posts</option>
-						<option>Comments</option>
-						<option>Users</option>
-						<option>Tags</option>
-					</select>
+					<input type="text" class="form-control" placeholder="Search query..." aria-label="Search query">
 					<div class="input-group-append">
 						<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Search</button>
 					</div>
@@ -82,22 +76,10 @@
 		<div class="row" id="headerRow">
 			<!-- Recent posts header -->
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
-					<c:choose>
-						<c:when test="${searchResults == true}">
-							<h1 class="text-ghost-white">Search Results
-								<c:if test="${posts !=null}"> for posts</c:if>
-								<c:if test="${comments !=null}"> for comments</c:if>
-								<c:if test="${users !=null}"> for users</c:if>
-								<c:if test="${tags !=null}"> for tags</c:if>
-							</h1>
-						</c:when>
-						<c:otherwise>
-							<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-							<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>			
-							<h1 class="text-ghost-white">Recent Posts</h1>
-						</c:otherwise>
-					</c:choose>
-				</div>
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+				<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>
+				<h1 class="text-ghost-white">Recent Posts</h1>
+			</div>
 			<!-- Announcements header -->
 			<div class="col-md-3 offset-md-1 rounded-top bg-gunmetal">
 				<h1 class="text-ghost-white">Announcements</h1>
@@ -106,85 +88,6 @@
 		<div class="row" id="contentRow">
 			<div class="col-md-6 offset-md-1">
 				<div class="row" id="feed">
-
-					
-					<!--Search Results-->
-					<!--for comments-->
-					<c:forEach var="comment" items="${comments}">
-							<div class="col-12 content-panel">
-								<div class="row">
-										<div class="container">
-											<div class="col-12">
-												<p><c:out value="${comment.content}"/></p>
-												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href="/post/${comment.post.id}">${comment.post.title}</a></p>
-											</div>
-										</div>
-								</div>		
-							</div>
-					</c:forEach>
-					<!--for users-->
-					<c:forEach var="user" items="${users}">
-							<div class="col-12 content-panel">
-									<div class="row">
-										<div class="col-12">
-												<div class="col-sm-6">
-													<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
-												</div>
-												<div class="col-sm-2">
-												<!-- User profile image, show default if there is no image in the database -->
-													<c:choose>
-															<c:when test="${user.file.getId() != null}">
-																<a href="/profile/${user.id}">
-																<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-																</a>
-															</c:when>
-															<c:otherwise>
-															<a href="/profile/${user.id}">
-																<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-															</a>
-															</c:otherwise>
-													</c:choose>
-												</div>
-										</div>			
-									</div>
-							</div>
-					</c:forEach>
-					<!--for tags-->
-					<c:if test="${tags != null}">
-							<c:forEach var="post" items="${tags}">
-									<div class="col-12 content-panel">
-											<div class="row">
-												<div class="col-12">
-													<h4><a href="/post/${post.id}">${post.title}</a></h4>
-													<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-														<ul class="list-inline">
-																<i class="fa fa-tags"></i>
-															<!-- Iterate through tags in each post -->
-															<c:forEach var="tag" items="${post.tags}">
-																<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-															</c:forEach>
-														</ul>
-													<p>Uploaded Files:
-														<c:forEach var="file" items="${post.attachments}">
-															<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-														</c:forEach>
-													</p>
-													<p>${post.content}</p>
-													<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
-														value ="${post.createdAt}"></fmt:formatDate></i></p>
-													<p>
-															<c:out value="${post.comments.size()}"/> Comments | 
-															<a href="#" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
-															<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-													</p>
-												</div>
-											</div>
-									</div>
-							</c:forEach>
-						</c:if>
-
-
-
 					<!-- Iterate through posts to fill recent posts -->
 					<c:forEach var="post" items="${posts}"> 
 						<div class="col-12 content-panel">
