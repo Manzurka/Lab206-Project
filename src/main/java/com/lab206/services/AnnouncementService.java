@@ -19,7 +19,7 @@ public class AnnouncementService {
 	}
 	
 	public List<Announcement> findAll() {
-		return ar.findAll();
+		return ar.findByOrderByIdDesc();
 	}
 	
 	public Announcement findById(Long id) {
@@ -33,6 +33,10 @@ public class AnnouncementService {
 		
 	}
 	
+	// Archive Announcements
+	public void removeAnnouncement(Announcement announce) {
+		ar.delete(announce);
+	}
 	
 
 }

@@ -10,32 +10,34 @@
 <title>LAB_206 | Admin</title>
 <link rel="stylesheet" href="/css/admin.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 	<nav>
-	<h1>Lab 206</h1><span>Admin</span>
+	<h1>Welcome <b><c:out value="${currentUser.firstName}"></c:out></b></h1>
+	<span>Admin Dashboard</span>
 	</nav>
 	
 	<br>
 	
 	<div class="col-md-6 announceTable">
+	
 	<h2>Recent Announcements</h2>	
 	
-	<table class="table">
+	<table class="table table-striped">
+	<thead>
 	<tr>
 		<th>Subject</th>
 		<th>Description</th>
 		<th>Created At</th>
 	</tr>
-	
+	</thead>
 	<c:forEach var="announcement" items="${ all_announcements }" >
 	
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy / HH:mm a" /></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
 	</tr>
 	
 	</c:forEach>
@@ -43,14 +45,20 @@
 	</table>
 	</div>
 	
-<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement">Create Announcement</button>
+	<a href="/dashboard" class="btn dash"><i class="fas fa-home"></i> Dashboard</a>
+  	<br> 
+	<a href="/mod" class="btn dash"><i class="fas fa-user-ninja"></i> Moderator Page</a> 
+	<br> 
+  	<br>
+	
+<button type="button" class="btn announce" data-toggle="modal" data-target="#announcement"><i class="fas fa-bullhorn"></i> Create Announcement</button>
 
 <!-- Modal -->
 <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New Announcement</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-bullhorn"></i> New Announcement</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -81,15 +89,15 @@
 
 	<br>
 	<br>
-	
-<button type="button" class="btn announce" data-toggle="modal" data-target="#student">Invite Student</button>
+
+<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
 
 <!-- Modal -->
 <div class="modal fade" id="student" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Register New Student</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-plus"></i> Register New Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -100,6 +108,7 @@
         <p>
             <label for=email>Email Address: </label>
             <input type="text" name="email"/>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </p>
 
       </div>
@@ -112,24 +121,61 @@
     </div>
   </div>
 </div>
-
-	<br>
-	<br>
-
 	
-<button type="button" class="btn" data-toggle="modal" data-target="#remove">Remove Student</button>
+	<br>
+	<br>
+	
+	<!-- Update Student Role Modal -->	
+<button type="button" class="btn" data-toggle="modal" data-target="#newMod"><i class="fas fa-pen-fancy"></i> Update Student Role</button>
 
 <!-- Modal -->
-<div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content students">
+<div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Remove Student</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-pen-fancy"></i> Update Student Role</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+      
+      <p>You may update a users role in becoming a new <code>Moderator</code>. Please enter in the users email address below:</p>
+        
+		<form method="POST" action="/newMod">
+	        <p>
+	            <label for=newMod>Email Address: </label>
+	            <input type="text" name="newMod"/>
+	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        </p>
+	      </div>
+	      <div class="modal-footer">
+	        <input type="submit" class="btn sub" value="Update Role"/>
+	      </div>
+      
+       </form>
+
+      
+    </div>
+  </div>
+</div>
+
+	<br>
+	<br>
+	
+<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
+
+<!-- Deleting a Student Modal -->
+<div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-times"></i> Remove Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body student">
         
         
         <table>
@@ -148,7 +194,7 @@
 			<td><c:out value="${user.lastName}"/></td>
 			<td><c:out value="${user.email}"/></td>
 			<td><c:out value="${user.roles[0].name}"/></td>
-			<td><a href="/user/${ user.id }/delete" class="remove">Delete</a></td>
+			<td><a href="/user/${ user.id }/delete" class="remove">Remove</a></td>
 		</tr>
 		</c:forEach>
 		
@@ -159,14 +205,6 @@
     </div>
   </div>
 </div>
-	
-	<br>
-	<br>
-	
-	<a href="/mod" class="btn dash">Moderator Page</a> 
-  	<br> 
-  	<br> 
-	<a href="/dashboard" class="btn dash"><i class="fas fa-home"></i> Dashboard</a>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

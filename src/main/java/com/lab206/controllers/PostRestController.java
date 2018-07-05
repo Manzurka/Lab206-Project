@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lab206.models.Comment;
 import com.lab206.models.Feedback;
 import com.lab206.models.Post;
+import com.lab206.models.Report;
 import com.lab206.services.CommentService;
 import com.lab206.services.FeedbackService;
 import com.lab206.services.PostService;
+import com.lab206.services.ReportService;
 import com.lab206.services.UserService;
 
 @RestController
@@ -22,15 +24,18 @@ public class PostRestController {
 	private CommentService cs;
 	private UserService us;
 	private FeedbackService fs;
+	private ReportService rs;
 	
 	public PostRestController(PostService ps,
 			CommentService cs,
 			UserService us,
-			FeedbackService fs) {
+			FeedbackService fs,
+			ReportService rs) {
 		this.ps = ps;
 		this.cs = cs;
 		this.us = us;
 		this.fs = fs;
+		this.rs = rs;
 	}
 
 	@RequestMapping("/show/{id}")
@@ -43,6 +48,12 @@ public class PostRestController {
 	@RequestMapping("/feedbacks/{id}")
 	public Feedback showFeedback(@PathVariable("id") Long id) {
 		return fs.findFeedbackById(id);
+	}
+	
+	// Displaying reports in moderator dashboard
+	@RequestMapping("/reports/{id}")
+	public Report showReports(@PathVariable("id") Long id) {
+		return rs.findReportById(id);
 	}
 	
 	@RequestMapping("/{id}/comments")
