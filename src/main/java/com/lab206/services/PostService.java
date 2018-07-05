@@ -58,4 +58,8 @@ public class PostService {
 	public Comment saveComment(Comment comment) {
 		return cr.save(comment);
 		}
+	
+	public List<Post> postsContaining(String keyword){
+		return pr.findByContentContaining(keyword);
+	}
 }
