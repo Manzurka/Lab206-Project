@@ -44,12 +44,20 @@
 					</li>
 			  	</ul>
 			</div>
+
 			
 			 <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
 				 <c:when test="${currentUser.file.getId() != null}">
 					  <a href="/profile/${currentUser.id}">
 						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
+             <!-- User profile image, show default if there is no image in the database -->
+			 <c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${currentUser.id}">
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+
 					  </a>
 				 </c:when>
 				 <c:otherwise>
@@ -93,9 +101,19 @@
 					<c:forEach var="post" items="${posts}"> 
 						<div class="col-12 content-panel">
 							<div class="row">
-								<div class="col-sm-2">
-									<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-								</div>
+								<c:choose>
+				 <c:when test="${currentUser.file.getId() != null}">
+					  <a href="/profile/${post.author.id}">
+						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+					  </a>
+				 </c:when>
+				 <c:otherwise>
+		            <a href="/profile/${post.author.id}">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		            </a>
+	     		</c:otherwise>
+            </c:choose>
+
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
@@ -126,7 +144,6 @@
 								<div class="container">
 									<div class="col-12">
 										<p><c:out value="${post.content}"/></p>
-										<p><c:out value="${post.author.firstName}"/></p>
 									</div>
 									<div class="col-12">
 										<!-- Total comments and show -->

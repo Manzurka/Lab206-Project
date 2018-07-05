@@ -40,6 +40,13 @@ body {
 	margin: 0 .5em;
 	max-width: 75px;
 }
+.avatar2 {
+	max-width: 100px;
+}
+.avatar3 {
+	margin: 0 1em;
+	max-width: 150px;
+}
 .post-avatar {
 	float: left;
 	margin: 0 .5em;

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lab206.models.Feedback;
@@ -39,11 +40,5 @@ public class ModController {
 		model.addAttribute("all_reports", rs.findAll());
         return "mod.jsp";
     }
-	
-	@RequestMapping("/feedback/{id}")
-	public String displayFeedback(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("reviewfeedback", fs.findById(id));
-		return "feedback.jsp";
-	}
 
 }
