@@ -99,7 +99,7 @@
 								<div class="col-sm-6">
 									<h4><c:out value="${post.title}"/>
 										<div style="font-size:.65em">
-											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" data-post-id='<c:out value="${post.id}"/>' class="edit text-gray-blue"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+											<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" data-post-id='<c:out value="${post.id}"/>' class="edit text-gray-blue testingEdit"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
 											<a href="/post/<c:out value="${post.id}"/>/delete" class="delete text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</h4>
@@ -324,7 +324,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="currentCourse" name="course" aria-describedby="courseRelated">
+										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated" checked="false">
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -336,16 +336,16 @@
 										<span class="input-group-text" id="newPostLanguage">Language</span>
 									</div>
 									<select class="form-control" id="currentLanguage" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option>C++</option>
-										<option>C#</option>
-										<option>CSS</option>
-										<option>HTML</option>
-										<option>Java</option>
-										<option>JavaScript</option>
-										<option>Perl</option>
-										<option>PHP</option>
-										<option>Python</option>
-										<option>Ruby</option>
+										<option value="c++">C++</option>
+										<option value="c#">C#</option>
+										<option value="css">CSS</option>
+										<option value="html">HTML</option>
+										<option value="java">Java</option>
+										<option value="javascript">JavaScript</option>
+										<option value="perl">Perl</option>
+										<option value="php">PHP</option>
+										<option value="python">Python</option>
+										<option value="ruby">Ruby</option>
 									</select>
 								</div>
 							</div>

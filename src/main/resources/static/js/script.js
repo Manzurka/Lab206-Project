@@ -130,25 +130,36 @@ $(document).ready(function(){
 		})).promise().done();
 	});
 // edit function to retrieve info from database 
-	$("#editIdPost").click(function(){
+	$(".testingEdit").click(function(){
 		var postid = $(this).attr('data-post-id')
 		$.ajax({
 			url: "/post/show/" + postid
 		}).then(function(post) {
 			console.log(post);
-			$('#currentCoarse').val(`${post.course}`);
-			$('#currentLanguage').val(`${post.language}`);
-			$('#currentTitle').val(`${post.title}`);
-			$('#currentContent').html(`${post.content}`);
-			$('#currentTag1').val(`${post.post.tags.subject}`);
-			$('#currentTag2').val(`${post.tag2}`);
-			$('#currentTag3').val(`${post.tag3}`);
-			$('#currentInputGroupFile01').val(`${post.file}`);
-			$('#currentInputGroupFile02').val(`${post.file}`);
-			$('#currentInputGroupFile03').val(`${post.file}`);
-			$('#currentInputGroupFile04').val(`${post.file}`);
-			$('#currentInputGroupFile05').val(`${post.file}`);
-			return post;
+			var isCourseRelated = false;
+			console.log("testing" + JSON.stringify(post.tags,null,'\t'));
+				if (post.tags[0].subject == "coursework") {
+					$('#currentCourse').attr(`checked`, "true"); 
+				} 
+				else {
+					$('#currentCourse').attr(`checked`, "false"); 
+					isCourseRelated = true;
+				}
+				if (!isCourseRelated) {
+					$('#currentLanguage').val(`${post.tags[0].subject}`)
+				} else {
+					$('#currentLanguage').val(`${post.tags[1].subject}`)
+					$('#currentTitle').val(`${post.title}`);
+					$('#currentContent').html(`${post.content}`);
+					$('#currentTag1').val(`${post.tags[2].subject}`);
+					$('#currentTag2').val(`${post.tags[3].subject}`);
+					$('#currentTag3').val(`${post.tags[4].subject}`);
+					$('#currentInputGroupFile01').val(`${post.file}`);
+					$('#currentInputGroupFile02').val(`${post.file}`);
+					$('#currentInputGroupFile03').val(`${post.file}`);
+					$('#currentInputGroupFile04').val(`${post.file}`);
+					$('#currentInputGroupFile05').val(`${post.file}`);
+				}
 		});
 	})
 });
