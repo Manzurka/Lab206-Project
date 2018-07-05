@@ -18,17 +18,17 @@
 			<c:out value="${logoutMessage}"></c:out>
 		</c:if>
     <!-- Nav bar -->
-		<nav class="navbar sticky-top shadow-small" id="navvy">
+		<nav class="navbar sticky-top shadow-small mb-3" id="navvy">
 		<div class="dropdown">
-			  <button class="close" type="button" data-toggle="dropdown">
-			  <i class="fa fa-bars" aria-hidden="true"></i></button>
-			  	<ul class="dropdown-menu test">
+				<button class="close" type="button" data-toggle="dropdown">
+				<i class="fa fa-bars" aria-hidden="true"></i></button>
+				<ul class="dropdown-menu test">
             <!-- Settings button -->
 			    	<li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
 						<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
 					</li>
             <!-- Help button -->
-			      	<li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
+			    	<li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
 						<i class="fa fa-question-circle nav-link" aria-hidden="true"></i>Help</a>
 					</li>
             <!-- Feedback button -->
@@ -42,21 +42,21 @@
 						    <button type="submit" class="text-button"><i class="fa fa-power-off nav-link" aria-hidden="true"></i>Logout</button>
 						</form>
 					</li>
-			  	</ul>
+				</ul>
 			</div>
-			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
-             <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
-					  </a>
-				 </c:when>
-				 <c:otherwise>
+			<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>
+            <!-- User profile image, show default if there is no image in the database -->
+			<c:choose>
+				<c:when test="${currentUser.file.getId() != null}">
+					<a href="/profile/${currentUser.id}">
+						<img class="avatar rounded" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+					</a>
+				</c:when>
+				<c:otherwise>
 		            <a href="/profile/${currentUser.id}">
-		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar rounded">
 		            </a>
-	     		</c:otherwise>
+				</c:otherwise>
             </c:choose>
 
 			<ul class="navbar-nav mr-auto">
@@ -77,7 +77,6 @@
 			<!-- Recent posts header -->
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
 				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-				<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>
 				<h1 class="text-ghost-white">Recent Posts</h1>
 			</div>
 			<!-- Announcements header -->
@@ -104,7 +103,7 @@
 									</h4>
 									Uploaded Files:
 									<c:forEach var="file" items="${post.attachments}">
-									  <a href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>
+										<a href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>
 									</c:forEach>
 									<p>${show}</p>
 								</div>
@@ -131,7 +130,7 @@
 										<!-- Total comments and show -->
 										<p>
 					                    	<c:out value="${post.comments.size()}"/> Comments | 
-					                    	<a href="#" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
+					                    	<a href="" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
 					                    	<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
 					                    </p>
 									</div>
@@ -202,7 +201,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
+										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated" checked="false">
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -323,7 +322,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
+										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated" checked="true">
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -478,15 +477,17 @@
 				    	<div class="row mb-3">
 				    		<!-- New Comment form -->
 				    		<div class="col-sm-12" id="newComment">
-				    			<form:form action="/comment/create" modelAttribute="newComment" id="newCommentForm" method="post">
+				    			<form name="newCommentForm" id="newCommentForm" method="post">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+									<input type="hidden" value="" name="postId" id="commentPostId">
 				    				<div class="input-group mb-3">
 										<div class="input-group-prepend">
-											<span class="input-group-text">Content</span>
+											<span class="input-group-text">Comment</span>
 										</div>
-										<form:textarea path="content" placeholder="Enter comment here" class="form-control" aria-label="Comment text"/>
+										<textarea id="newCommentContent" name="newCommentContent" placeholder="Enter comment here" class="form-control" aria-label="Comment text" form="newCommentForm"></textarea>
 									</div>
-									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-				    			</form:form>
+									<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right" value="Submit">
+				    			</form>
 				    		</div>
 				    	</div>
 				    	<div class="row" id="showComments">

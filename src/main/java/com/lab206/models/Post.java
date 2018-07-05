@@ -85,6 +85,7 @@ public class Post {
 			joinColumns = @JoinColumn(name = "post_id"),
 			inverseJoinColumns = @JoinColumn(name = "tag_id")
 	)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Tag> tags;
 	
 	@PrePersist

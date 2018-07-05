@@ -15,7 +15,7 @@
 <title>Profile Page</title>
 </head>
 <body>
-	<nav class="navbar mb-3" id="navvy">
+	<nav class="navbar sticky-top shadow-small mb-3" id="navvy">
 	<div class="dropdown">
 			  <button class="close" type="button" data-toggle="dropdown">
 			  <i class="fa fa-bars" aria-hidden="true"></i></button>
@@ -41,8 +41,8 @@
 					</li>
 			  	</ul>
 			</div>
-		<img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
-		 <!-- User profile image, show default if there is no image in the database -->
+			<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>
+			<!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
 				 <c:when test="${currentUser.file.getId() != null}">
 					  <a href="/profile/${currentUser.id}">

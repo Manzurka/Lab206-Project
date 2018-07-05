@@ -94,7 +94,7 @@ public class User {
 
 	@OneToMany(mappedBy="author", fetch=FetchType.LAZY)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List<Post> post;
+	private List<Post> posts;
 	
 	@OneToMany(mappedBy="commenter", fetch=FetchType.LAZY)
 	private List<Comment> comments;
@@ -282,12 +282,12 @@ public class User {
 		this.token = token;
 	}
 
-	public List<Post> getPost() {
-		return post;
+	public List<Post> getPosts() {
+		return posts;
 	}
 
-	public void setPost(List<Post> post) {
-		this.post = post;
+	public void setPosts(List<Post> post) {
+		this.posts = post;
 	}
 
 	public List<Comment> getComments() {

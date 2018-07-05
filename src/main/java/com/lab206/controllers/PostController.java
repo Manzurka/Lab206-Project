@@ -73,10 +73,7 @@ public class PostController {
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
 		us.increasePoints(currentUser);
-		Post p = ps.savePost(newPost);
-		User author = us.findByEmail(principal.getName());
-		ps.setPostAuthor(author, p);
-		
+		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
 	        		File uploadedFile = new File();
@@ -86,8 +83,6 @@ public class PostController {
 	                fileUploadDao.save(uploadedFile);
         		}
         	}
-		
-		
 		return "redirect:/dashboard";
 	}
 	
@@ -100,7 +95,6 @@ public class PostController {
 	@RequestMapping("/post/{id}/edit")
 	public String editPost(@ModelAttribute("editPost") Post post, @PathVariable("id") Long id, Principal principal, Model model) {
 		User currentUser = us.findByEmail(principal.getName());
-		System.out.println("testing");
 		model.addAttribute("posts", ps.allPostsNew());
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", ps.findPostById(id));

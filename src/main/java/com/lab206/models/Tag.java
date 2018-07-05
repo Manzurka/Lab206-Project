@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "tags")
 public class Tag {
@@ -48,6 +50,7 @@ public class Tag {
 			joinColumns = @JoinColumn(name = "tag_id"),
 			inverseJoinColumns = @JoinColumn(name = "post_id")
 	)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Post> posts;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
