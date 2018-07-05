@@ -8,6 +8,6 @@ import com.lab206.models.Announcement;
 
 public interface AnnouncementRepository extends CrudRepository<Announcement, Long> {
 	
-	List <Announcement> findAll();
+	List <Announcement> findByOrderByIdDesc();
 
 }

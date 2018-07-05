@@ -19,11 +19,16 @@ public class ReportService {
 	
 	
 	public List<Report> findAll() {
-		return rr.findAll();
+		return rr.findByOrderByIdDesc();
 	}
 	
-	public Report findById(Long id) {
+	public Report findReportById(Long id) {
 		return rr.findById(id).get();
+	}
+	
+	public void updateReportReview(Report report) {
+		report.setReviewed(true);
+		rr.save(report);
 	}
 
 }

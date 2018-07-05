@@ -37,6 +37,12 @@ public class UserService {
 		ur.save(user);
 	}
 	
+	// Updating a users role as a new Moderator
+	public void updateUserWithModRole(User user) {
+		user.setRoles(ror.findByName("ROLE_MOD"));
+		ur.save(user);
+	}
+	
 	public void saveUserWithAdminRole(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setRoles(ror.findByName("ROLE_ADMIN"));

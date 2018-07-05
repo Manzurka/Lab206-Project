@@ -8,6 +8,6 @@ import com.lab206.models.Feedback;
 
 public interface FeedbackRepository extends CrudRepository<Feedback, Long> {
 	
-	List <Feedback> findAll();
+	List <Feedback> findByOrderByIdDesc();
 
 }
