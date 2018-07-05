@@ -57,12 +57,13 @@ public class PostController {
 			@RequestParam(value = "tag2") String tag2,
 			@RequestParam(value = "tag3") String tag3,
 			@Valid @RequestParam MultipartFile[] file,
+			BindingResult results,
             HttpServletRequest request,
 			Principal principal,
 			Model model) throws Exception {
 		User currentUser = us.findByEmail(principal.getName());
 		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
-		if (res.hasErrors()) {
+		if (res.hasErrors() || results.hasErrors()) {
 			model.addAttribute("posting", true);
 			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("posts", ps.allPostsNew());
@@ -79,15 +80,18 @@ public class PostController {
 		
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
+        			if(aFile.getOriginalFilename().contains(".jpg") 
+        					|| aFile.getOriginalFilename().contains(".gif") 
+        					|| aFile.getOriginalFilename().contains(".png")) {
 	        		File uploadedFile = new File();
 	                uploadedFile.setFileName(aFile.getOriginalFilename());
 	                uploadedFile.setData(aFile.getBytes());
 	                uploadedFile.setPost4file(newPost);
 	                fileUploadDao.save(uploadedFile);
+        			}
         		}
         	}
-		
-		
+        	
 		return "redirect:/dashboard";
 	}
 	
@@ -119,6 +123,5 @@ public class PostController {
 		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
-	
 
 }

@@ -68,4 +68,7 @@ public class UserService {
 		ur.delete(u);		
 	}
 	
+	public List<User> findByName(String keyword){
+		return ur.findByFirstNameContaining(keyword);
+	}
 }
