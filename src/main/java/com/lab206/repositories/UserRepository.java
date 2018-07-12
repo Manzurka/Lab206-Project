@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.lab206.models.User;
@@ -16,5 +17,6 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	List <User> findAll();
 	
 	User findByEmail(String email);
-
+	
+	List<User> findByFirstNameContaining(String keyword);
 }

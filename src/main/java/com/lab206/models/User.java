@@ -65,6 +65,9 @@ public class User {
 	private Integer points;
 	
 	@Column
+	private String github;
+	
+	@Column
 	@Size(min=8)
     private String password;
 	
@@ -416,6 +419,14 @@ public class User {
 
 	public void setCohort(Cohort cohort) {
 		this.cohort = cohort;
+	}
+
+	public String getGithub() {
+		return github;
+	}
+
+	public void setGithub(String github) {
+		this.github = github;
 	}
 
 }

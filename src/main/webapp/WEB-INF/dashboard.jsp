@@ -10,6 +10,27 @@
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="/js/script.js"></script>
+		
+		
+		<!-- Auto-opens new post modal if user was creating post and had errors -->
+		<c:if test="${posting == true}">
+			<script type="text/javascript">
+			    $(document).ready(function(){
+			        $('#newPostModal').modal('show');
+			    });
+			</script>
+		</c:if>
+		<c:if test="${editing == true}">
+			<script type="text/javascript">
+			    $(document).ready(function(){
+			        $('#settingsModal').modal('show');
+			    });
+			</script>
+		</c:if>
 
 	</head>
 	<body>
@@ -44,7 +65,7 @@
 					</li>
 			  	</ul>
 			</div>
-			 
+
 			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
              <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
@@ -67,9 +88,15 @@
 			</ul>
 			
 			<!-- Search bar -->
-			<form class="my-2 my-lg-0" id="searchy">
+			<form class="my-2 my-lg-0" id="searchy" action="/search">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search query..." aria-label="Search query">
+					<input name="keyword" type="text" class="form-control" placeholder="Search query..." aria-label="Search query"/>
+					<select name="category">
+						<option>Posts</option>
+						<option>Comments</option>
+						<option>Users</option>
+						<option>Tags</option>
+					</select>
 					<div class="input-group-append">
 						<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Search</button>
 					</div>
@@ -79,10 +106,22 @@
 		<div class="row" id="headerRow">
 			<!-- Recent posts header -->
 			<div class="col-md-6 offset-md-1 rounded-top bg-gunmetal">
-				<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-				<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>
-				<h1 class="text-ghost-white">Recent Posts</h1>
-			</div>
+					<c:choose>
+						<c:when test="${searchResults == true}">
+							<h1 class="text-ghost-white">Search Results
+								<c:if test="${posts !=null}"> for posts</c:if>
+								<c:if test="${comments !=null}"> for comments</c:if>
+								<c:if test="${users !=null}"> for users</c:if>
+								<c:if test="${tags !=null}"> for tags</c:if>
+							</h1>
+						</c:when>
+						<c:otherwise>
+							<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+							<button class="btn bg-blue-jean text-ghost-white float-right" id="showPost" data-toggle="modal" data-target="#showPostModal">Show Post</button>			
+							<h1 class="text-ghost-white">Recent Posts</h1>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			<!-- Announcements header -->
 			<div class="col-md-3 offset-md-1 rounded-top bg-gunmetal">
 				<h1 class="text-ghost-white">Announcements</h1>
@@ -91,14 +130,93 @@
 		<div class="row" id="contentRow">
 			<div class="col-md-6 offset-md-1">
 				<div class="row" id="feed">
+
+					
+					<!--Search Results-->
+					<!--for comments-->
+					<c:forEach var="comment" items="${comments}">
+							<div class="col-12 content-panel">
+								<div class="row">
+										<div class="container">
+											<div class="col-12">
+												<p><c:out value="${comment.content}"/></p>
+												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href="/post/${comment.post.id}">${comment.post.title}</a></p>
+											</div>
+										</div>
+								</div>		
+							</div>
+					</c:forEach>
+					<!--for users-->
+					<c:forEach var="user" items="${users}">
+							<div class="col-12 content-panel">
+									<div class="row">
+										<div class="col-12">
+												<div class="col-sm-6">
+													<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
+												</div>
+												<div class="col-sm-2">
+												<!-- User profile image, show default if there is no image in the database -->
+													<c:choose>
+															<c:when test="${user.file.getId() != null}">
+																<a href="/profile/${user.id}">
+																<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+																</a>
+															</c:when>
+															<c:otherwise>
+															<a href="/profile/${user.id}">
+																<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+															</a>
+															</c:otherwise>
+													</c:choose>
+												</div>
+										</div>			
+									</div>
+							</div>
+					</c:forEach>
+					<!--for tags-->
+					<c:if test="${tags != null}">
+							<c:forEach var="post" items="${tags}">
+									<div class="col-12 content-panel">
+											<div class="row">
+												<div class="col-12">
+													<h4><a href="/post/${post.id}">${post.title}</a></h4>
+													<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
+														<ul class="list-inline">
+																<i class="fa fa-tags"></i>
+															<!-- Iterate through tags in each post -->
+															<c:forEach var="tag" items="${post.tags}">
+																<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+															</c:forEach>
+														</ul>
+													<p>Uploaded Files:
+														<c:forEach var="file" items="${post.attachments}">
+															<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
+														</c:forEach>
+													</p>
+													<p>${post.content}</p>
+													<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
+														value ="${post.createdAt}"></fmt:formatDate></i></p>
+													<p>
+															<c:out value="${post.comments.size()}"/> Comments | 
+															<a href="#" class="show-post" data-toggle="modal" data-post-id='<c:out value="${post.id}"/>'>View Comments <i class="fa fa-angle-double-down"></i></a>
+															<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+													</p>
+												</div>
+											</div>
+									</div>
+							</c:forEach>
+						</c:if>
+
+
+
 					<!-- Iterate through posts to fill recent posts -->
 					<c:forEach var="post" items="${posts}"> 
 						<div class="col-12 content-panel">
 							<div class="row">
 								<c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
+				 <c:when test="${post.author.file.getId() != null}">
 					  <a href="/profile/${post.author.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+						<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
 					  </a>
 				 </c:when>
 				 <c:otherwise>
@@ -622,27 +740,7 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- Scripts -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/script.js"></script>
 		
-		<!-- Auto-opens new post modal if user was creating post and had errors -->
-		<c:if test="${posting == true}">
-			<script type="text/javascript">
-			    $(document).ready(function(){
-			        $('#newPostModal').modal('show');
-			    });
-			</script>
-		</c:if>
-		<c:if test="${editing == true}">
-			<script type="text/javascript">
-			    $(document).ready(function(){
-			        $('#settingsModal').modal('show');
-			    });
-			</script>
-		</c:if>
+		
 	</body>
 </html>
