@@ -83,13 +83,13 @@
 					<div class="col-sm-2">
 					 <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar2" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+				 <c:when test="${user.file.getId() != null}">
+					  <a href="/profile/${user.id}">
+						<img class="avatar2" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
 					  </a>
 				 </c:when>
 				 <c:otherwise>
-		            <a href="/profile/${currentUser.id}">
+		            <a href="/profile/${user.id}">
 		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
 		            </a>
 	     		</c:otherwise>

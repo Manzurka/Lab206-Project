@@ -10,6 +10,27 @@
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="/js/script.js"></script>
+		
+		
+		<!-- Auto-opens new post modal if user was creating post and had errors -->
+		<c:if test="${posting == true}">
+			<script type="text/javascript">
+			    $(document).ready(function(){
+			        $('#newPostModal').modal('show');
+			    });
+			</script>
+		</c:if>
+		<c:if test="${editing == true}">
+			<script type="text/javascript">
+			    $(document).ready(function(){
+			        $('#settingsModal').modal('show');
+			    });
+			</script>
+		</c:if>
 
 	</head>
 	<body>
@@ -46,11 +67,7 @@
 			</div>
 
 			
-			 <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+			
 			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
              <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
@@ -199,9 +216,9 @@
 						<div class="col-12 content-panel">
 							<div class="row">
 								<c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
+				 <c:when test="${post.author.file.getId() != null}">
 					  <a href="/profile/${post.author.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+						<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
 					  </a>
 				 </c:when>
 				 <c:otherwise>
@@ -725,27 +742,7 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- Scripts -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/script.js"></script>
 		
-		<!-- Auto-opens new post modal if user was creating post and had errors -->
-		<c:if test="${posting == true}">
-			<script type="text/javascript">
-			    $(document).ready(function(){
-			        $('#newPostModal').modal('show');
-			    });
-			</script>
-		</c:if>
-		<c:if test="${editing == true}">
-			<script type="text/javascript">
-			    $(document).ready(function(){
-			        $('#settingsModal').modal('show');
-			    });
-			</script>
-		</c:if>
+		
 	</body>
 </html>
