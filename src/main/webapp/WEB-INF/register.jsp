@@ -33,7 +33,7 @@
 		        			<h2>Register</h2>
 		        		</div>
 		        		<div class="card-body">
-				            <form:form method="POST" action="/user/create" modelAttribute="newUser">
+				            <form:form method="POST" action="/user/create" modelAttribute="newUser" enctype="multipart/form-data">
 				            	<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text">Name</span>
@@ -50,6 +50,15 @@
 										<div class="col-5 offset-1">
 											<span class="text-danger"><form:errors path="lastName"/></span>
 										</div>
+									</div>
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">Avatar</span>
+									</div>
+									<div class="custom-file">
+										<input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01">
+										<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 									</div>
 								</div>
 								<div class="input-group">
@@ -75,6 +84,19 @@
 									<div class="row mb-3">
 										<div class="col-11 offset-1">
 											<span class="text-danger"><form:errors path="about"/></span>
+										</div>
+									</div>
+								</div>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">Github link</span>
+									</div>
+									<form:input path="github" placeholder="Github link" class="form-control" aria-label="Content"/>
+								</div>
+								<div class="container">
+									<div class="row mb-3">
+										<div class="col-11 offset-1">
+											<span class="text-danger"><form:errors path="github"/></span>
 										</div>
 									</div>
 								</div>
