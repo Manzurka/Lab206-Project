@@ -136,30 +136,31 @@ $(document).ready(function(){
 			url: "/post/show/" + postid
 		}).then(function(post) {
 			console.log(post);
-			var isCourseRelated = false;
 			console.log("testing" + JSON.stringify(post.tags,null,'\t'));
 				if (post.tags[0].subject == "coursework") {
 					$('#currentCourse').attr(`checked`, "true"); 
+					$('#currentLanguage').val(`${post.tags[1].subject}`);
+					for (var i=2; i<post.tags.length; i++) {
+						var tag = "#currentTag" + (i-1);
+						$(tag).val(`${post.tags[i].subject}`);
+					}
 				} 
 				else {
-					$('#currentCourse').attr(`checked`, "false"); 
-					isCourseRelated = true;
+					$('#currentCourse').removeAttr(`checked`); 
+					$('#currentLanguage').val(`${post.tags[0].subject}`);
+					for (var i=1; i<post.tags.length; i++) {
+						var tag = "#currentTag" + i;
+						$(tag).val(`${post.tags[i].subject}`);
+					}
 				}
-				if (!isCourseRelated) {
-					$('#currentLanguage').val(`${post.tags[0].subject}`)
-				} else {
-					$('#currentLanguage').val(`${post.tags[1].subject}`)
 					$('#currentTitle').val(`${post.title}`);
 					$('#currentContent').html(`${post.content}`);
-					$('#currentTag1').val(`${post.tags[2].subject}`);
-					$('#currentTag2').val(`${post.tags[3].subject}`);
-					$('#currentTag3').val(`${post.tags[4].subject}`);
 					$('#currentInputGroupFile01').val(`${post.file}`);
 					$('#currentInputGroupFile02').val(`${post.file}`);
 					$('#currentInputGroupFile03').val(`${post.file}`);
 					$('#currentInputGroupFile04').val(`${post.file}`);
 					$('#currentInputGroupFile05').val(`${post.file}`);
-				}
+				
 		});
 	})
 });

@@ -44,13 +44,7 @@
 					</li>
 			  	</ul>
 			</div>
-
-			
-			 <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
+			 
 			 <img src="/img/logo.png" alt="Lab 206 Logo" id="logo">
              <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
@@ -123,7 +117,7 @@
 									</h4>
 									Uploaded Files:
 									<c:forEach var="file" items="${post.attachments}">
-									  <a href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>
+									  <a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>
 									</c:forEach>
 									<p>${show}</p>
 								</div>
@@ -341,7 +335,7 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated" checked="false">
+										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated">
 										<span class="slider round"></span>
 									</label>
 								</div>
