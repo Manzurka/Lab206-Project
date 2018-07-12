@@ -144,7 +144,7 @@
         
 		<form method="POST" action="/newRole">
 			<p>
-				<input type="radio" name="newRole" value="Moderator"> Moderator<br>
+				<input type="radio" name="newRole" value="Moderator" required> Moderator<br>
   				<input type="radio" name="newRole" value="Admin"> Admin<br>
 			</p>
 	        <p>
