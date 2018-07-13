@@ -107,7 +107,7 @@
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">Points: ${user.points}</li>
 					        <li class="list-group-item">Cohort: </li>
-					        <li class="list-group-item">GitHub: </li>
+					        <li class="list-group-item">GitHub: ${user.github}</li>
 							<li class="list-group-item">About me: </li>	
 						</ul>
 					</div>
