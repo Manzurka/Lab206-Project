@@ -71,10 +71,14 @@ public class UserService {
 	}
 	
 	public void removeUser(User u) {
-		ur.delete(u);		
+		ur.delete(u);
 	}
+	
 	public List<User> findByName(String keyword){
-		return ur.findByFirstNameContaining(keyword) ;	
+		return ur.findByFirstNameContaining(keyword);	
 	}
-
+	
+	public List<User> findByPoints(){
+		return ur.findByOrderByPointsDesc();
+	}
 }

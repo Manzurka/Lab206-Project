@@ -1,6 +1,7 @@
 package com.lab206.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,10 @@ public class PostService {
 	
 	public List<Post> postsContaining(String keyword){
 		return pr.findByContentContaining(keyword);
+	}
+
+	public Post findByPost(Long id) {
+		return pr.findById(id).get();
+		
 	}
 }

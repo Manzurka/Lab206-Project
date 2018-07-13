@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -111,7 +112,7 @@
 							<h1 class="text-ghost-white">Search Results
 								<c:if test="${posts !=null}"> for posts</c:if>
 								<c:if test="${comments !=null}"> for comments</c:if>
-								<c:if test="${users !=null}"> for users</c:if>
+								<c:if test="${searchedusers !=null}"> for users</c:if>
 								<c:if test="${tags !=null}"> for tags</c:if>
 							</h1>
 						</c:when>
@@ -140,14 +141,14 @@
 										<div class="container">
 											<div class="col-12">
 												<p><c:out value="${comment.content}"/></p>
-												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href="/post/${comment.post.id}">${comment.post.title}</a></p>
+												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href=#>${comment.post.title}</a></p>
 											</div>
 										</div>
 								</div>		
 							</div>
 					</c:forEach>
 					<!--for users-->
-					<c:forEach var="user" items="${users}">
+					<c:forEach var="user" items="${searchedusers}">
 							<div class="col-12 content-panel">
 									<div class="row">
 										<div class="col-12">
@@ -179,7 +180,7 @@
 									<div class="col-12 content-panel">
 											<div class="row">
 												<div class="col-12">
-													<h4><a href="/post/${post.id}">${post.title}</a></h4>
+													<h4><a href=#>${post.title}</a></h4>
 													<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
 														<ul class="list-inline">
 																<i class="fa fa-tags"></i>
@@ -275,7 +276,10 @@
 				<div class="row">
 					<!-- Announcements go here-->
 					<div class="col-12 content-panel">
-						<p>Announcements go here</p>
+						<c:forEach var="announcement" items="${announcements}"> 
+								<h3>${announcement.subject}</h3>
+								<p>${announcement.content}</p>
+						</c:forEach>
 					</div>
 				</div>
 				<div class="row">
@@ -286,27 +290,23 @@
 					<!-- Leaderboard content -->
 					<div class="col-12 content-panel">
 						<ol>
-							<li>Person | 5000 points</li>
-							<li>Person | 3000 points</li>
-							<li>Person | 2000 points</li>
-							<li>Person | 1000 points</li>
-							<li>Person | 500 points</li>
+							<c:forEach var="user" items="${users}"> 
+								<li>${user.firstName} ${user.lastName} | ${user.points} points</li>
+							</c:forEach>
 						</ol>
 					</div>
 				</div>
 				<div class="row">
 					<!-- Quicklink header -->
 					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
-						<h1>Quicklinks</h1>
+							<h1>Quicklinks</h1>
 					</div>
 					<!-- Quicklinks list; iterate through quicklinks -->
 					<div class="col-12 content-panel">
 						<ul>
-							<li><a href="#">Link1</a></li>
-							<li><a href="#">Link2</a></li>
-							<li><a href="#">Link3</a></li>
-							<li><a href="#">Link4</a></li>
-							<li><a href="#">Link5</a></li>
+						<c:forEach var="quicklink" items="${quicklinks}">
+							<li><a  target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
+						</c:forEach>
 						</ul>
 					</div>
 				</div>

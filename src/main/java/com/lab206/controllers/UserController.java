@@ -28,8 +28,10 @@ import com.lab206.models.Post;
 import com.lab206.models.Project;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
+import com.lab206.services.AnnouncementService;
 import com.lab206.services.CommentService;
 import com.lab206.services.PostService;
+import com.lab206.services.QuicklinkService;
 import com.lab206.services.UserService;
 import com.lab206.validator.UserValidator;
 
@@ -42,14 +44,20 @@ public class UserController {
 	private PostService ps;
 	private CommentService cs;
 	private UserValidator uv;
+	private AnnouncementService as;
+	private QuicklinkService qs;
 	
 	public UserController(UserService us,
 			PostService ps, CommentService cs,
-			UserValidator uv) {
+			UserValidator uv,
+			AnnouncementService as,
+			QuicklinkService qs) {
 		this.us = us;
 		this.ps = ps;
 		this.uv = uv;
 		this.cs = cs;
+		this.qs = qs;
+		this.as = as;
 	}
 
 	@RequestMapping("/login") 
@@ -100,7 +108,9 @@ public class UserController {
 		User currentUser = us.findByEmail(principal.getName());
 		model.addAttribute("posts", ps.allPostsNew());
 		model.addAttribute("currentUser", currentUser);
-		
+		model.addAttribute("announcements", as.findAll());
+		model.addAttribute("quicklinks", qs.findAll());
+		model.addAttribute("users", us.findByPoints());
 		return "dashboard.jsp";
 	}
 	
@@ -170,6 +180,9 @@ public class UserController {
 			model.addAttribute("editing", true);
 			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("posts", ps.allPostsNew());
+			model.addAttribute("announcements", as.findAll());
+			model.addAttribute("quicklinks", qs.findAll());
+			model.addAttribute("users", us.findByPoints());
 			return "dashboard.jsp";
 		} else {
 			return "dashboard.jsp";
