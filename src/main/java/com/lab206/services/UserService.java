@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.lab206.models.Comment;
 import com.lab206.models.User;
 import com.lab206.repositories.RoleRepository;
 import com.lab206.repositories.UserRepository;
@@ -81,4 +82,9 @@ public class UserService {
 	public List<User> findByPoints(){
 		return ur.findByOrderByPointsDesc();
 	}
+	
+	public String getCommenterFirstName(Comment c) {
+		return ur.findCommenterOfCommentFirstName(c);
+	}
+  
 }

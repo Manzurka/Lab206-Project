@@ -40,7 +40,7 @@ public class CommentService {
 		return cr.findAll();
 	}
 	
-	public List<Long> findByPostDesc(Post post) {
+	public List<Comment> findByPostDesc(Post post) {
 		return cr.findByPostDesc(post);
 	}
 	
@@ -71,7 +71,9 @@ public class CommentService {
 		user.removeDislikedComment(comment);
 		ur.save(user);
 	}
+	
 	public List<Comment> commentsContaining(String keyword){
 		return cr.findByContentContaining(keyword);
 	}
+	
 }
