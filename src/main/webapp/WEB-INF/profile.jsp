@@ -115,12 +115,6 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="card bg-light mb-3" style="max-width: 30rem;">
-					  <div class="card-header">Patches</div>
-					  <div class="card-body">
-					    <h5 class="card-title"></h5>
-					  </div>
-				</div>
-				<div class="card bg-light mb-3" style="max-width: 30rem;">
 					  <div class="card-header">Badges</div>
 					  <div class="card-body">
 					    <h5 class="card-title"></h5>
@@ -258,7 +252,7 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<form:form action="/project/create" modelAttribute="newProject" method="post">
+					<form:form action="/project/create" modelAttribute="newProject" method="post" encode="multipart/file">
 						<div class="modal-header">						
 							<h2 class="modal-title">Edit Projects</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -313,7 +307,9 @@
 								</div>
 								<form:textarea path="" class="form-control" placeholder="About Project 3"/>						
 							</div>
+							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
 							</div>
+							
 						</form:form>
 					</div>
 				</div>
