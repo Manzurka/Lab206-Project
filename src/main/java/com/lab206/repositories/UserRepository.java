@@ -24,4 +24,6 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	
 	List<User> findByFirstNameContaining(String keyword);
 
+	List<User> findByOrderByPointsDesc();
+
 }

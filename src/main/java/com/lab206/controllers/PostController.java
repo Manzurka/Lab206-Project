@@ -28,7 +28,9 @@ import com.lab206.models.Post;
 import com.lab206.models.Tag;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
+import com.lab206.services.AnnouncementService;
 import com.lab206.services.PostService;
+import com.lab206.services.QuicklinkService;
 import com.lab206.services.TagService;
 import com.lab206.services.UserService;
 
@@ -39,13 +41,19 @@ public class PostController {
 	private PostService ps;
 	private TagService ts;
 	private UserService us;
+	private AnnouncementService as;
+	private QuicklinkService qs;
 	
 	public PostController(PostService ps,
 			TagService ts,
-			UserService us) {
+			UserService us,
+			AnnouncementService as,
+			QuicklinkService qs) {
 		this.ps = ps;
 		this.ts = ts;
 		this.us = us;
+		this.as = as;
+		this.qs = qs;
 	}
 
 	@PostMapping("/post/create")
@@ -66,6 +74,9 @@ public class PostController {
 			model.addAttribute("posting", true);
 			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("posts", ps.allPostsNew());
+			model.addAttribute("announcements", as.findAll());
+			model.addAttribute("quicklinks", qs.findAll());
+			model.addAttribute("users", us.findByPoints());
 			return "dashboard.jsp";
 		}
 		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
@@ -97,6 +108,9 @@ public class PostController {
 		User currentUser = us.findByEmail(principal.getName());
 		System.out.println("testing");
 		model.addAttribute("posts", ps.allPostsNew());
+		model.addAttribute("announcements", as.findAll());
+		model.addAttribute("quicklinks", qs.findAll());
+		model.addAttribute("users", us.findByPoints());
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", ps.findPostById(id));
 		model.addAttribute("newPost", new Post());
