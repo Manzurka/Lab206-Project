@@ -73,25 +73,16 @@ public class PostController {
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
 		us.increasePoints(currentUser);
-		Post p = ps.savePost(newPost);
-		User author = us.findByEmail(principal.getName());
-		ps.setPostAuthor(author, p);
-		
+		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
-        			if(aFile.getOriginalFilename().contains(".jpg") 
-        					|| aFile.getOriginalFilename().contains(".gif") 
-        					|| aFile.getOriginalFilename().contains(".png")) {
 	        		File uploadedFile = new File();
 	                uploadedFile.setFileName(aFile.getOriginalFilename());
 	                uploadedFile.setData(aFile.getBytes());
 	                uploadedFile.setPost4file(newPost);
 	                fileUploadDao.save(uploadedFile);
         		}
-        		}
         	}
-		
-		
 		return "redirect:/dashboard";
 	}
 	

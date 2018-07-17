@@ -36,22 +36,23 @@ public class CommentRestController {
 	}
 	
 	@PostMapping("/create")
-	public Comment createComment(@Valid @ModelAttribute("newComment") Comment newComment,
-			BindingResult res,
-			@RequestParam(value = "postId") Long postId,
+	public Comment createComment(@RequestParam(value = "postId") Long postId,
+			@RequestParam(value = "newCommentContent") String content,
 			Principal principal) {
 		User currentUser = us.findByEmail(principal.getName());
-		if (res.hasErrors()) {
-			System.out.println(res);
-			return null;
-		}
 		Post post = ps.findPostById(postId);
 		us.increasePoints(currentUser);
-		return cs.createComment(newComment, post, currentUser);
+//		System.out.println("hello");
+		return cs.createComment(new Comment(content), post, currentUser);
 	}
 	
 	@RequestMapping("/get/{id}")
 	public Comment getComment (@PathVariable("id") Long id) {
 		return cs.findById(id);
+	}
+	
+	@RequestMapping("/get/{id}/commenter")
+	public String getCommenter(@PathVariable("id") Long id) {
+		return us.getCommenterFirstName(cs.findById(id));
 	}
 }
