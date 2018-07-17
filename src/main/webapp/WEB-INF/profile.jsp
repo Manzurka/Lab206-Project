@@ -55,7 +55,6 @@
 		            </a>
 	     		</c:otherwise>
             </c:choose>
-		
 		<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: ${currentUser.firstName} ${currentUser.lastName}</li>
 				<li class="nav-item">Points: ${currentUser.points}</li>
@@ -73,9 +72,6 @@
 		</button>
 	</nav>
 	<div class="container">
-		
-	
-	
 	<div class="row mb-3">
 		
 			<div class="align-center col-sm-7">
@@ -115,7 +111,7 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="card bg-light mb-3" style="max-width: 30rem;">
-					  <div class="card-header">Badges</div>
+					  <div class="card-header">Badge</div>
 					  <div class="card-body">
 					    <h5 class="card-title"></h5>
 					  </div>
@@ -191,9 +187,8 @@
 			</div>
 			</c:forEach>
 		</div>
-		
 	</div>
-			<div id="settingsModal" class="modal fade" role="dialog">
+		<div id="settingsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -252,7 +247,10 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<form:form action="/project/create" modelAttribute="newProject" method="post" encode="multipart/file">
+					<form action="/project/create" method="post" enctype="multipart/file">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+					
 						<div class="modal-header">						
 							<h2 class="modal-title">Edit Projects</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -265,7 +263,7 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<input name="image1" type="file" class="custom-file-input" id="inputGroupFile01">
 									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
 								</div>
 							</div>
@@ -273,7 +271,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 1"/>
+								<textarea name="about1" class="form-control" placeholder="About Project 1"></textarea>
 							
 							</div>
 							<div class="input-group mb-3">
@@ -281,7 +279,7 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<input name="image2" type="file" class="custom-file-input" id="inputGroupFile01">
 									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
 								</div>
 							</div>
@@ -289,7 +287,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 2"/>
+								<textarea name="about2"  class="form-control" placeholder="About Project 2"></textarea>
 	
 							</div>
 							<div class="input-group mb-3">
@@ -297,7 +295,7 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<input name="image3" type="file" class="custom-file-input" id="inputGroupFile01">
 									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
 								</div>
 							</div>
@@ -305,12 +303,12 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 3"/>						
+								<textarea name="about3" class="form-control" placeholder="About Project 3"></textarea>				
 							</div>
 							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
 							</div>
 							
-						</form:form>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -385,7 +383,6 @@
 			    	</div>
 				</div>
 			</div>
-		</div>
-			
+		</div>	
 </body>
 </html>
