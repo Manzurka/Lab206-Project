@@ -276,10 +276,13 @@
 				<div class="row">
 					<!-- Announcements go here-->
 					<div class="col-12 content-panel">
-						<c:forEach var="announcement" items="${announcements}"> 
-								<h3>${announcement.subject}</h3>
-								<p>${announcement.content}</p>
+						<c:forEach var="announcement" items="${announcements}" varStatus="status"> 
+								<c:if test="${status.count <= 5}">
+									<h3>${announcement.subject}</h3>
+									<p>${announcement.content}</p>
+								</c:if>
 						</c:forEach>
+						<a href="/announcements">View all</a>
 					</div>
 				</div>
 				<div class="row">
@@ -290,8 +293,15 @@
 					<!-- Leaderboard content -->
 					<div class="col-12 content-panel">
 						<ol>
-							<c:forEach var="user" items="${users}"> 
-								<li>${user.firstName} ${user.lastName} | ${user.points} points</li>
+							<c:forEach var="user" items="${users}" varStatus="status"> 
+							    <c:if test="${status.count <= 5}">
+									<li>
+										<a target="_blank" href="/profile/${user.id}">
+											<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+										</a>
+										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
+									</li>
+								</c:if>
 							</c:forEach>
 						</ol>
 					</div>
@@ -303,9 +313,32 @@
 					</div>
 					<!-- Quicklinks list; iterate through quicklinks -->
 					<div class="col-12 content-panel">
+							<form class="my-2 my-lg-0" method="post" id="quicklink" action="/quicklinks">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								<div class="input-group">
+									<select name="language">
+										<option>C++</option>
+										<option>C#</option>
+										<option>CSS</option>
+										<option>HTML</option>
+										<option>Java</option>
+										<option>JavaScript</option>
+										<option>Perl</option>
+										<option>PHP</option>
+										<option>Python</option>
+										<option>Ruby</option>
+									</select>
+									<div class="input-group-append">
+										<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Filter</button>
+									</div>
+								</div>
+							</form>
+						</div>
 						<ul>
-						<c:forEach var="quicklink" items="${quicklinks}">
-							<li><a  target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
+						<c:forEach var="quicklink" items="${quicklinks}" varStatus="status">
+							<c:if test="${status.count <= 10}">
+								<li><a target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
+							</c:if>
 						</c:forEach>
 						</ul>
 					</div>
@@ -380,6 +413,7 @@
 							</div>
 							<textarea name="content" class="form-control" aria-label="Content"></textarea>
 						</div>
+						<p>${filemessage}</p>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								
