@@ -29,10 +29,10 @@ import com.lab206.models.Post;
 
 @Entity
 @Table(name="comments")
-@JsonIdentityInfo(
-		  scope = Comment.class,
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+//@JsonIdentityInfo(
+//		  scope = Comment.class,
+//		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+//		  property = "id")
 public class Comment {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

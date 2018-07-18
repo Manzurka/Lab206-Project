@@ -85,6 +85,7 @@ public class Post {
 			joinColumns = @JoinColumn(name = "post_id"),
 			inverseJoinColumns = @JoinColumn(name = "tag_id")
 	)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Tag> tags;
 	
 	@PrePersist
@@ -200,6 +201,5 @@ public class Post {
 	public void setAttachments(List<File> attachments) {
 		this.attachments = attachments;
 	}
-	
 	
 }

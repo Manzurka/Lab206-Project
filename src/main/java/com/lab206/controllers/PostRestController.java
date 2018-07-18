@@ -57,7 +57,7 @@ public class PostRestController {
 	}
 	
 	@RequestMapping("/{id}/comments")
-	public List<Long> getCommentsByPost(@PathVariable("id") Long id) {
+	public List<Comment> getCommentsByPost(@PathVariable("id") Long id) {
 		return cs.findByPostDesc(ps.findPostById(id));
 	}
 }
