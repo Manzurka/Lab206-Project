@@ -1,14 +1,9 @@
 package com.lab206.controllers;
 
-import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +67,7 @@ public class PostController {
 		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
 		if (res.hasErrors()) {
 			model.addAttribute("posting", true);
-			model.addAttribute("currentUser", currentUser);
+			model.addAttribute("currentUser", us.findByEmail(principal.getName()));
 			model.addAttribute("posts", ps.allPostsNew());
 			model.addAttribute("announcements", as.findAll());
 			model.addAttribute("quicklinks", qs.findAll());
@@ -92,6 +87,16 @@ public class PostController {
 	                uploadedFile.setData(aFile.getBytes());
 	                uploadedFile.setPost4file(newPost);
 	                fileUploadDao.save(uploadedFile);
+        			} else {
+        				model.addAttribute("posting", true);
+        				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
+        				model.addAttribute("currentUser", currentUser);
+        				model.addAttribute("posts", ps.allPostsNew());
+        				model.addAttribute("announcements", as.findAll());
+        				model.addAttribute("quicklinks", qs.findAll());
+        				model.addAttribute("users", us.findByPoints());
+        				return "dashboard.jsp";
+        			}
         		}
         	}
 		return "redirect:/dashboard";
