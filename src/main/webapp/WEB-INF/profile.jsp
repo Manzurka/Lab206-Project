@@ -123,7 +123,7 @@
 			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
 				  <div class="card-header bg-white">Projects:
 				  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
-						Edit Projects
+						Add Project
 					</button>
 					</div>
 					  <div class="card-body">
@@ -247,12 +247,10 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<form action="/project/create" method="post" enctype="multipart/file">
+					<form action="/project/create" method="post">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-					
 						<div class="modal-header">						
-							<h2 class="modal-title">Edit Projects</h2>
+							<h2 class="modal-title">Add Projects</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -264,50 +262,15 @@
 								</div>
 								<div class="custom-file">
 									<input name="image1" type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
 								</div>
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<textarea name="about1" class="form-control" placeholder="About Project 1"></textarea>
-							
+								<textarea name="about1" class="form-control" placeholder="About Project"></textarea>
 							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Thumbnail</span>
-								</div>
-								<div class="custom-file">
-									<input name="image2" type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About this Project</span>
-								</div>
-								<textarea name="about2"  class="form-control" placeholder="About Project 2"></textarea>
-	
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Thumbnail</span>
-								</div>
-								<div class="custom-file">
-									<input name="image3" type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About this Project</span>
-								</div>
-								<textarea name="about3" class="form-control" placeholder="About Project 3"></textarea>				
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-							</div>
-							
 						</form>
 					</div>
 				</div>
