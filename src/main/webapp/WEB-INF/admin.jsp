@@ -140,12 +140,16 @@
       </div>
       <div class="modal-body">
       
-      <p>You may update a users role in becoming a new <code>Moderator</code>. Please enter in the users email address below:</p>
+      <p>You may update a users role in becoming a new <code>Moderator</code> or <code>Admin</code>. Please enter in the users email address below:</p>
         
-		<form method="POST" action="/newMod">
+		<form method="POST" action="/newRole">
+			<p>
+				<input type="radio" name="newRole" value="Moderator" required> Moderator<br>
+  				<input type="radio" name="newRole" value="Admin"> Admin<br>
+			</p>
 	        <p>
-	            <label for=newMod>Email Address: </label>
-	            <input type="text" name="newMod"/>
+	            <label for=newRoleEmailAddress>Email Address: </label>
+	            <input type="text" name="newRoleEmailAddress"/>
 	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	        </p>
 	      </div>
