@@ -75,11 +75,11 @@ body {
 .like:hover {
 	color: #FFBB00;
 }
-.dislike {
-	color: #CFEBDF;
+.unliked {
+	color: #C5CDDB;
 }
-.dislike:hover {
-	color: #63BCCC;
+.unliked:hover {
+	color: #FFBB00;
 }
 .report:hover {
 	color: red;

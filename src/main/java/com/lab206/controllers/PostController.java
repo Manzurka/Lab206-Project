@@ -97,7 +97,6 @@ public class PostController {
         				model.addAttribute("users", us.findByPoints());
         				return "dashboard.jsp";
         			}
-        		}
         	}
 		return "redirect:/dashboard";
 	}

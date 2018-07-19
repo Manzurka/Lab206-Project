@@ -56,8 +56,7 @@ $(document).ready(function(){
 			$('#showComments').append(`
 				<div class="col-sm-11 offset-sm-1 mb-3" id="">
 					<ul class="list-inline float-right">
-						<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
-						<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+						<li class="list-inline-item"><a href="" class="unliked"><i class="fas fa-sun fa-lg float-right"></i></a></li>
 					</ul>
 					<h5>${commenter} replying to ${author.firstName}</h5>
 					<p>${comment.content}</p>
@@ -74,8 +73,7 @@ $(document).ready(function(){
 			$('#showComments').append(`
 				<div class="col-sm-11 offset-sm-1 mb-3" id="">
 					<ul class="list-inline float-right">
-						<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
-						<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+						<li class="list-inline-item"><a href="" class="unliked"><i class="fas fa-sun fa-lg float-right"></i></a></li>
 					</ul>
 					<h5>${comment.commenter.firstName} replying to ${author.firstName}</h5>
 					<p>${comment.content}</p>
@@ -179,8 +177,7 @@ $(document).ready(function(){
 			$('#showComments').append(`
 			<div class="col-sm-11 offset-sm-1 mb-3" id="">
 				<ul class="list-inline float-right">
-					<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
-					<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+					<li class="list-inline-item"><a href="" class="unliked"><i class="fas fa-sun fa-lg float-right"></i></a></li>
 				</ul>
 				<h5>${com.commenter.firstName} replying to ${com.commenter.firstName}</h5>
 				<p>${com.content}</p>
