@@ -98,7 +98,7 @@ public class PostController {
         				return "dashboard.jsp";
         			}
         		}
-        	}
+
 		return "redirect:/dashboard";
 	}
 	
