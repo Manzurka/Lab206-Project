@@ -298,7 +298,7 @@
 							    <c:if test="${status.count <= 5}">
 									<li>
 										<a target="_blank" href="/profile/${user.id}">
-											<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+											<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
 										</a>
 										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
 									</li>
@@ -314,6 +314,7 @@
 					</div>
 					<!-- Quicklinks list; iterate through quicklinks -->
 					<div class="col-12 content-panel">
+							<a href="#quicklinkModal" data-toggle="modal" data-target="#quicklinkModal" aria-label="Quicklink">Suggest a quicklink</a>
 							<form class="my-2 my-lg-0" method="post" id="quicklink" action="/quicklinks">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 								<div class="input-group">
@@ -334,14 +335,15 @@
 									</div>
 								</div>
 							</form>
+					
+							<ul>
+							<c:forEach var="quicklink" items="${quicklinks}" varStatus="status">
+								<c:if test="${status.count <= 10}">
+									<li><a target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
+								</c:if>
+							</c:forEach>
+							</ul>
 						</div>
-						<ul>
-						<c:forEach var="quicklink" items="${quicklinks}" varStatus="status">
-							<c:if test="${status.count <= 10}">
-								<li><a target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
-							</c:if>
-						</c:forEach>
-						</ul>
 					</div>
 				</div>
 			</div>
@@ -773,7 +775,44 @@
 				</div>
 			</div>
 		</div>
-		
+
+		<!--Quicklink Modal-->
+		<div id="quicklinkModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Suggest a quicklink</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input class="form-control" aria-label="Content"/>
+					</div>
+					<div class="col-6">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Tag</span>
+							</div>
+							<select class="form-control" name="tag" aria-label="Language">
+								<option>C++</option>
+								<option>C#</option>
+								<option>CSS</option>
+								<option>HTML</option>
+								<option>Java</option>
+								<option>JavaScript</option>
+								<option>Perl</option>
+								<option>PHP</option>
+								<option>Python</option>
+								<option>Ruby</option>
+							</select>
+						</div>
+					</div>
+					<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    </div>
+			</div>
+		</div>
+			
 		
 	</body>
 </html>
