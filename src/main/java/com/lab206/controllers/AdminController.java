@@ -100,10 +100,20 @@ public class AdminController {
     }
 	
 	// Updating a Users role to Moderator or Admin 
-	@RequestMapping("/newMod")
+	@RequestMapping("/newRole")
     public String newMod(HttpServletRequest request) {
-		String newMod = request.getParameter("newMod");
-		us.updateUserWithModRole(us.findByEmail(newMod));
+		String newRoleEmailAddress = request.getParameter("newRoleEmailAddress");
+		String newRole = request.getParameter("newRole");
+		
+		if (newRole.equals("Moderator")) {
+			System.out.println("Mod");
+			us.updateUserWithModRole(us.findByEmail(newRoleEmailAddress));
+		}
+		else if (newRole.equals("Admin")) {
+			System.out.println("Admin");
+			us.updateUserWithAdminRole(us.findByEmail(newRoleEmailAddress));
+		}
+		
 		return "redirect:/admin";
     }
 	
