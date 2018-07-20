@@ -9,10 +9,11 @@
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<title>Profile Page</title>
+		<script src="/js/script.js"></script>
+		<title>Profile Page</title>
 </head>
 <body>
 	<nav class="navbar mb-3" id="navvy">
@@ -122,27 +123,23 @@
 	<div class="col-sm-12">
 			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
 				  <div class="card-header bg-white">Projects:
+				  
+				  <c:if test="${user.projects.size() < 3}">
 				  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
 						Add Project
 					</button>
+				  </c:if>
 					</div>
 					  <div class="card-body">
 					  	<div class="row">
+					  	<c:forEach items="${user.projects}" var="project">
 					  		<div class="col-sm-4">
 							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
-								    <p class="card-text">Project 1 info and Thumbnails.</p>
+								    <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
+								    <p class="card-text">${project.about}</p>
+								   <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>">its a link <i class="fa fa-angle-double-down"></i></a>
 							</div>
-							<div class="col-sm-4">
-							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
-								    <p class="card-text">Project 2 info and Thumbnails.</p>
-							</div>
-							<div class="col-sm-4">
-							    <h5 class="card-title"></h5>
-								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
-								    <p class="card-text">Project 3 info and Thumbnails.</p>
-							</div>
+						</c:forEach>	
 						</div>
 					  </div>
 				</div>
@@ -246,9 +243,9 @@
 		</div>
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content" id="projectEdit" >
 					<form:form action="/project/create" method="post" modelAttribute="newProject" enctype="multipart/form-data" >
-						<input name="id" type="hidden" value="${user.id}"/>
+						
 						<div class="modal-header">						
 							<h2 class="modal-title">Add Project</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">

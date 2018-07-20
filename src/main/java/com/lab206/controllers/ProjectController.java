@@ -45,9 +45,11 @@ public class ProjectController {
 				HttpServletRequest request,
 				Principal principal)
 						throws Exception {
-	  	ps.saveProject(project);
+	  	
 		User currentUser = us.findByEmail(principal.getName());
 		Long id = currentUser.getId();
+		project.setProjectCreator(currentUser);
+		ps.saveProject(project);
 		if(!thumbnail.isEmpty()) {
 			if(!thumbnail.getOriginalFilename().isEmpty()) {
 				if(thumbnail.getOriginalFilename().contains(".jpg") 
@@ -65,4 +67,25 @@ public class ProjectController {
 	}
 		return "redirect:/profile/"+id; 
   }
+	@PostMapping("/project/update")
+	public void updateProject(@RequestParam(value="id") Long id,
+			@Valid @RequestParam MultipartFile thumbnail,
+			@RequestParam(value="text")String about) throws Exception {
+		Project proj = ps.findProjectById(id);
+		if(!thumbnail.isEmpty()) {
+			if(!thumbnail.getOriginalFilename().isEmpty()) {
+				if(thumbnail.getOriginalFilename().contains(".jpg") 
+						|| thumbnail.getOriginalFilename().contains(".gif") 
+						|| thumbnail.getOriginalFilename().contains(".png")) {
+	    		File uploadedFile = new File();
+	            uploadedFile.setFileName(thumbnail.getOriginalFilename());
+	            uploadedFile.setData(thumbnail.getBytes());
+	    		uploadedFile.setProject(proj);
+	            fileUploadDao.save(uploadedFile);
+				}
+			}
+		}
+		proj.setAbout(about);
+		ps.saveProject(proj);
+	}
 }
