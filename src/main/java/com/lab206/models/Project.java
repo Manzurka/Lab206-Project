@@ -79,12 +79,6 @@ public class Project {
 		this.thumbnail = thumbnail;
 	}
 
-	public Project(String name,
-			String url) {
-		this.about = about;
-
-	}
-
 	public Long getId() {
 		return id;
 	}

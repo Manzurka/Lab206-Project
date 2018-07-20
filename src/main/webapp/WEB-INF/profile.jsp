@@ -247,10 +247,10 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<form action="/project/create" method="post">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					<form:form action="/project/create" method="post" modelAttribute="newProject" enctype="multipart/form-data" >
+						<input name="id" type="hidden" value="${user.id}"/>
 						<div class="modal-header">						
-							<h2 class="modal-title">Add Projects</h2>
+							<h2 class="modal-title">Add Project</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -261,7 +261,7 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input name="image1" type="file" class="custom-file-input" id="inputGroupFile01">
+									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
 									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
 								</div>
 							</div>
@@ -269,10 +269,12 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<textarea name="about1" class="form-control" placeholder="About Project"></textarea>
+								<form:errors path="about"/>
+								<textarea name="about" class="form-control" placeholder="About Project"></textarea>
 							</div>
-						</form>
-					</div>
+							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+						</div>
+					</form:form>
 				</div>
 			</div>
 			<!-- Help Modal -->

@@ -127,8 +127,6 @@ public class UserController {
 		uv.validate(user, res);
 		User currentUser = us.findByEmail(principal.getName());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println(passwordConfirmation);
-		System.out.println(currentUser.getPassword());
 		String userPassword = currentUser.getPassword();
 		if (encoder.matches(passwordConfirmation, userPassword)) {
 			currentUser.setFirstName(firstName);
@@ -137,10 +135,10 @@ public class UserController {
 			currentUser.setAbout(about);
 			
 			if (!avatar.isEmpty()) {
-				System.out.println(avatar.getName());
+				
 				if (currentUser.getFile() != null) {
 					fileUploadDao.delete(currentUser.getFile().getId());
-					System.out.println("done");
+			
 				}
 				
 		 //file upload
