@@ -36,6 +36,19 @@ public class File {
     @JoinColumn(name="post_id")
 	private Post post4file;
     
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="project_id") 
+    private Project project;
+
+    
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -75,6 +88,8 @@ public class File {
 	public void setUser4avatar(User user4avatar) {
 		this.user4avatar = user4avatar;
 	}
+
+	
 
 
 }
