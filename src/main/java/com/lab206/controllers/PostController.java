@@ -1,14 +1,9 @@
 package com.lab206.controllers;
 
-import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +23,9 @@ import com.lab206.models.Post;
 import com.lab206.models.Tag;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
+import com.lab206.services.AnnouncementService;
 import com.lab206.services.PostService;
+import com.lab206.services.QuicklinkService;
 import com.lab206.services.TagService;
 import com.lab206.services.UserService;
 
@@ -39,13 +36,19 @@ public class PostController {
 	private PostService ps;
 	private TagService ts;
 	private UserService us;
+	private AnnouncementService as;
+	private QuicklinkService qs;
 	
 	public PostController(PostService ps,
 			TagService ts,
-			UserService us) {
+			UserService us,
+			AnnouncementService as,
+			QuicklinkService qs) {
 		this.ps = ps;
 		this.ts = ts;
 		this.us = us;
+		this.as = as;
+		this.qs = qs;
 	}
 
 	@PostMapping("/post/create")
@@ -64,8 +67,11 @@ public class PostController {
 		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
 		if (res.hasErrors()) {
 			model.addAttribute("posting", true);
-			model.addAttribute("currentUser", currentUser);
+			model.addAttribute("currentUser", us.findByEmail(principal.getName()));
 			model.addAttribute("posts", ps.allPostsNew());
+			model.addAttribute("announcements", as.findAll());
+			model.addAttribute("quicklinks", qs.findAll());
+			model.addAttribute("users", us.findByPoints());
 			return "dashboard.jsp";
 		}
 		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
@@ -73,10 +79,7 @@ public class PostController {
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
 		us.increasePoints(currentUser);
-		Post p = ps.savePost(newPost);
-		User author = us.findByEmail(principal.getName());
-		ps.setPostAuthor(author, p);
-		
+		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
 	        		File uploadedFile = new File();
@@ -84,10 +87,17 @@ public class PostController {
 	                uploadedFile.setData(aFile.getBytes());
 	                uploadedFile.setPost4file(newPost);
 	                fileUploadDao.save(uploadedFile);
+        			} else {
+        				model.addAttribute("posting", true);
+        				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
+        				model.addAttribute("currentUser", currentUser);
+        				model.addAttribute("posts", ps.allPostsNew());
+        				model.addAttribute("announcements", as.findAll());
+        				model.addAttribute("quicklinks", qs.findAll());
+        				model.addAttribute("users", us.findByPoints());
+        				return "dashboard.jsp";
+        			}
         		}
-        	}
-		
-		
 		return "redirect:/dashboard";
 	}
 	
@@ -102,6 +112,9 @@ public class PostController {
 		User currentUser = us.findByEmail(principal.getName());
 		System.out.println("testing");
 		model.addAttribute("posts", ps.allPostsNew());
+		model.addAttribute("announcements", as.findAll());
+		model.addAttribute("quicklinks", qs.findAll());
+		model.addAttribute("users", us.findByPoints());
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", ps.findPostById(id));
 		model.addAttribute("newPost", new Post());

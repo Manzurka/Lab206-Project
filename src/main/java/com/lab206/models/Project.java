@@ -3,6 +3,7 @@ package com.lab206.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -29,14 +31,8 @@ public class Project {
     private Long id;
 	
 	@Column
-	@Size(min = 4, max = 30)
-	private String name;
-	
-	@Column
-	private String url;
-	
-	@Column
-	private String thumbnail;
+	@Size(min = 4, max = 255)
+	private String about;
 	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -57,6 +53,10 @@ public class Project {
         inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> collaborators;
 	
+	@OneToOne(mappedBy="project", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private File thumbnail;
+
+	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt=new Date();
@@ -71,11 +71,11 @@ public class Project {
 		
 	}
 	
-	public Project(String name,
-			String url,
-			String thumbnail) {
-		this.name = name;
-		this.url = url;
+	public File getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(File thumbnail) {
 		this.thumbnail = thumbnail;
 	}
 
@@ -87,28 +87,12 @@ public class Project {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getAbout() {
+		return about;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
 	public Date getCreatedAt() {

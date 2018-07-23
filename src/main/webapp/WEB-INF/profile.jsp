@@ -55,7 +55,6 @@
 		            </a>
 	     		</c:otherwise>
             </c:choose>
-		
 		<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: ${currentUser.firstName} ${currentUser.lastName}</li>
 				<li class="nav-item">Points: ${currentUser.points}</li>
@@ -73,9 +72,6 @@
 		</button>
 	</nav>
 	<div class="container">
-		
-	
-	
 	<div class="row mb-3">
 		
 			<div class="align-center col-sm-7">
@@ -83,13 +79,13 @@
 					<div class="col-sm-2">
 					 <!-- User profile image, show default if there is no image in the database -->
 			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
-						<img class="avatar2" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+				 <c:when test="${user.file.getId() != null}">
+					  <a href="/profile/${user.id}">
+						<img class="avatar2" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
 					  </a>
 				 </c:when>
 				 <c:otherwise>
-		            <a href="/profile/${currentUser.id}">
+		            <a href="/profile/${user.id}">
 		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
 		            </a>
 	     		</c:otherwise>
@@ -107,7 +103,7 @@
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">Points: ${user.points}</li>
 					        <li class="list-group-item">Cohort: </li>
-					        <li class="list-group-item">GitHub: </li>
+					        <li class="list-group-item">GitHub: ${user.github}</li>
 							<li class="list-group-item">About me: </li>	
 						</ul>
 					</div>
@@ -115,13 +111,7 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="card bg-light mb-3" style="max-width: 30rem;">
-					  <div class="card-header">Patches</div>
-					  <div class="card-body">
-					    <h5 class="card-title"></h5>
-					  </div>
-				</div>
-				<div class="card bg-light mb-3" style="max-width: 30rem;">
-					  <div class="card-header">Badges</div>
+					  <div class="card-header">Badge</div>
 					  <div class="card-body">
 					    <h5 class="card-title"></h5>
 					  </div>
@@ -133,7 +123,7 @@
 			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
 				  <div class="card-header bg-white">Projects:
 				  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
-						Edit Projects
+						Add Project
 					</button>
 					</div>
 					  <div class="card-body">
@@ -197,9 +187,8 @@
 			</div>
 			</c:forEach>
 		</div>
-		
 	</div>
-			<div id="settingsModal" class="modal fade" role="dialog">
+		<div id="settingsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -258,9 +247,10 @@
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<form:form action="/project/create" modelAttribute="newProject" method="post">
+					<form:form action="/project/create" method="post" modelAttribute="newProject" enctype="multipart/form-data" >
+						<input name="id" type="hidden" value="${user.id}"/>
 						<div class="modal-header">						
-							<h2 class="modal-title">Edit Projects</h2>
+							<h2 class="modal-title">Add Project</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -271,51 +261,20 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
+									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
 								</div>
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 1"/>
-							
+								<form:errors path="about"/>
+								<textarea name="about" class="form-control" placeholder="About Project"></textarea>
 							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Thumbnail</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About this Project</span>
-								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 2"/>
-	
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Thumbnail</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About this Project</span>
-								</div>
-								<form:textarea path="" class="form-control" placeholder="About Project 3"/>						
-							</div>
-							</div>
-						</form:form>
-					</div>
+							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+						</div>
+					</form:form>
 				</div>
 			</div>
 			<!-- Help Modal -->
@@ -389,7 +348,6 @@
 			    	</div>
 				</div>
 			</div>
-		</div>
-			
+		</div>	
 </body>
 </html>

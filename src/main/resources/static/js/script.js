@@ -48,42 +48,44 @@ $(document).ready(function(){
 	}	
 	// Adds post ID as hidden input to comment form
 	var commentForm = function(post) {
-		$('#newCommentForm').append(`
-			<input type="hidden" value="${post.id}" name="postId">
-		`);
+		$('#commentPostId').attr('value', post.id);
 	}	
 	// Appends comments w/o updated at
 	var showCommentsNoUpdates = function(comment, author) {
-		$('#showComments').append(`
-			<div class="col-sm-11 offset-sm-1 mb-3" id="">
-    			<ul class="list-inline float-right">
-					<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
-					<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
-				</ul>
-    			<h5>${comment.commenter.firstName} replying to ${author.firstName}</h5>
-    			<p>${comment.content}</p>
-    			<ul class="time-list">
-    				<li>Created At: ${comment.createdAt}</li>
-    			</ul>
-    		</div>
-		`);
+		$.when($.ajax("/comment/get/" + comment.id + "/commenter")).promise().done(function(commenter) {
+			$('#showComments').append(`
+				<div class="col-sm-11 offset-sm-1 mb-3" id="">
+					<ul class="list-inline float-right">
+						<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
+						<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+					</ul>
+					<h5>${commenter} replying to ${author.firstName}</h5>
+					<p>${comment.content}</p>
+					<ul class="time-list">
+						<li>Created At: ${comment.createdAt}</li>
+					</ul>
+				</div>
+			`);
+		});
 	}	
 	// Appends comments with updated at
 	var showCommentsWithUpdates = function(comment, author) {
-		$('#showComments').append(`
-			<div class="col-sm-11 offset-sm-1 mb-3" id="">
-    			<ul class="list-inline float-right">
-					<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
-					<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
-				</ul>
-    			<h5>${comment.commenter.firstName} replying to ${author.firstName}</h5>
-    			<p>${comment.content}</p>
-    			<ul class="time-list">
-    				<li>Created At: ${comment.createdAt}</li>
-    				<li>Last Edit: ${comment.updatedAt}</li>
-    			</ul>
-    		</div>
-		`);
+		$.when($.ajax("/comment/get/" + comment.id + "/commenter")).promise().done(function(commenter) {
+			$('#showComments').append(`
+				<div class="col-sm-11 offset-sm-1 mb-3" id="">
+					<ul class="list-inline float-right">
+						<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
+						<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+					</ul>
+					<h5>${comment.commenter.firstName} replying to ${author.firstName}</h5>
+					<p>${comment.content}</p>
+					<ul class="time-list">
+						<li>Created At: ${comment.createdAt}</li>
+						<li>Last Edit: ${comment.updatedAt}</li>
+					</ul>
+				</div>
+			`);
+		});
 	}
 	// Checks to see if comment was updated
 	var commentUpdated = function(comment, author) {
@@ -99,11 +101,9 @@ $(document).ready(function(){
 		$.when($.ajax("/post/" + post.id + "/comments")).promise().done(function(coms) {
 			comments = coms;
 			for (var i = 0; i < comments.length; i++) {
-				$.when($.ajax("/comment/get/" + comments[i])).promise().done(function(comment) {
-					commentUpdated(comment, author);
-				})
+				commentUpdated(comments[i], author);
 			}
-		}) ;
+		});
 	}
 	// Calls all of the functions to add HTML
 	var addHTML = function(post, author) {
@@ -115,8 +115,9 @@ $(document).ready(function(){
 		getComments(post, author);
 	}
 	$(document).on('click', '[class^="show-post"]', function() {
-//		$('#showPostModal').html(``);
+		$('#showComments').html(``);
 		$.when($.ajax("/post/show/" + $(this).attr('data-post-id')).done(function(post) {
+			console.log(post);
 			var author = '';
 			if (typeof post.author == "number") {
 				$.when($.ajax("/user/get/" + post.author)).promise().done(function(auth) {
@@ -128,6 +129,67 @@ $(document).ready(function(){
 				addHTML(post, author);
 			}
 		})).promise().done();
+		$('#showPostModal').modal('show');
 	});
-	
-})
+// edit function to retrieve info from database 
+	$(".testingEdit").click(function(){
+		var postid = $(this).attr('data-post-id')
+		$.ajax({
+			url: "/post/show/" + postid
+		}).then(function(post) {
+			console.log(post);
+			console.log("testing" + JSON.stringify(post.tags,null,'\t'));
+				if (post.tags[0].subject == "coursework") {
+					$('#currentCourse').attr(`checked`, "true"); 
+					$('#currentLanguage').val(`${post.tags[1].subject}`);
+					for (var i=2; i<post.tags.length; i++) {
+						var tag = "#currentTag" + (i-1);
+						$(tag).val(`${post.tags[i].subject}`);
+					}
+				} 
+				else {
+					$('#currentCourse').removeAttr(`checked`); 
+					$('#currentLanguage').val(`${post.tags[0].subject}`);
+					for (var i=1; i<post.tags.length; i++) {
+						var tag = "#currentTag" + i;
+						$(tag).val(`${post.tags[i].subject}`);
+					}
+				}
+					$('#currentTitle').val(`${post.title}`);
+					$('#currentContent').html(`${post.content}`);
+					$('#currentInputGroupFile01').val(`${post.file}`);
+					$('#currentInputGroupFile02').val(`${post.file}`);
+					$('#currentInputGroupFile03').val(`${post.file}`);
+					$('#currentInputGroupFile04').val(`${post.file}`);
+					$('#currentInputGroupFile05').val(`${post.file}`);
+				
+		});
+	})
+
+	// Uses ajax to create a new comment and append to current comments
+	$('#newCommentForm').submit(function(event) {
+		event.preventDefault();
+		comment = $(this).serialize();
+		document.getElementById("newCommentForm").reset();
+		$.ajax({
+			type: "POST",
+			url: "/comment/create",
+			data: comment
+		}).then(function(com) {
+			$('#showComments').append(`
+			<div class="col-sm-11 offset-sm-1 mb-3" id="">
+				<ul class="list-inline float-right">
+					<li class="list-inline-item"><a href="" class="dislike"><i class="fas fa-snowflake fa-lg float-right"></i></a></li>
+					<li class="list-inline-item"><a href="" class="like"><i class="fas fa-sun fa-lg float-right"></i></a></li>
+				</ul>
+				<h5>${com.commenter.firstName} replying to ${com.commenter.firstName}</h5>
+				<p>${com.content}</p>
+				<ul class="time-list">
+					<li>Created At: ${com.createdAt}</li>
+				</ul>
+			</div>
+		`);
+		})
+	});
+
+});

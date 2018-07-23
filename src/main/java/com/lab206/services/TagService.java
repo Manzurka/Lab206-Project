@@ -40,10 +40,10 @@ public class TagService {
 			String language,
 			List<String> subjects) {
 		List<Tag> tags = new ArrayList<Tag>();
-		tags.add(findTagBySubject(language));
 		if (course != null) {
 			tags.add(findTagBySubject("coursework"));
 		}
+		tags.add(findTagBySubject(language));
 		for (String sub : subjects) {
 			if (sub == "") {
 				continue;
@@ -58,4 +58,5 @@ public class TagService {
 		}
 		return tags;
 	}
+	
 }

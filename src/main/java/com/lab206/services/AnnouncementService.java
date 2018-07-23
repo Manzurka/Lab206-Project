@@ -17,7 +17,7 @@ public class AnnouncementService {
 	public AnnouncementService(AnnouncementRepository ar) {
 		this.ar = ar;
 	}
-	
+	//get all announcements
 	public List<Announcement> findAll() {
 		return ar.findByOrderByIdDesc();
 	}
