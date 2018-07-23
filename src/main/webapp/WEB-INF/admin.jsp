@@ -37,7 +37,7 @@
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="M-dd-yyyy / h:mm a z" /></td>
 	</tr>
 	
 	</c:forEach>
