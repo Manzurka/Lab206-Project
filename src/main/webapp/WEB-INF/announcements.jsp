@@ -181,15 +181,16 @@
 	
 		<br/>
 		
-	
-	<div class="col-md-10">
-	
-		<a href='/'><i class="fas fa-chevron-left"></i> Back</a>
+		<a href='/' style="margin-left: 30px;"><i class="fas fa-chevron-left"></i> Back To Dashboard</a>
 		
 		<br/>
 		<br/>
 	
-		<h2>Recent Announcements</h2>	
+	<div class="col-md-10 announcementTable">
+	
+		<br/>
+	
+		<h2>Recent Announcements <i class="fas fa-bullhorn"></i></h2>	
 		
 		<table class="table">
 		<thead>

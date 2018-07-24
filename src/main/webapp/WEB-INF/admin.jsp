@@ -20,6 +20,8 @@
 	
 	<br>
 	
+	<div class="col-md-12">
+	
 	<div class="col-md-6 announceTable">
 	
 	<h2>Recent Announcements</h2>	
@@ -52,6 +54,8 @@
   	<br>
 	
 <button type="button" class="btn announce" data-toggle="modal" data-target="#announcement"><i class="fas fa-bullhorn"></i> Create Announcement</button>
+
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -88,9 +92,12 @@
 </div>
 
 	<br>
-	<br>
+	
+	<div class="col-md-12">
 
-<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
+		<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
+		
+	</div>	
 
 <!-- Modal -->
 <div class="modal fade" id="student" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,10 +130,13 @@
 </div>
 	
 	<br>
-	<br>
+	
+	<div class="col-md-12">
 	
 	<!-- Update Student Role Modal -->	
 <button type="button" class="btn" data-toggle="modal" data-target="#newMod"><i class="fas fa-pen-fancy"></i> Update Student Role</button>
+
+	</div>
 
 <!-- Modal -->
 <div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -165,9 +175,12 @@
 </div>
 
 	<br>
-	<br>
 	
-<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
+	<div class="col-md-12">
+	
+		<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
+	
+	</div>	
 
 <!-- Deleting a Student Modal -->
 <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
