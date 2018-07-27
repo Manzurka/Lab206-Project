@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,15 +38,15 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/project/create")
-	public String createProject(@Valid @ModelAttribute("newProject") Project project,
-				BindingResult res,	
+	public String createProject(@RequestParam(value="about") String about,
 				Model model,
 				@Valid @RequestParam MultipartFile thumbnail,
 				HttpSession session,
 				HttpServletRequest request,
 				Principal principal)
 						throws Exception {
-	  	
+	  	Project project = new Project();
+	  	project.setAbout(about);
 		User currentUser = us.findByEmail(principal.getName());
 		Long id = currentUser.getId();
 		project.setProjectCreator(currentUser);
@@ -67,12 +68,16 @@ public class ProjectController {
 	}
 		return "redirect:/profile/"+id; 
   }
-	@PostMapping("/project/update")
-	public void updateProject(@RequestParam(value="id") Long id,
+	@PostMapping("/project/{id}/update")
+	public String updateProject(@PathVariable("id") Long id,
 			@Valid @RequestParam MultipartFile thumbnail,
-			@RequestParam(value="text")String about) throws Exception {
+			@RequestParam(value="about")String about) throws Exception {
 		Project proj = ps.findProjectById(id);
 		if(!thumbnail.isEmpty()) {
+			if (proj.getThumbnail() != null) {
+				fileUploadDao.delete(proj.getThumbnail().getId());
+		
+			}
 			if(!thumbnail.getOriginalFilename().isEmpty()) {
 				if(thumbnail.getOriginalFilename().contains(".jpg") 
 						|| thumbnail.getOriginalFilename().contains(".gif") 
@@ -87,5 +92,6 @@ public class ProjectController {
 		}
 		proj.setAbout(about);
 		ps.saveProject(proj);
+		return "redirect:/profile/"+ proj.getProjectCreator().getId();
 	}
 }

@@ -46,6 +46,7 @@ public class Project {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User projectCreator;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

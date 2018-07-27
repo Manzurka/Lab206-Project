@@ -132,40 +132,46 @@ $(document).ready(function(){
 		$('#showPostModal').modal('show');
 	});
 	$(".shoe-project").click(function(){
+		console.log("potato");
 		$.ajax({
 //			type: "POST",
 			url: "/project/get/" + $(this).attr("data-project-id")
-		}).then(function(proj) {
-			$('#projectEdit').html(`
-					<form action="/project/update" method="post" enctype="multipart/form-data" >
-					<input type="hidden" id="id" value="${proj.id}">
-						<div class="modal-header">						
-							<h2 class="modal-title">Add Project</h2>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Thumbnail</span>
-								</div>
-								<div class="custom-file">
-									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About this Project</span>
-								</div>
-								<form:errors path="about"/>
-								<textarea id="text" name="about" class="form-control" placeholder="${proj.about}"></textarea>
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
-						</div>
-					</form>
-				`)	
+		}).promise().done().then(function(proj) {
+			console.log("potato2")
+			var url = '/project/' + proj.id + '/update'
+			$('#projEdit').attr('action', url);
+//			$('#projectEdit23').html(`
+//					<form action="/project/update" method="post" enctype="multipart/form-data" >
+//					<input type="hidden" name="${csrfParam}" value="${csrfToken}"/>
+//
+//					<input type="hidden" id="id" value="${proj.id}">
+//						<div class="modal-header">						
+//							<h2 class="modal-title">Edit Project</h2>
+//							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+//								<span aria-hidden="true">&times;</span>
+//							</button>
+//						</div>
+//						<div class="modal-body">
+//							<div class="input-group mb-3">
+//								<div class="input-group-prepend">
+//									<span class="input-group-text">Thumbnail</span>
+//								</div>
+//								<div class="custom-file">
+//									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
+//									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
+//								</div>
+//							</div>
+//							<div class="input-group mb-3">
+//								<div class="input-group-prepend">
+//									<span class="input-group-text">About this Project</span>
+//								</div>
+//								<form:errors path="about"/>
+//								<textarea id="text" name="about" class="form-control" placeholder="${proj.about}"></textarea>
+//							</div>
+//							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+//						</div>
+//					</form>
+//				`)	
 		});
 		$('#projectsModal').modal('show');
 	});

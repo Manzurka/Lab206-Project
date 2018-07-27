@@ -104,7 +104,7 @@
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">Points: ${user.points}</li>
 					        <li class="list-group-item">Cohort: </li>
-					        <li class="list-group-item">GitHub: ${user.github}</li>
+					        <li class="list-group-item">GitHub: <a target = "_blank" href="${user.github}">${user.github}</a></li>
 							<li class="list-group-item">About me: </li>	
 						</ul>
 					</div>
@@ -243,9 +243,9 @@
 		</div>
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
-				<div class="modal-content" id="projectEdit" >
-					<form:form action="/project/create" method="post" modelAttribute="newProject" enctype="multipart/form-data" >
-						
+				<div class="modal-content" id="projectEdit23" >
+					<form action="/project/create" method="post" enctype="multipart/form-data" id="projEdit">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						<div class="modal-header">						
 							<h2 class="modal-title">Add Project</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -266,12 +266,11 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<form:errors path="about"/>
-								<textarea name="about" class="form-control" placeholder="About Project"></textarea>
+								<textarea id="about" name="about" class="form-control" placeholder="About Project"></textarea>
 							</div>
 							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
 						</div>
-					</form:form>
+					</form>
 				</div>
 			</div>
 			<!-- Help Modal -->
