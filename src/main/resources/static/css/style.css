@@ -55,6 +55,11 @@ body {
 .nav-link {
 	color: #335C67;
 }
+.announcementTable {
+	border: 1px solid #E9E9E9;
+	background-color: #FFF;
+	margin-left: 30px;
+}
 .view-post {
 	margin-left: 88%;
 }
