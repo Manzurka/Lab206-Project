@@ -125,9 +125,11 @@
 				  <div class="card-header bg-white">Projects:
 				  
 				  <c:if test="${user.projects.size() < 3}">
-				  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
-						Add Project
-					</button>
+				  	<c:if test="${user.id == currentUser.id}">
+					  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
+							Add Project
+						</button>
+					</c:if>
 				  </c:if>
 					</div>
 					  <div class="card-body">
@@ -137,7 +139,10 @@
 							    <h5 class="card-title"></h5>
 								    <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
 								    <p class="card-text">${project.about}</p>
-								   <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>">its a link <i class="fa fa-angle-double-down"></i></a>
+								    <c:if test="${user.id == currentUser.id}">
+									   <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
+									   <a href="/project/${project.id}/delete" class="shoe-project"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									</c:if>
 							</div>
 						</c:forEach>	
 						</div>

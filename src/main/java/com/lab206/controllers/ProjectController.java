@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -92,6 +93,12 @@ public class ProjectController {
 		}
 		proj.setAbout(about);
 		ps.saveProject(proj);
+		return "redirect:/profile/"+ proj.getProjectCreator().getId();
+	}
+	@RequestMapping("/project/{id}/delete")
+	public String deleteProject(@PathVariable("id") Long id) {
+		Project proj = ps.findProjectById(id);
+		ps.deleteProject(id);
 		return "redirect:/profile/"+ proj.getProjectCreator().getId();
 	}
 }
