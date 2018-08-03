@@ -2,6 +2,7 @@ package com.lab206.controllers;
 
 import java.security.Principal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,38 +12,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lab206.models.Announcement;
+import com.lab206.models.Badge;
 import com.lab206.models.Feedback;
+import com.lab206.models.File;
 import com.lab206.models.Report;
 import com.lab206.models.User;
+
+import com.lab206.repositories.FileUploadDAO;
+
 import com.lab206.services.AnnouncementService;
+import com.lab206.services.BadgeService;
 import com.lab206.services.FeedbackService;
 import com.lab206.services.ReportService;
 import com.lab206.services.UserService;
+
 import com.lab206.validator.UserValidator;
 
 @Controller
 public class ModController {
 	
+	@Autowired
+    private FileUploadDAO fileUploadDao;
+	
 	private final UserService us;
 	private final FeedbackService fs;
 	private final ReportService rs;
 	private final AnnouncementService as;
-	private final UserValidator userValidator;
+	private final BadgeService bs;
 	
-	public ModController(UserService us, UserValidator userValidator, FeedbackService fs, AnnouncementService as, ReportService rs) {
+	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs) {
 		this.us = us;
-		this.userValidator = userValidator;
 		this.fs = fs;
 		this.rs = rs;
 		this.as = as;
-
+		this.bs = bs;
 	}
 	
 	@RequestMapping("/mod")
     public String mod(Principal principal, Model model,
     		@ModelAttribute("feedback") Feedback feedback,
     		@ModelAttribute("review") Feedback review,
-    		@ModelAttribute("announce") Announcement announce) {
+    		@ModelAttribute("announce") Announcement announce,
+    		@ModelAttribute("badge") Badge badge) {
 		model.addAttribute("all_announcements", as.findAll());
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
@@ -51,6 +62,29 @@ public class ModController {
 		model.addAttribute("currentUser", us.findByEmail(email));
         return "mod.jsp";
     }
+	
+	
+	//Uploading a new Badge
+	@RequestMapping("/new/badge")
+    public String badge(@ModelAttribute("badge") Badge badge, BindingResult result) {
+		System.out.println("Image: " + badge.getImage());
+		
+//		if (!badge.isEmpty()) {
+//			
+//	         if( !badge.getOriginalFilename().isEmpty()) {
+//        		File uploadedFile = new File();
+//                uploadedFile.setFileName(badge.getOriginalFilename());
+//                uploadedFile.setData(badge.getBytes());
+//                uploadedFile.setUserBadge(badge);
+//                fileUploadDao.save(uploadedFile);
+//    		}
+//
+//	         bs.save(badge);
+//		}
+//		
+        return "redirect:/mod";
+    }
+	
 	
 	@RequestMapping("/mod/announce")
     public String announce(Principal principal, Model model, @ModelAttribute("announce") Announcement announce, BindingResult result) {

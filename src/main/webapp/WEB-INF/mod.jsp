@@ -12,11 +12,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"></head>
 
-<body onload="counterFunction()" style="margin:0;">
+<body onload="loaderDuration()" style="margin:0;">
 
-	<div id="loader"></div>
+	<!-- <div id="loader"></div>
 
-	<div style="display:none;" id="block" class="animate-bottom">
+	<div style="display:none;" id="block" class="animate-bottom"> -->
 
 	<div id="name">
 		<h1>Welcome <b><c:out value="${currentUser.firstName}"></c:out></b></h1>
@@ -26,9 +26,29 @@
 	
 	<br>
 	
+	<!-- If the user also has the ADMIN role, this button will display to direct over to the Admin dashboard -->
 	<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
 	   <a href="/admin" class="btn"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
 	</c:if>
+	 
+	 <br>
+	 <br>
+	 
+	<!-- Upload new badge form -->
+	<div class="col-md-4">
+	
+	<h4>Upload new Badge</h4>
+	
+	<form:form action="/new/badge" method="post" modelAttribute="badge">
+		<div class="custom-file">
+			<form:label path="image" class="custom-file-label" for="badge">Choose Image</form:label>
+			<form:input path="image" type="file" name="badge" class="custom-file-input" id="badge" />
+			
+			<input type='submit' value='Upload' class='btn'/>
+		</div>
+	</form:form>
+		
+	</div>
 	 
 	 <br>
 	 <br>

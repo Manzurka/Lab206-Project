@@ -1,7 +1,7 @@
 
-// FEEDBACK
+// ALL FEEDBACK
 $('.c_feedback').click(function() {
-	var displayFeedback = $(this).attr('data-feed-id');
+	let displayFeedback = $(this).attr('data-feed-id');
 	$.ajax({
 		url: "/post/feedbacks/" + displayFeedback
 	}).then(function(feed) {
@@ -15,7 +15,6 @@ $('.c_feedback').click(function() {
 			$('#reviewMark').html('<a>Mark as Reviewed</a>');
 			$('#reviewMark').attr("href", `/feedback/${feed.id}/reviewed`);
 			$('#reviewMark').addClass('btn reviewedButton');
-			
 		}
 		else {
 			$('#reviewMark').html('<span>This Feedback has been reviewed</span>');
@@ -35,9 +34,9 @@ $('.c_feedback').click(function() {
 
 
 
-// REPORTS
+// ALL REPORTS
 $('.c_report').click(function() {
-	var displayReport = $(this).attr('data-report-id');
+	let displayReport = $(this).attr('data-report-id');
 	$.ajax({
 		url: "/post/reports/" + displayReport
 	}).then(function(report) {
@@ -62,7 +61,8 @@ const limitText = (text, count) => {
 // For Displaying the loading screen
 let counter;
 
-const counterFunction = () => {
+const loaderDuration = () => {
+	// Loader displays on the screen for 0.5 seconds
 	counter = setTimeout(showPage, 500);
 }
 
