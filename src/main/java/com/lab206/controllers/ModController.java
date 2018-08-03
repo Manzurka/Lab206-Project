@@ -81,7 +81,7 @@ public class ModController {
 //
 //	         bs.save(badge);
 //		}
-//		
+		
         return "redirect:/mod";
     }
 	
