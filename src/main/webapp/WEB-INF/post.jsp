@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Teccy Space | Dashboard</title>
+		<title>Teccy Space | View Post</title>
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -35,6 +35,7 @@
 
 	</head>
 	<body>
+
 		<c:if test="${logoutMessage != null}" >
 			<c:out value="${logoutMessage}"></c:out>
 		</c:if>
@@ -108,145 +109,115 @@
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-10 offset-md-1 rounded-top bg-gunmetal">
-						<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-						<h1 class="text-ghost-white">Recent Posts</h1>
+						<c:choose>
+							<c:when test="${currentUser == post.author}">
+								<a href="/post/<c:out value="${post.id}"/>/delete" data-toggle="modal" class="edit text-gray-blue float-right"><i class="far fa-trash-alt" aria-hidden="true"></i></a>
+								<span class="float-right">&nbsp;&nbsp;</span>
+								<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" class="edit text-gray-blue testingEdit float-right"><i class="fa fa-edit" aria-hidden="true"></i></a>		
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${currentUser.likedPosts.contains(post)}">
+										<a href='/post/<c:out value="${post.id}"/>/unlike' class="liked post-header"><i class="fa fa-thumbs-up"></i></a>
+									</c:when>
+									<c:otherwise>
+										<a href='/post/<c:out value="${post.id}"/>/like' class="like post-header"><i class="fa fa-thumbs-up"></i></a>
+									</c:otherwise>
+								</c:choose>
+								<span class="float-right">&nbsp;&nbsp;</span>
+								<span class="text-ghost-white small float-right post-header"><c:out value="${post.postLikes.size()}"/></span>
+							</c:otherwise>
+						</c:choose>
+						<h1 class="text-ghost-white"><c:out value="${post.title}"/></h1>
+						<c:forEach var="tag" items="${post.tags}">
+							<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/> post-footer"><c:out value="${tag.subject}"/></span></li>
+						</c:forEach>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-10 offset-md-1">
-						<div class="row" id="feed">					
-							<!--Search Results-->
-							<!--for comments-->
-							<c:forEach var="comment" items="${comments}">
-									<div class="col-12 content-panel">
-										<div class="row">
-												<div class="container">
-													<div class="col-12">
-														<p><c:out value="${comment.content}"/></p>
-														<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href=#>${comment.post.title}</a></p>
-													</div>
-												</div>
-										</div>		
+					<div class="col-md-10 offset-md-1 rounded-top content-panel">
+						<div class="row">
+							<c:choose>
+								<c:when test="${post.author.file.getId() != null}">
+									<a href="/profile/${post.author.id}">
+										<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
+									</a>
+								</c:when>
+								<c:otherwise>
+									<a href="/profile/${post.author.id}">
+										<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+									</a>
+								</c:otherwise>
+							</c:choose>
+							<div class="col-sm-3">
+								<ul class="navbar-nav mr-auto">
+									<li class="nav-item"><strong>Name:</strong> <c:out value="${post.author.firstName} ${post.author.lastName}"/></li>
+									<li class="nav-item"><strong>Points:</strong> <c:out value="${currentUser.points}"/></li>
+									<li class="nav-item"><strong>Badges:</strong> <c:out value="${currentUser.points}"/></li>
+								</ul>
+							</div>
+							<div class="col-sm-7">
+								<i class="far fa-folder-open"></i>
+								<!-- Iterate through tags in each post -->
+								<c:forEach var="file" items="${post.attachments}">
+									(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)&nbsp;
+								</c:forEach>
+							</div>
+						</div>
+						<hr>
+						<div class="row mb-3">
+							<div class="col-sm-12">
+								<p class="line-breaks"><c:out value="${post.content}"/></p>
+								<a href="" data-toggle="modal" data-target="#reportModal" class="report"><i class="fa fa-flag" aria-hidden="true"></i></a>
+								<ul class="time-list">
+									<li class="nav-item">Created At: <fmt:formatDate type="both" 
+										dateStyle="short" timeStyle="short" value="${post.createdAt}"/></li>
+									<c:if test="${post.updatedAt != null}">
+										<li class="nav-item">Last Edit: <fmt:formatDate type="both" 
+											dateStyle="short" timeStyle="short" value="${post.updatedAt}"/></li>
+									</c:if>
+								</ul>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<!-- New Comment form -->
+							<div class="col-sm-12" id="newComment">
+								<form name="newCommentForm" id="newCommentForm" method="post">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+									<input type="hidden" value="${post.id}" name="postId" id="commentPostId">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text">Content</span>
+										</div>
+										<textarea id="newCommentContent" name="newCommentContent" placeholder="Enter comment here" class="form-control" aria-label="Comment text"></textarea>
 									</div>
-							</c:forEach>
-							<!--for users-->
-							<c:forEach var="user" items="${searchedusers}">
-									<div class="col-12 content-panel">
-										<div class="row">
-											<div class="col-12">
-												<div class="col-sm-6">
-													<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
-												</div>
-												<div class="col-sm-2">
-												<!-- User profile image, show default if there is no image in the database -->
-													<c:choose>
-															<c:when test="${user.file.getId() != null}">
-																<a href="/profile/${user.id}">
-																<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-																</a>
-															</c:when>
-															<c:otherwise>
-															<a href="/profile/${user.id}">
-																<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-															</a>
-															</c:otherwise>
-													</c:choose>
-												</div>
-											</div>			
-										</div>
-									</div>
-							</c:forEach>
-							<!--for tags-->
-							<c:if test="${tags != null}">
-									<c:forEach var="post" items="${tags}">
-											<div class="col-12 content-panel">
-													<div class="row">
-														<div class="col-12">
-															<h4><a href=#>${post.title}</a></h4>
-															<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-																<ul class="list-inline">
-																	<i class="fa fa-tags"></i>
-																	<!-- Iterate through tags in each post -->
-																	<c:forEach var="tag" items="${post.tags}">
-																		<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-																	</c:forEach>
-																</ul>
-															<p>Uploaded Files:
-																<c:forEach var="file" items="${post.attachments}">
-																	<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-																</c:forEach>
-															</ul>
-														<p>Uploaded Files:
-															<c:forEach var="file" items="${post.attachments}">
-																<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-															</c:forEach>
-														</p>
-														<p>${post.content}</p>
-														<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
-															value ="${post.createdAt}"></fmt:formatDate></i></p>
-														<p>
-															<c:out value="${post.comments.size()}"/> Comments
-															<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-														</p>
-													</div>
-												</div>
-											</div>
-									</c:forEach>
-								</c:if>
-		
-							<!-- Iterate through posts to fill recent posts -->
-							<c:forEach var="post" items="${posts}"> 
-								<div class="col-12 content-panel">
-									<div class="row">
-										<c:choose>
-											<c:when test="${post.author.file.getId() != null}">
-												<a href="/profile/${post.author.id}">
-													<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/profile/${post.author.id}">
-													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-												</a>
-											</c:otherwise>
-										</c:choose>
-		
-										<div class="col-sm-6">
-											<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
-											Uploaded Files:
-											<c:forEach var="file" items="${post.attachments}">
-												(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
-											</c:forEach>
-											<p>${show}</p>
-										</div>
-										<div class="col-sm-3">
-											<i class="fa fa-tags"></i>
-											<ul class="list-inline">
-												<!-- Iterate through tags in each post -->
-												<c:forEach var="tag" items="${post.tags}">
-													<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-												</c:forEach>
-											</ul>
-										</div>
-										<div class="col-sm-1">
-											<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="container">
-											<div class="col-12">
-												<p class="line-breaks"><c:out value="${post.content}"/></p>
-											</div>
-											<div class="col-12">
-												<!-- Total comments and show -->
-												<p>
-													<c:out value="${post.comments.size()}"/> Comments 
-													<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-												</p>
-											</div>
-										</div>
+									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+								</form>
+							</div>
+						</div>
+						<!-- Show comments -->
+						<div id="showComments">
+							<c:forEach var="comment" items="${post.comments}">
+								<div class="row">
+									<div class="col-sm-12">
+										<c:if test="${currentUser == post.author}">
+											<a href="" class="answer"><i class="fas fa-check-circle"></i></a>
+											<span class="float-right">&nbsp;&nbsp;</span>
+										</c:if>
+										<a href="" class="like"><i class="fas fa-thumbs-up"></i></a>
+										<h5><c:out value="${comment.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
+										<p class="line-breaks"><c:out value="${comment.content}"/></p>
+										<ul class="time-list">
+											<li>Created At: <fmt:formatDate type="both" 
+												dateStyle="short" timeStyle="short" value="${comment.createdAt}"/></li>
+											<c:if test="${comment.updatedAt != null}">
+												<li>Last Edit: <fmt:formatDate type="both" 
+													dateStyle="short" timeStyle="short" value="${comment.updatedAt}"/></li>
+											</c:if>
+										</ul>
 									</div>
 								</div>
+								<hr>
 							</c:forEach>
 						</div>
 					</div>
@@ -336,138 +307,18 @@
 			</div>
 		</div>
 		
-		<!-- New Post modal -->
-		<div id="newPostModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">New Post</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form:form action="/post/create" modelAttribute="newPost" method="post" enctype="multipart/form-data">
-						<div class="row mb-3">
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="courseRelated">Course Related</span>
-									</div>
-									<label class="switch">
-										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
-										<span class="slider round"></span>
-									</label>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="newPostLanguage">Language</span>
-									</div>
-									<select class="form-control" id="language" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option>C++</option>
-										<option>C#</option>
-										<option>CSS</option>
-										<option>HTML</option>
-										<option>Java</option>
-										<option>JavaScript</option>
-										<option>Perl</option>
-										<option>PHP</option>
-										<option>Python</option>
-										<option>Ruby</option>
-									</select>
-								</div>
-							</div>
-						</div>
-			            <form:errors path="title"/>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">	
-								<span class="input-group-text" id="newPost-title">Title</span>
-							</div>
-							<input name="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Tags</span>
-							</div>
-							<input type="text" class="form-control" id="tag1" name="tag1">
-							<input type="text" class="form-control" id="tag2" name="tag2">
-							<input type="text" class="form-control" id="tag3" name="tag3">
-						</div>
-						<form:errors path="content"/>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Content</span>
-							</div>
-							<textarea name="content" class="form-control" aria-label="Content"></textarea>
-						</div>
-						<p>${filemessage}</p>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									
-									<span class="input-group-text">File#1</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#2</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile02">
-									<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-								</div>	
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#3</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile03">
-									<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#4</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile04">
-									<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#5</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile05">
-									<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
-								</div>
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-		
 		<!-- Edit modal -->
 		<div id="editModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h2 class="modal-title">Edit</h2>
+						<h2 class="modal-title">Edit Post</h2>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="editIdPost">
+						<form:form action="/post/${post.id}/edit" modelAttribute="post" method="post" enctype="multipart/form-data" id="editIdPost">
 						<div class="row mb-3">
 							<div class="col-6">
 								<div class="input-group">
@@ -475,7 +326,16 @@
 										<span class="input-group-text" id="courseRelated">Course Related</span>
 									</div>
 									<label class="switch">
-										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated">
+										<c:set var="courserelated" value="false"/>
+										<c:choose>
+											<c:when test="${post.tags[0].subject == 'coursework'}">
+												<c:set var="courserelated" value="true"/>
+												<input type="checkbox" id="currentCourse56" name="course" aria-describedby="courseRelated">
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" id="currentCourse56" name="course" aria-describedby="courseRelated">
+											</c:otherwise>
+										</c:choose>
 										<span class="slider round"></span>
 									</label>
 								</div>
@@ -485,17 +345,26 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="newPostLanguage">Language</span>
 									</div>
-									<select class="form-control" id="currentLanguage" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option value="c++">C++</option>
-										<option value="c#">C#</option>
-										<option value="css">CSS</option>
-										<option value="html">HTML</option>
-										<option value="java">Java</option>
-										<option value="javascript">JavaScript</option>
-										<option value="perl">Perl</option>
-										<option value="php">PHP</option>
-										<option value="python">Python</option>
-										<option value="ruby">Ruby</option>
+									<c:set var="language" value="1"/>
+									<c:choose>
+										<c:when test="${courserelated}">
+											<c:set var="language" value="1"/>
+										</c:when>
+										<c:otherwise>
+											<c:set var="language" value="0"/>
+										</c:otherwise>
+									</c:choose>
+									<select class="form-control" id="currentLanguage" name="currentLanguage" aria-label="Language" aria-describedby="newPostLanguage">
+										<c:forEach var="lang" items="${languages}">
+											<c:choose>
+												<c:when test="${post.tags[language].subject == lang.toLowerCase()}">
+													<option selected="selected" value="<c:out value="${lang.toLowerCase()}"/>"><c:out value="${lang}"/></option>
+												</c:when>
+												<c:otherwise>
+													<option value="<c:out value="${lang}"/>"><c:out value="${lang}"/></option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
@@ -505,22 +374,31 @@
 								<div class="input-group-prepend">	
 									<span class="input-group-text" id="newPost-title">Title</span>
 								</div>
-								<input name="title" id="currentTitle" class="form-control" aria-label="Title"/>
+								<form:input path="title" name="title" id="currentTitle" class="form-control" aria-label="Title"/>
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">Tags</span>
 								</div>
-								<input type="text" class="form-control" id="currentTag1" name="tag1">
-								<input type="text" class="form-control" id="currentTag2" name="tag2">
-								<input type="text" class="form-control" id="currentTag3" name="tag3">
+								<c:set var="tagNum" value="1"/>
+								<c:forEach var="tagIndex" begin="${language + 1}" end="${language + 3}">
+									<c:choose>
+										<c:when test="${post.tags[tagIndex] != null}">
+											<input type="text" class="form-control" id="tag<c:out value="${tagNum}"/>" name="tag<c:out value="${tagNum}"/>" value="<c:out value="${post.tags[tagIndex].subject}"/>">
+										</c:when>
+										<c:otherwise>
+											<input type="text" class="form-control" id="tag<c:out value="${tagNum}"/>" name="tag<c:out value="${tagNum}"/>">
+										</c:otherwise>
+									</c:choose>
+									<c:set var="tagNum" value="${tagNum + 1}"/>
+								</c:forEach>
 							</div>
 							<form:errors path="content"/>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">Content</span>
 								</div>
-								<textarea name="content" id="currentContent" class="form-control" aria-label="Content"></textarea>
+								<form:textarea path="content" name="content" id="currentContent" class="form-control" aria-label="Content"/>
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
@@ -633,63 +511,6 @@
 			</div>
 		</div>
 		
-		<!-- View Post Modal -->
-		<div id="showPostModal" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<!-- Post title -->
-					<div class="modal-header" id="postTitle">
-					
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<!-- Post author info -->
-							<div class="col-sm-5" id="userInfo">
-								
-							</div>
-							<!-- Post files -->
-							<div class="col-sm-7" id="postFiles">
-								<ul class="list-inline">
-									<li class="list-inline-item">Files:</li>
-									<li class="list-inline-item"><a href="">item1.js</a></li>
-									<li class="list-inline-item"><a href="">item2.js</a></li>
-									<li class="list-inline-item"><a href="">item3.js</a></li>
-									<li class="list-inline-item"><a href="">item4.js</a></li>
-									<li class="list-inline-item"><a href="">item5.js</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="row">
-							<!-- Post Content -->
-				    		<div class="col-sm-12" id="postContent">
-				    			
-				    		</div>
-				    	</div>
-				    	<div class="row mb-3">
-				    		<!-- New Comment form -->
-				    		<div class="col-sm-12" id="newComment">
-								<form name="newCommentForm" id="newCommentForm" method="post">
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-									<input type="hidden" value="" name="postId" id="commentPostId">
-				    				<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Content</span>
-										</div>
-										<textarea id="newCommentContent" name="newCommentContent" placeholder="Enter comment here" class="form-control" aria-label="Comment text"></textarea>
-									</div>
-									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-				    			</form>
-				    		</div>
-				    	</div>
-				    	<div class="row" id="showComments">
-				    		<!-- Show comments -->
-				    		
-				    	</div>
-			    	</div>
-				</div>
-			</div>
-		</div>
-		
 		<!-- Help Modal -->
 		<div id="helpModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -710,10 +531,10 @@
 							<li>If you have any suggestion(s) or if something is not working, please submit your feedback on the top left menu and click on the <i class="fa fa-comment text-gunmetal" aria-hidden="true"></i>.</a></li>
 							<li>If you would like to file a report, please click the <i class="fa fa-flag text-gunmetal" aria-hidden="true"></i> on a post located on the bottom right.</li>
 						</ul>
-						</div>
-			    	</div>
+					</div>
 				</div>
 			</div>
+		</div>
 			
 		<!-- Report Modal -->
 		<div id="reportModal" class="modal fade" role="dialog">
@@ -762,7 +583,6 @@
 				</div>
 			</div>
 		</div>
-		
 		
 	</body>
 </html>

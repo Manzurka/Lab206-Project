@@ -50,13 +50,6 @@ public class Project {
 	@JoinColumn(name = "user_id")
 	private User projectCreator;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "project_collaborators", 
-        joinColumns = @JoinColumn(name = "project_id"), 
-        inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> collaborators;
-	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt=new Date();
@@ -133,14 +126,6 @@ public class Project {
 
 	public void setProjectCreator(User projectCreator) {
 		this.projectCreator = projectCreator;
-	}
-
-	public List<User> getCollaborators() {
-		return collaborators;
-	}
-
-	public void setCollaborators(List<User> collaborators) {
-		this.collaborators = collaborators;
 	}
 	
 }

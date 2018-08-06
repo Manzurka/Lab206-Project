@@ -39,6 +39,7 @@ public class CommentRestController {
 	public Comment createComment(@RequestParam(value = "postId") Long postId,
 			@RequestParam(value = "newCommentContent") String content,
 			Principal principal) {
+		System.out.println(postId);
 		User currentUser = us.findByEmail(principal.getName());
 		Post post = ps.findPostById(postId);
 		us.increasePoints(currentUser);
