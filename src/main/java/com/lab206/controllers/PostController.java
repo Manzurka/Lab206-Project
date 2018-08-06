@@ -97,7 +97,7 @@ public class PostController {
         				model.addAttribute("users", us.findByPoints());
         				return "dashboard.jsp";
         			}
-        		}
+        	}
 		return "redirect:/dashboard";
 	}
 	
@@ -132,6 +132,22 @@ public class PostController {
 		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
+  
+  @RequestMapping("/post/{id}/like")
+  public String likePost(@PathVariable("id") Long id, Principal principal) {
+    User user = us.findByEmail(principal.getName());
+    Post post = ps.findById(id);
+    ps.likePost(user, post);
+    return "redirect:/post/" + id + "/show";
+  }
+  
+  @RequestMapping("/post/{id}/unlike")
+  public String unlikePost(@PathVariable("id") Long id, Principal principal) {
+    User user = us.findByEmail(principal.getName());
+    Post post = ps.findById(id);
+    ps.unlikePost(user, post);
+    return "redirect:/post/" + id + "/show";
+  }
 	
 
 }

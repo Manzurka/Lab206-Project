@@ -49,18 +49,10 @@ public class Project {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User projectCreator;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "project_collaborators", 
-        joinColumns = @JoinColumn(name = "project_id"), 
-        inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> collaborators;
-	
 	@OneToOne(mappedBy="project", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private File thumbnail;
 
-	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt=new Date();
@@ -121,14 +113,6 @@ public class Project {
 
 	public void setProjectCreator(User projectCreator) {
 		this.projectCreator = projectCreator;
-	}
-
-	public List<User> getCollaborators() {
-		return collaborators;
-	}
-
-	public void setCollaborators(List<User> collaborators) {
-		this.collaborators = collaborators;
 	}
 	
 }

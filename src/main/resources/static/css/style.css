@@ -73,21 +73,65 @@ body {
 	padding: 3px;
 	border-radius: 20px;
 }
+.line-breaks {
+	white-space: pre-line;
+}
 /* Colors for like, dislike, report */
 .like {
-	color: #FFD34F;
+	color: #C5CDDB;
+	float: right;
 }
 .like:hover {
 	color: #FFBB00;
 }
-.dislike {
-	color: #CFEBDF;
+.like:active {
+	color: #FFBB00;
+	text-shadow: 0 0 5px #FFE649;
 }
-.dislike:hover {
-	color: #63BCCC;
+.liked, .liked:hover {
+	color: #FFBB00;
+	float: right;
+}
+.liked:active {
+	color: #FFBB00;
+	text-shadow: 0 0 5px #FFE649;
+}
+.unliked {
+	color: #C5CDDB;
+}
+.unliked:hover {
+	color: #FFBB00;
+}
+.answer {
+	color: #C5CDDB;
+	float: right;
+}
+.answer:hover {
+	color: #3ACC35;
+}
+.answer:active {
+	color: #3ACC35;
+	text-shadow: 0 0 5px #62E55E;
+}
+.report {
+	color: #C5CDDB;
+	float: right;
 }
 .report:hover {
-	color: red;
+	color: #F73D5F;
+}
+.report:active {
+	color: #F73D5F;
+	text-shadow: 0 0 5px #FF5B5B;
+}
+/* Class for spacing on post header */
+.post-header {
+	position: relative;
+	top: 5px;
+}
+.post-footer {
+	position: relative;
+	bottom: 5px;
 }
 /* Classes for background color */
 .bg-ghost-white {

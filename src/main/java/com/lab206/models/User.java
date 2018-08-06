@@ -136,13 +136,6 @@ public class User {
 	@OneToMany(mappedBy = "projectCreator", fetch = FetchType.LAZY)
 	private List<Project> projects;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "project_collaborators", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> joinedProjects;
-	
 	@OneToMany(mappedBy = "feedbackCreator", fetch = FetchType.LAZY)
 	private List<Feedback> feedback;
 	
@@ -308,6 +301,14 @@ public class User {
 	public void setLikedPosts(List<Post> likedPosts) {
 		this.likedPosts = likedPosts;
 	}
+	
+	public void addLikedPosts(Post post) {
+		this.likedPosts.add(post);
+	}
+	
+	public void removeLikedPost(Post post) {
+		this.likedPosts.remove(post);
+	}
 
 	public List<Comment> getLikedComments() {
 		return likedComments;
@@ -323,22 +324,6 @@ public class User {
 	
 	public void removeLikedComment(Comment comment) {
 		this.likedComments.remove(comment);
-	}
-
-	public List<Comment> getDislikedComments() {
-		return dislikedComments;
-	}
-
-	public void setDislikedComments(List<Comment> dislikedComments) {
-		this.dislikedComments = dislikedComments;
-	}
-	
-	public void addDislikedComment(Comment comment) {
-		this.dislikedComments.add(comment);
-	}
-	
-	public void removeDislikedComment(Comment comment) {
-		this.dislikedComments.remove(comment);
 	}
 
 	public List<Badge> getBadges() {
@@ -363,14 +348,6 @@ public class User {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
-	}
-
-	public List<Project> getJoinedProjects() {
-		return joinedProjects;
-	}
-
-	public void setJoinedProjects(List<Project> joinedProjects) {
-		this.joinedProjects = joinedProjects;
 	}
 
 	public List<Feedback> getFeedback() {

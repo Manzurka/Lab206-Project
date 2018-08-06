@@ -10,16 +10,19 @@ import com.lab206.models.Post;
 import com.lab206.models.User;
 import com.lab206.repositories.CommentRepository;
 import com.lab206.repositories.PostRepository;
+import com.lab206.repositories.UserRepository;
 
 @Service
 public class PostService {
 
 	private PostRepository pr;
 	private CommentRepository cr;
+	private UserRepository ur;
 	
-	public PostService(PostRepository pr, CommentRepository cr) {
+	public PostService(PostRepository pr, CommentRepository cr, UserRepository ur) {
 		this.pr = pr;
 		this.cr = cr;
+		this.ur = ur;
 	}
 	
 	public List<Post> allPosts() {
@@ -65,7 +68,22 @@ public class PostService {
 	}
 
 	public Post findByPost(Long id) {
-		return pr.findById(id).get();
-		
+		return pr.findById(id).get();	
+	}
+	
+	public void likePost(User user,
+			Post post) {
+		post.addPostLike(user);
+//		user.addLikedPosts(post);
+		pr.save(post);
+		ur.save(user);
+	}
+	
+	public void unlikePost(User user,
+			Post post) {
+		post.removePostLike(user);
+//		user.removeLikedPost(post);
+		pr.save(post);
+		ur.save(user);
 	}
 }
