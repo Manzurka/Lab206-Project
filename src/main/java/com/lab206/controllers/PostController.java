@@ -101,6 +101,17 @@ public class PostController {
 		return "redirect:/dashboard";
 	}
 	
+	@RequestMapping("/post/{id}/show")
+	public String showPost(@PathVariable("id") Long id,
+			Principal principal,
+			Model model) {
+		User currentUser = us.findByEmail(principal.getName());
+		Post post = ps.findByPost(id);
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("post", post);
+		return "post.jsp";
+	}
+	
 	@RequestMapping("/post/{id}/delete")
 	public String deletePost(@PathVariable("id") Long id) {
 		ps.deletePost(id);
@@ -136,7 +147,7 @@ public class PostController {
   @RequestMapping("/post/{id}/like")
   public String likePost(@PathVariable("id") Long id, Principal principal) {
     User user = us.findByEmail(principal.getName());
-    Post post = ps.findById(id);
+    Post post = ps.findPostById(id);
     ps.likePost(user, post);
     return "redirect:/post/" + id + "/show";
   }
@@ -144,10 +155,9 @@ public class PostController {
   @RequestMapping("/post/{id}/unlike")
   public String unlikePost(@PathVariable("id") Long id, Principal principal) {
     User user = us.findByEmail(principal.getName());
-    Post post = ps.findById(id);
+    Post post = ps.findPostById(id);
     ps.unlikePost(user, post);
     return "redirect:/post/" + id + "/show";
-  }
-	
+  }	
 
 }
