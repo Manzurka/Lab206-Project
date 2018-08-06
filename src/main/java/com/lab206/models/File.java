@@ -12,8 +12,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="files")
+@JsonIdentityInfo(
+		  scope = File.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class File {
 	
 	@Id
@@ -30,12 +38,27 @@ public class File {
     
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user4avatar;
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="post_id")
 	private Post post4file;
     
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="project_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Project project;
+
+    
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -75,6 +98,8 @@ public class File {
 	public void setUser4avatar(User user4avatar) {
 		this.user4avatar = user4avatar;
 	}
+
+	
 
 
 }

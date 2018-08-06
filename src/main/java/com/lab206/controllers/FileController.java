@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lab206.models.File;
 import com.lab206.repositories.FileUploadDAO;
-import com.lab206.services.CommentService;
-import com.lab206.services.PostService;
+import com.lab206.services.ProjectService;
 import com.lab206.services.UserService;
-import com.lab206.validator.UserValidator;
 
 @Controller
 public class FileController {
 	private UserService us;
+	private ProjectService ps;
 	
-	public FileController(UserService us) {
+	public FileController(UserService us, ProjectService ps) {
 		this.us = us;
+		this.ps = ps;
 	}
 		
 	@Autowired
@@ -50,7 +50,17 @@ public class FileController {
 	@RequestMapping(value = "/imageDisplay", method = RequestMethod.GET)
 	  public void showImage(@RequestParam("id") Long userId, HttpServletResponse response,HttpServletRequest request) 
 	          throws ServletException, IOException{
-		Long imageId = us.findById(userId).getFile().getId();
+		Long imageId = us.findById(userId).getFile().getId();		
+		File item = fileUploadDao.findById(imageId).get();      
+	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+	    response.getOutputStream().write(item.getData());
+	    response.getOutputStream().close();
+	}
+	
+	@RequestMapping(value = "/projectImage", method = RequestMethod.GET)
+	  public void projectImage(@RequestParam("id") Long projectId, HttpServletResponse response,HttpServletRequest request) 
+	          throws ServletException, IOException{
+		Long imageId = ps.findProjectById(projectId).getThumbnail().getId();
 		File item = fileUploadDao.findById(imageId).get();      
 	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 	    response.getOutputStream().write(item.getData());

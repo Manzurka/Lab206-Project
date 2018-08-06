@@ -57,17 +57,13 @@ $('.c_report').click(function() {
 const limitText = (text, count) => {
 	text.slice(0, count) + (text.length > count ? "..." : "");
 }
-	
-for(let i = 0; i < 5; i++) {
-	console.log(document.getElementsByClassName('c_feedback')[i].innerHTML);
-}
 
 
 // For Displaying the loading screen
 let counter;
 
 const counterFunction = () => {
-	counter = setTimeout(showPage, 1000);
+	counter = setTimeout(showPage, 500);
 }
 
 const showPage = () => {

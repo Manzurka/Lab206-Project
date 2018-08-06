@@ -20,6 +20,8 @@
 	
 	<br>
 	
+	<div class="col-md-12">
+	
 	<div class="col-md-6 announceTable">
 	
 	<h2>Recent Announcements</h2>	
@@ -37,7 +39,7 @@
 	<tr>
 		<td><c:out value="${announcement.subject}"/></td>
 		<td><c:out value="${announcement.content}"/></td>
-		<td><fmt:formatDate value="${announcement.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
+		<td><fmt:formatDate value="${announcement.createdAt}" pattern="M-dd-yyyy / h:mm a z" /></td>
 	</tr>
 	
 	</c:forEach>
@@ -52,6 +54,8 @@
   	<br>
 	
 <button type="button" class="btn announce" data-toggle="modal" data-target="#announcement"><i class="fas fa-bullhorn"></i> Create Announcement</button>
+
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="announcement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -88,9 +92,12 @@
 </div>
 
 	<br>
-	<br>
+	
+	<div class="col-md-12">
 
-<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
+		<button type="button" class="btn announce" data-toggle="modal" data-target="#student"><i class="fas fa-user-plus"></i> Invite Student</button>
+		
+	</div>	
 
 <!-- Modal -->
 <div class="modal fade" id="student" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,10 +130,13 @@
 </div>
 	
 	<br>
-	<br>
+	
+	<div class="col-md-12">
 	
 	<!-- Update Student Role Modal -->	
 <button type="button" class="btn" data-toggle="modal" data-target="#newMod"><i class="fas fa-pen-fancy"></i> Update Student Role</button>
+
+	</div>
 
 <!-- Modal -->
 <div class="modal fade" id="newMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -140,12 +150,16 @@
       </div>
       <div class="modal-body">
       
-      <p>You may update a users role in becoming a new <code>Moderator</code>. Please enter in the users email address below:</p>
+      <p>You may update a users role in becoming a new <code>Moderator</code> or <code>Admin</code>. Please enter in the users email address below:</p>
         
-		<form method="POST" action="/newMod">
+		<form method="POST" action="/newRole">
+			<p>
+				<input type="radio" name="newRole" value="Moderator" required> Moderator<br>
+  				<input type="radio" name="newRole" value="Admin"> Admin<br>
+			</p>
 	        <p>
-	            <label for=newMod>Email Address: </label>
-	            <input type="text" name="newMod"/>
+	            <label for=newRoleEmailAddress>Email Address: </label>
+	            <input type="text" name="newRoleEmailAddress"/>
 	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	        </p>
 	      </div>
@@ -161,9 +175,12 @@
 </div>
 
 	<br>
-	<br>
 	
-<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
+	<div class="col-md-12">
+	
+		<button type="button" class="btn" data-toggle="modal" data-target="#remove"><i class="fas fa-user-times"></i> Remove Student</button>
+	
+	</div>	
 
 <!-- Deleting a Student Modal -->
 <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
