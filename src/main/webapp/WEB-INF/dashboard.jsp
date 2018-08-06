@@ -285,7 +285,7 @@
 								<c:if test="${status.count <= 5}">
 									<li>
 										<a target="_blank" href="/profile/${user.id}">
-											<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+											<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
 										</a>
 										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
 									</li>
