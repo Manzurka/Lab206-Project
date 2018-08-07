@@ -42,8 +42,7 @@ public class CommentRestController {
 		System.out.println(postId);
 		User currentUser = us.findByEmail(principal.getName());
 		Post post = ps.findPostById(postId);
-		us.increasePoints(currentUser);
-//		System.out.println("hello");
+		us.increasePoints(currentUser, 1);
 		return cs.createComment(new Comment(content), post, currentUser);
 	}
 	

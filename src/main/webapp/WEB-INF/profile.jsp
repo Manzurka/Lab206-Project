@@ -9,24 +9,23 @@
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/script.js"></script>
-		<title>Profile Page</title>
+<title>Profile Page</title>
 </head>
 <body>
 	<nav class="navbar mb-3" id="navvy">
 	<div class="dropdown">
-			  <button class="close" type="button" data-toggle="dropdown">
-			  <i class="fa fa-bars" aria-hidden="true"></i></button>
-			  	<ul class="dropdown-menu test">
+			<button class="close" type="button" data-toggle="dropdown">
+			<i class="fa fa-bars" aria-hidden="true"></i></button>
+			<ul class="dropdown-menu test">
             <!-- Settings button -->
 			    	<li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
 						<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
 					</li>
             <!-- Help button -->
-			      	<li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
+			    	<li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
 						<i class="fa fa-question-circle nav-link" aria-hidden="true"></i>Help</a>
 					</li>
             <!-- Feedback button -->
@@ -40,22 +39,23 @@
 						    <button type="submit" class="text-button"><i class="fa fa-power-off nav-link" aria-hidden="true"></i>Logout</button>
 						</form>
 					</li>
-			  	</ul>
+				</ul>
 			</div>
 		<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>
-		 <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${currentUser.file.getId() != null}">
-					  <a href="/profile/${currentUser.id}">
+		<!-- User profile image, show default if there is no image in the database -->
+			<c:choose>
+				<c:when test="${currentUser.file.getId() != null}">
+					<a href="/profile/${currentUser.id}">
 						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" width=100px alt="User Avatar"/>
-					  </a>
-				 </c:when>
-				 <c:otherwise>
+					</a>
+				</c:when>
+				<c:otherwise>
 		            <a href="/profile/${currentUser.id}">
 		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
 		            </a>
 	     		</c:otherwise>
             </c:choose>
+		
 		<ul class="navbar-nav mr-auto">
 				<li class="nav-item">Name: ${currentUser.firstName} ${currentUser.lastName}</li>
 				<li class="nav-item">Points: ${currentUser.points}</li>
@@ -73,19 +73,22 @@
 		</button>
 	</nav>
 	<div class="container">
+		
+	
+	
 	<div class="row mb-3">
 		
 			<div class="align-center col-sm-7">
 				<div class="row">
 					<div class="col-sm-2">
-					 <!-- User profile image, show default if there is no image in the database -->
-			 <c:choose>
-				 <c:when test="${user.file.getId() != null}">
-					  <a href="/profile/${user.id}">
+					<!-- User profile image, show default if there is no image in the database -->
+			<c:choose>
+				<c:when test="${user.file.getId() != null}">
+					<a href="/profile/${user.id}">
 						<img class="avatar2" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-					  </a>
-				 </c:when>
-				 <c:otherwise>
+					</a>
+				</c:when>
+				<c:otherwise>
 		            <a href="/profile/${user.id}">
 		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar2">
 		            </a>
@@ -104,7 +107,7 @@
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">Points: ${user.points}</li>
 					        <li class="list-group-item">Cohort: </li>
-					        <li class="list-group-item">GitHub: <a target = "_blank" href="${user.github}">${user.github}</a></li>
+					        <li class="list-group-item">GitHub: ${user.github}</li>
 							<li class="list-group-item">About me: </li>	
 						</ul>
 					</div>
@@ -112,39 +115,44 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="card bg-light mb-3" style="max-width: 30rem;">
-					  <div class="card-header">Badge</div>
-					  <div class="card-body">
+					<div class="card-header">Patches</div>
+					<div class="card-body">
 					    <h5 class="card-title"></h5>
-					  </div>
+					</div>
+				</div>
+				<div class="card bg-light mb-3" style="max-width: 30rem;">
+					<div class="card-header">Badges</div>
+					<div class="card-body">
+					    <h5 class="card-title"></h5>
+					</div>
 				</div>
 			</div>
 		
 	</div>
 	<div class="col-sm-12">
 			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
-				  <div class="card-header bg-white">Projects:
-				  
-				  <c:if test="${user.projects.size() < 3}">
-				  	<c:if test="${user.id == currentUser.id}">
-					  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
-							Add Project
-						</button>
-					</c:if>
-				  </c:if>
+				<div class="card-header bg-white">Projects:
+					<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
+						Edit Projects
+					</button>
 					</div>
 					  <div class="card-body">
 					  	<div class="row">
-					  	<c:forEach items="${user.projects}" var="project">
 					  		<div class="col-sm-4">
 							    <h5 class="card-title"></h5>
-								    <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
-								    <p class="card-text">${project.about}</p>
-								    <c:if test="${user.id == currentUser.id}">
-									   <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
-									   <a href="/project/${project.id}/delete" class="shoe-project"><i class="fa fa-trash" aria-hidden="true"></i></a>
-									</c:if>
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
+								    <p class="card-text">Project 1 info and Thumbnails.</p>
 							</div>
-						</c:forEach>	
+							<div class="col-sm-4">
+							    <h5 class="card-title"></h5>
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
+								    <p class="card-text">Project 2 info and Thumbnails.</p>
+							</div>
+							<div class="col-sm-4">
+							    <h5 class="card-title"></h5>
+								    <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar3">
+								    <p class="card-text">Project 3 info and Thumbnails.</p>
+							</div>
 						</div>
 					  </div>
 				</div>
@@ -189,8 +197,9 @@
 			</div>
 			</c:forEach>
 		</div>
+		
 	</div>
-		<div id="settingsModal" class="modal fade" role="dialog">
+			<div id="settingsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -248,11 +257,10 @@
 		</div>
 		<div id="projectsModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
-				<div class="modal-content" id="projectEdit23" >
-					<form action="/project/create" method="post" enctype="multipart/form-data" id="projEdit">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				<div class="modal-content">
+					<form:form action="/project/create" modelAttribute="newProject" method="post">
 						<div class="modal-header">						
-							<h2 class="modal-title">Add Project</h2>
+							<h2 class="modal-title">Edit Projects</h2>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -263,19 +271,51 @@
 									<span class="input-group-text">Thumbnail</span>
 								</div>
 								<div class="custom-file">
-									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 1</label>
 								</div>
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<textarea id="about" name="about" class="form-control" placeholder="About Project"></textarea>
+								<form:textarea path="" class="form-control" placeholder="About Project 1"/>
+							
 							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
-						</div>
-					</form>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 2</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<form:textarea path="" class="form-control" placeholder="About Project 2"/>
+	
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project 3</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<form:textarea path="" class="form-control" placeholder="About Project 3"/>						
+							</div>
+							</div>
+						</form:form>
+					</div>
 				</div>
 			</div>
 			<!-- Help Modal -->
@@ -349,6 +389,7 @@
 			    	</div>
 				</div>
 			</div>
-		</div>	
+		</div>
+			
 </body>
 </html>
