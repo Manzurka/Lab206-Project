@@ -82,7 +82,7 @@ public class PostController {
 		newPost.setTags(tags);
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
-		us.increasePoints(currentUser);
+		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
@@ -111,16 +111,19 @@ public class PostController {
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
 		Post post = ps.findByPost(id);
+		String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", post);
 		model.addAttribute("announcements", as.findAll());
 		model.addAttribute("quicklinks", qs.findAll());
 		model.addAttribute("users", us.findByPoints());
+		model.addAttribute("languages", languages);
 		return "post.jsp";
 	}
 	
 	@RequestMapping("/post/{id}/delete")
 	public String deletePost(@PathVariable("id") Long id) {
+		us.decreasePoints(ps.findByPost(id).getAuthor(), 1);
 		ps.deletePost(id);
 		return "redirect:/dashboard";
 	}
@@ -156,6 +159,7 @@ public class PostController {
     User user = us.findByEmail(principal.getName());
     Post post = ps.findPostById(id);
     ps.likePost(user, post);
+    us.increasePoints(post.getAuthor(), 1);
     return "redirect:/post/" + id + "/show";
   }
   
@@ -164,6 +168,7 @@ public class PostController {
     User user = us.findByEmail(principal.getName());
     Post post = ps.findPostById(id);
     ps.unlikePost(user, post);
+    us.decreasePoints(post.getAuthor(), 1);
     return "redirect:/post/" + id + "/show";
   }
   
@@ -174,6 +179,7 @@ public class PostController {
 	  Comment comment = cs.findById(commentId);
 	  Post post = ps.findByPost(id);
 	  ps.markAnswer(comment, post);
+	  us.increasePoints(comment.getCommenter(), 3);
 	  return "redirect:/post/" + id + "/show";
   }
 
