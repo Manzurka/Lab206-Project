@@ -111,7 +111,7 @@
 					<div class="col-md-10 offset-md-1 rounded-top bg-gunmetal">
 						<c:choose>
 							<c:when test="${currentUser == post.author}">
-								<a href="/post/<c:out value="${post.id}"/>/delete" data-toggle="modal" class="edit text-gray-blue float-right post-header"><i class="far fa-trash-alt" aria-hidden="true"></i></a>
+								<a href="/post/<c:out value="${post.id}"/>/delete" class="text-gray-blue float-right post-header"><i class="far fa-trash-alt" aria-hidden="true"></i></a>
 								<span class="float-right">&nbsp;&nbsp;</span>
 								<a href="/post/<c:out value="${post.id}"/>/edit" data-toggle="modal" data-target="#editModal" id="editIdPost" class="edit text-gray-blue testingEdit float-right post-header"><i class="fa fa-edit" aria-hidden="true"></i></a>		
 							</c:when>

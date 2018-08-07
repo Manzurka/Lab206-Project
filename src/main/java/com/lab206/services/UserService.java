@@ -68,8 +68,16 @@ public class UserService {
 		return ur.findById(id).get();
 	}
 	
-	public void increasePoints(User user) {
-		user.setPoints(user.getPoints() + 1);
+	public void increasePoints(User user, int points) {
+		user.setPoints(user.getPoints() + points);
+		ur.save(user);
+	}
+	
+	public void decreasePoints(User user, int points) {
+		user.setPoints(user.getPoints() - points);
+		if (user.getPoints() < 0) {
+			user.setPoints(0);
+		}
 		ur.save(user);
 	}
   

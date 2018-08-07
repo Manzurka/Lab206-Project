@@ -82,7 +82,7 @@ public class PostController {
 		newPost.setTags(tags);
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
-		us.increasePoints(currentUser);
+		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
         		if( !aFile.getOriginalFilename().isEmpty()) {
@@ -123,6 +123,7 @@ public class PostController {
 	
 	@RequestMapping("/post/{id}/delete")
 	public String deletePost(@PathVariable("id") Long id) {
+		us.decreasePoints(ps.findByPost(id).getAuthor(), 1);
 		ps.deletePost(id);
 		return "redirect:/dashboard";
 	}
@@ -158,6 +159,7 @@ public class PostController {
     User user = us.findByEmail(principal.getName());
     Post post = ps.findPostById(id);
     ps.likePost(user, post);
+    us.increasePoints(post.getAuthor(), 1);
     return "redirect:/post/" + id + "/show";
   }
   
@@ -166,6 +168,7 @@ public class PostController {
     User user = us.findByEmail(principal.getName());
     Post post = ps.findPostById(id);
     ps.unlikePost(user, post);
+    us.decreasePoints(post.getAuthor(), 1);
     return "redirect:/post/" + id + "/show";
   }
   
@@ -176,6 +179,7 @@ public class PostController {
 	  Comment comment = cs.findById(commentId);
 	  Post post = ps.findByPost(id);
 	  ps.markAnswer(comment, post);
+	  us.increasePoints(comment.getCommenter(), 3);
 	  return "redirect:/post/" + id + "/show";
   }
 
