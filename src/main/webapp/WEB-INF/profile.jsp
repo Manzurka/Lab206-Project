@@ -133,27 +133,27 @@
 				  </c:if>
 					</div>
 					  <div class="card-body">
-					  	<div class="row">
+					  	<div class="container">
+					  	<div class="row row-centered">
+					  	
 					  	<c:forEach items="${user.projects}" var="project">
-					  		<div class="col-sm-4">
+					  		<div class="col-sm-3 content-panel2">
 							    <h5 class="card-title"></h5>
 								    <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
 								    <p class="card-text">${project.about}</p>
 								    <c:if test="${user.id == currentUser.id}">
-									   <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
-									   <a href="/project/${project.id}/delete" class="shoe-project"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									   <a href="" class="shoe-project text-gray-blue" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
+									   <a href="/project/${project.id}/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									</c:if>
 							</div>
 						</c:forEach>	
+						
+						</div>
 						</div>
 					  </div>
 				</div>
 	<div class="row">
 	<h2>Recent Posts <- </h2>
-		<label class="switch">
-			<input type="checkbox" id="profileComments" name="profileComments" aria-describedby="commentQuestions">
-			<span class="slider round"></span>
-		</label>
 	<h2>-> Recent Comments</h2>	
 	<c:forEach items="${user.post}" var="post">
 			<div class="col-sm-12">	
@@ -271,7 +271,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text">About this Project</span>
 								</div>
-								<textarea id="about" name="about" class="form-control" placeholder="About Project"></textarea>
+								<textarea id="about" name="about" class="form-control" placeholder="Please limit your text to 4-255 characters."></textarea>
 							</div>
 							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
 						</div>

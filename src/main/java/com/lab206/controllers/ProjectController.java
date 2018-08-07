@@ -51,6 +51,9 @@ public class ProjectController {
 		User currentUser = us.findByEmail(principal.getName());
 		Long id = currentUser.getId();
 		project.setProjectCreator(currentUser);
+		if(about.length() < 4) {
+			return "redirect:/profile/"+id; 
+		}
 		ps.saveProject(project);
 		if(!thumbnail.isEmpty()) {
 			if(!thumbnail.getOriginalFilename().isEmpty()) {
