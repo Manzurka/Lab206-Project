@@ -24,6 +24,7 @@ import com.lab206.models.Tag;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
+import com.lab206.services.CommentService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
 import com.lab206.services.TagService;
@@ -38,17 +39,20 @@ public class PostController {
 	private UserService us;
 	private AnnouncementService as;
 	private QuicklinkService qs;
+	private CommentService cs;
 	
 	public PostController(PostService ps,
 			TagService ts,
 			UserService us,
 			AnnouncementService as,
-			QuicklinkService qs) {
+			QuicklinkService qs,
+			CommentService cs) {
 		this.ps = ps;
 		this.ts = ts;
 		this.us = us;
 		this.as = as;
 		this.qs = qs;
+		this.cs = cs;
 	}
 
 	@PostMapping("/post/create")
@@ -109,6 +113,9 @@ public class PostController {
 		Post post = ps.findByPost(id);
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", post);
+		model.addAttribute("announcements", as.findAll());
+		model.addAttribute("quicklinks", qs.findAll());
+		model.addAttribute("users", us.findByPoints());
 		return "post.jsp";
 	}
 	
@@ -158,6 +165,16 @@ public class PostController {
     Post post = ps.findPostById(id);
     ps.unlikePost(user, post);
     return "redirect:/post/" + id + "/show";
-  }	
+  }
+  
+  @RequestMapping("/post/{id}/answer/{commentId}")
+  public String answerPost(@PathVariable("id") Long id,
+		  @PathVariable("commentId") Long commentId,
+		  Principal principal) {
+	  Comment comment = cs.findById(commentId);
+	  Post post = ps.findByPost(id);
+	  ps.markAnswer(comment, post);
+	  return "redirect:/post/" + id + "/show";
+  }
 
 }

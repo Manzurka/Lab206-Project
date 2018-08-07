@@ -118,13 +118,6 @@ public class User {
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "user_dislikedComments", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "comment_id"))
-    private List<Comment> dislikedComments;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
         name = "user_badges", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "badge_id"))

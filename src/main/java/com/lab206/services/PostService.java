@@ -86,4 +86,12 @@ public class PostService {
 		pr.save(post);
 		ur.save(user);
 	}
+	
+	public void markAnswer(Comment comment,
+			Post post) {
+		post.setAnswer(comment);
+		comment.setQuestion(post);
+		pr.save(post);
+		cr.save(comment);
+	}
 }

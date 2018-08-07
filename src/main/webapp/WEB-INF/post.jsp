@@ -197,27 +197,47 @@
 						</div>
 						<!-- Show comments -->
 						<div id="showComments">
-							<c:forEach var="comment" items="${post.comments}">
+							<c:if test="${post.answer != null}">
 								<div class="row">
-									<div class="col-sm-12">
-										<c:if test="${currentUser == post.author}">
-											<a href="" class="answer"><i class="fas fa-check-circle"></i></a>
-											<span class="float-right">&nbsp;&nbsp;</span>
-										</c:if>
+									<div class="col-sm-12 answered">
 										<a href="" class="like"><i class="fas fa-thumbs-up"></i></a>
-										<h5><c:out value="${comment.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
-										<p class="line-breaks"><c:out value="${comment.content}"/></p>
+										<h5><c:out value="${post.answer.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
+										<p class="line-breaks"><c:out value="${post.answer.content}"/></p>
 										<ul class="time-list">
 											<li>Created At: <fmt:formatDate type="both" 
-												dateStyle="short" timeStyle="short" value="${comment.createdAt}"/></li>
-											<c:if test="${comment.updatedAt != null}">
+												dateStyle="short" timeStyle="short" value="${post.answer.createdAt}"/></li>
+											<c:if test="${post.answer.updatedAt != null}">
 												<li>Last Edit: <fmt:formatDate type="both" 
-													dateStyle="short" timeStyle="short" value="${comment.updatedAt}"/></li>
+													dateStyle="short" timeStyle="short" value="${post.answer.updatedAt}"/></li>
 											</c:if>
 										</ul>
 									</div>
 								</div>
 								<hr>
+							</c:if>
+							<c:forEach var="comment" items="${post.comments}">
+								<c:if test="${comment != post.answer}">
+									<div class="row">
+										<div class="col-sm-12">
+											<c:if test="${currentUser == post.author && post.answer == null}">
+												<a href="/post/<c:out value="${post.id}"/>/answer/<c:out value="${comment.id}"/>" class="answer"><i class="fas fa-check-circle"></i></a>
+												<span class="float-right">&nbsp;&nbsp;</span>
+											</c:if>
+											<a href="" class="like"><i class="fas fa-thumbs-up"></i></a>
+											<h5><c:out value="${comment.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
+											<p class="line-breaks"><c:out value="${comment.content}"/></p>
+											<ul class="time-list">
+												<li>Created At: <fmt:formatDate type="both" 
+													dateStyle="short" timeStyle="short" value="${comment.createdAt}"/></li>
+												<c:if test="${comment.updatedAt != null}">
+													<li>Last Edit: <fmt:formatDate type="both" 
+														dateStyle="short" timeStyle="short" value="${comment.updatedAt}"/></li>
+												</c:if>
+											</ul>
+										</div>
+									</div>
+									<hr>
+								</c:if>
 							</c:forEach>
 						</div>
 					</div>
@@ -256,7 +276,14 @@
 								<c:if test="${status.count <= 5}">
 									<li>
 										<a target="_blank" href="/profile/${user.id}">
-											<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
+											<c:choose>
+												<c:when test="${user.file != null}">
+													<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+												</c:when>
+												<c:otherwise>
+													<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
+												</c:otherwise>
+											</c:choose>
 										</a>
 										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
 									</li>
