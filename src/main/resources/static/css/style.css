@@ -133,6 +133,10 @@ body {
 	position: relative;
 	bottom: 5px;
 }
+/* Class for green border on answer */
+.answered {
+	border-left: 5px solid #3ACC35;
+}
 /* Classes for background color */
 .bg-ghost-white {
 	background-color: #F9FDFF;

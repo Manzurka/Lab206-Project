@@ -285,7 +285,14 @@
 								<c:if test="${status.count <= 5}">
 									<li>
 										<a target="_blank" href="/profile/${user.id}">
-											<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+											<c:choose>
+												<c:when test="${user.file != null}">
+													<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+												</c:when>
+												<c:otherwise>
+													<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
+												</c:otherwise>
+											</c:choose>
 										</a>
 										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
 									</li>
