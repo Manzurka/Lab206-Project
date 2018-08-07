@@ -196,7 +196,14 @@
 		
 							<!-- Iterate through posts to fill recent posts -->
 							<c:forEach var="post" items="${posts}"> 
-								<div class="col-12 content-panel">
+								<c:choose>
+									<c:when test="${post.answer != null}">
+										<div class="col-12 content-panel answered">
+									</c:when>
+									<c:otherwise>
+										<div class="col-12 content-panel">
+									</c:otherwise>
+								</c:choose>
 									<div class="row">
 										<c:choose>
 											<c:when test="${post.author.file.getId() != null}">
