@@ -91,6 +91,267 @@
                     </a>
                 </c:otherwise>
             </c:choose>
+           </div>
+
+			</div>
+					<div class="col-sm-10">
+						<ul class="list-group list-group-flush">
+					        <li class="list-group-item">First Name: ${user.firstName}</li>
+					        <li class="list-group-item">Last Name: ${user.lastName}</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row" id="bio2">
+					<div class="col-sm-12">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">Points: ${user.points}</li>
+					        <li class="list-group-item">Cohort: </li>
+					        <li class="list-group-item">GitHub: <a target = "_blank" href="${user.github}">${user.github}</a></li>
+							<li class="list-group-item">About me: </li>	
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-5">
+				<div class="card bg-light mb-3" style="max-width: 30rem;">
+					  <div class="card-header">Badge</div>
+					  <div class="card-body">
+					    <h5 class="card-title"></h5>
+					  </div>
+				</div>
+			</div>
+		
+	</div>
+	<div class="col-sm-12">
+			<div class="card bg-white mb-3" style="max-width: auto; max-height: auto;">
+				  <div class="card-header bg-white">Projects:
+				  
+				  <c:if test="${user.projects.size() < 3}">
+				  	<c:if test="${user.id == currentUser.id}">
+					  	<button type="button" class="btn bg-cosmic-cobalt text-white my-2 my-sm-0 float-right" data-toggle="modal" data-target="#projectsModal" aria-label="editProjects">
+							Add Project
+						</button>
+					</c:if>
+				  </c:if>
+					</div>
+					  <div class="card-body">
+					  	<div class="container">
+					  	<div class="row row-centered">
+					  	
+					  	<c:forEach items="${user.projects}" var="project">
+					  		<div class="col-sm-3 content-panel2">
+							    <h5 class="card-title"></h5>
+								    <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
+								    <p class="card-text">${project.about}</p>
+								    <c:if test="${user.id == currentUser.id}">
+									   <a href="" class="shoe-project text-gray-blue" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
+									   <a href="/project/${project.id}/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									</c:if>
+							</div>
+						</c:forEach>	
+						
+						</div>
+						</div>
+					  </div>
+				</div>
+	<div class="row">
+	<h2>Recent Posts <- </h2>
+	<h2>-> Recent Comments</h2>	
+	<c:forEach items="${user.post}" var="post">
+			<div class="col-sm-12">	
+				<div class="list-group">					
+					<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					  <div class="d-flex w-100 justify-content-between">
+					    <h5 class="mb-1">${post.title}</h5>
+					    <small class="text-muted">${post.createdAt}</small>
+					  </div>
+					  <p class="mb-1">${post.content}</p>
+					  <c:forEach var="tag" items="${post.tags}">
+							<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+					  </c:forEach>
+					</a>
+				</div>
+			</div>
+	</c:forEach>
+	</div>
+		<div class="row">
+		<h2>Recent Comments:</h2>
+		<c:forEach items="${user.comments}" var="comment">
+			<div class="col-sm-12">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+				    <div class="d-flex w-100 justify-content-between">
+				      
+				      <small class="text-muted">${comment.createdAt}</small>
+				    </div>
+				    <p class="mb-1">${comment.content}</small>
+				  </a>
+				</div>
+				
+			</div>
+			</c:forEach>
+		</div>
+	</div>
+		<div id="settingsModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Settings</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Avatar</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="inputGroupFile01">
+								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Name</span>
+							</div>
+							<input type="text" class="form-control" placeholder="First name">
+							<input type="text" class="form-control" placeholder="Last name">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Email</span>
+							</div>
+							<input type="text" class="form-control" aria-label="Email" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Password</span>
+							</div>
+							<input type="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">GitHub</span>
+							</div>
+							<input type="text" class="form-control" aria-label="github" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">About Me</span>
+							</div>
+							<textarea class="form-control" aria-label="aboutme" aria-describedby="basic-addon1"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		<div id="projectsModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content" id="projectEdit23" >
+					<form action="/project/create" method="post" enctype="multipart/form-data" id="projEdit">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						<div class="modal-header">						
+							<h2 class="modal-title">Add Project</h2>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Thumbnail</span>
+								</div>
+								<div class="custom-file">
+									<input name="thumbnail" type="file" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file for Project</label>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About this Project</span>
+								</div>
+								<textarea id="about" name="about" class="form-control" placeholder="Please limit your text to 4-255 characters."></textarea>
+							</div>
+							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- Help Modal -->
+		<div id="helpModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Help</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h3>FAQ: Rules and Etiquette</h3>
+						<ul>
+							<li>Please be professional and respectful of others.</li>
+							<li>Do not overuse the dislike button.</li>
+							<li>Do not share exam codes. Plagiarism is not tolerated on this platform and will be reported.</li>
+							<li>Do not share ANY Amazon related information and internal links.</li>
+							<li>If you have any suggestion(s) or if something is not working, please submit your feedback on the top left menu and click on the <i class="fa fa-comment text-gunmetal" aria-hidden="true"></i>.</a></li>
+							<li>If you would like to file a report, please click the <i class="fa fa-flag text-gunmetal" aria-hidden="true"></i> on a post located on the bottom right.</li>
+						</ul>
+						</div>
+			    	</div>
+				</div>
+			</div>
+			
+		<!-- Report Modal -->
+		<div id="reportModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">File a Report</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+							</div>
+							<p>If this post or comment(s) related have abusive or unprofessional content, please submit your report. We will review the content and remove anything that does not follow our platform's Rules and Etiquette found on the help page.</p>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Feedback Modal -->
+		<div id="feedbackModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Submit feedback</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+							</div>
+							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
+							<textarea class="form-control" aria-label="Content"></textarea>
+						</div>
+						
+						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+			    	</div>
+				</div>
+			</div>
+		</div>	
             </div>
                     <div class="col-sm-10">
                         <ul class="list-group list-group-flush">
