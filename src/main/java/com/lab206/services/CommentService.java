@@ -60,18 +60,6 @@ public class CommentService {
 		ur.save(user);
 	}
 	
-	public void dislikeComment(Comment comment,
-			User user) {
-		user.addDislikedComment(comment);
-		ur.save(user);
-	}
-	
-	public void removeDislikedComment(Comment comment,
-			User user) {
-		user.removeDislikedComment(comment);
-		ur.save(user);
-	}
-	
 	public List<Comment> commentsContaining(String keyword){
 		return cr.findByContentContaining(keyword);
 	}
