@@ -357,10 +357,10 @@
 										<c:choose>
 											<c:when test="${post.tags[0].subject == 'coursework'}">
 												<c:set var="courserelated" value="true"/>
-												<input type="checkbox" id="currentCourse56" name="course" aria-describedby="courseRelated">
+												<input type="checkbox" id="currentCourse" name="currentCourse" aria-describedby="courseRelated" checked="true">
 											</c:when>
 											<c:otherwise>
-												<input type="checkbox" id="currentCourse56" name="course" aria-describedby="courseRelated">
+												<input type="checkbox" id="currentCourse" name="currentCourse" aria-describedby="courseRelated">
 											</c:otherwise>
 										</c:choose>
 										<span class="slider round"></span>

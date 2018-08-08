@@ -192,7 +192,7 @@ public class UserController {
 		} else {
 			return "dashboard.jsp";
 		}
-		}
+	}
 	
 
 	@RequestMapping("/profile/{id}") 

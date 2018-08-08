@@ -1,6 +1,7 @@
 package com.lab206.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -145,11 +146,28 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/{id}/edit")
-	public String updatePost(Principal principal, @PathVariable("id") Long id, @Valid @ModelAttribute("post") Post post, BindingResult result) {
+	public String updatePost(@PathVariable("id") Long id, 
+			@Valid @ModelAttribute("post") Post post, 
+			BindingResult result,
+			@RequestParam(value = "currentCourse", required = false) String course,
+			@RequestParam(value = "currentLanguage") String language,
+			@RequestParam(value = "tag1") String tag1,
+			@RequestParam(value = "tag2") String tag2,
+			@RequestParam(value = "tag3") String tag3,
+			@Valid @RequestParam MultipartFile[] file,
+            HttpServletRequest request,
+			Principal principal) {
 		if (result.hasErrors()) {
 			return "dashboard.jsp";
 		}
 		User author = us.findByEmail(principal.getName());
+		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
+		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
+		List<Tag> tags_reversed = new ArrayList<Tag>();
+		for (int i = tags.size() - 1; i >= 0; i--) {
+			tags_reversed.add(tags.get(i));
+		}
+		post.setTags(tags_reversed);
 		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
