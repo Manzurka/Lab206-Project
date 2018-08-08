@@ -24,6 +24,11 @@ public class FeedbackService {
 		return fr.findById(id).get();
 	}
 	
+	//Creating Feedback
+	public void createFeedback(Feedback f) {
+		fr.save(f);
+	}
+	
 	// Update the Review status for Feedback
 	public void updateReview(Feedback review) {
 		review.setReviewed(true);

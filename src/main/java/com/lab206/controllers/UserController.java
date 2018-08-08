@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lab206.models.Comment;
+import com.lab206.models.Feedback;
 import com.lab206.models.File;
 import com.lab206.models.Post;
 import com.lab206.models.Project;
@@ -104,7 +105,8 @@ public class UserController {
       @ModelAttribute("newComment") Comment newComment,
 			@ModelAttribute("user") User user,
 			Principal principal,
-			Model model) {
+			Model model,
+			@ModelAttribute("feedb") Feedback feedback) {
 		User currentUser = us.findByEmail(principal.getName());
 		model.addAttribute("posts", ps.allPostsNew());
 		model.addAttribute("currentUser", currentUser);

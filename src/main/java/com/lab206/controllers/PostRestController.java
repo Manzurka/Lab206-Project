@@ -10,6 +10,7 @@ import com.lab206.models.Comment;
 import com.lab206.models.Feedback;
 import com.lab206.models.Post;
 import com.lab206.models.Report;
+import com.lab206.models.User;
 import com.lab206.services.CommentService;
 import com.lab206.services.FeedbackService;
 import com.lab206.services.PostService;
@@ -36,6 +37,12 @@ public class PostRestController {
 		this.us = us;
 		this.fs = fs;
 		this.rs = rs;
+	}
+	
+	// For confirming the removal of a user
+	@RequestMapping("/remove/{id}")
+	public User removingAUser(@PathVariable("id") Long id) {
+		return us.findById(id);
 	}
 
 	@RequestMapping("/show/{id}")

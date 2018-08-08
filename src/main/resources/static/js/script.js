@@ -1,4 +1,12 @@
+
+
+
 $(document).ready(function(){
+	// For displaying the number 5 within the range input inside of the Feedback Modal
+	document.getElementById('range_weight_disp').innerHTML = 5;
+	
+	
+	
 	// Finds user based off of ID
 	var findUser = function(id) {
 		$.ajax({

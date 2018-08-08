@@ -8,13 +8,16 @@ $('.c_feedback').click(function() {
 		console.log(`Is this reviewed: ${feed.reviewed}`);
 		$('#feedContent').html(feed.content);
 		$('#feedRating').html(feed.rating);
-		//$('img').attr('src', feed.file.data);
 		$('#feedSubmitter').html(`${feed.feedbackCreator.firstName} ${feed.feedbackCreator.lastName}`);
 		
 		if (feed.reviewed !== true) {
+			
+			// Assigning the href to and grabbing the correct ID.
+			//This is marking the correct Feedback as of being reviewed
 			$('#reviewMark').html('<a>Mark as Reviewed</a>');
 			$('#reviewMark').attr("href", `/feedback/${feed.id}/reviewed`);
 			$('#reviewMark').addClass('btn reviewedButton');
+			$('#feedReview').html(feed.reviewed);
 		}
 		else {
 			$('#reviewMark').html('<span>This Feedback has been reviewed</span>');
@@ -23,9 +26,6 @@ $('.c_feedback').click(function() {
 		}
 		
 		$('#feedReview').html(feed.reviewed);
-		
-		// Assigning the href to and grabbing the correct ID.
-		//This is marking the correct Feedback as of being reviewed
 		
 		
 				

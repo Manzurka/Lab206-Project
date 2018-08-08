@@ -14,9 +14,9 @@
 
 <body onload="loaderDuration()" style="margin:0;">
 
-	<!-- <div id="loader"></div>
+	<div id="loader"></div>
 
-	<div style="display:none;" id="block" class="animate-bottom"> -->
+	<div style="display:none;" id="block" class="anixmate-bottom">
 
 	<div id="name">
 		<h1>Welcome <b><c:out value="${currentUser.firstName}"></c:out></b></h1>
@@ -163,7 +163,7 @@
       
       <div class="modal-footer">
               
-        <a  id='reviewMark'>Mark as Reviewed></a>
+        <a  id='reviewMark'>Mark as Reviewed</a>
         
       </div>
       
