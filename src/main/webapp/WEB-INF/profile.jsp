@@ -131,11 +131,9 @@
 						</button>
 					</c:if>
 				  </c:if>
-					</div>
 					  <div class="card-body">
 					  	<div class="container">
 					  	<div class="row row-centered">
-					  	
 					  	<c:forEach items="${user.projects}" var="project">
 					  		<div class="col-sm-3 content-panel2">
 							    <h5 class="card-title"></h5>
@@ -147,8 +145,6 @@
 									</c:if>
 							</div>
 						</c:forEach>	
-						
-						</div>
 						</div>
 					  </div>
 				</div>
