@@ -146,22 +146,29 @@ public class UserController {
 			
 			if (!avatar.isEmpty()) {
 				
-				if (currentUser.getFile() != null) {
-					fileUploadDao.delete(currentUser.getFile().getId());
-			
-				}
-				
-		 //file upload
-			
-//				for (MultipartFile aFile : avatar) {
-					if( !avatar.getOriginalFilename().isEmpty()) {
-	        		File uploadedFile = new File();
-	                uploadedFile.setFileName(avatar.getOriginalFilename());
-	                uploadedFile.setData(avatar.getBytes());
-	                uploadedFile.setUser4avatar(currentUser);
-	                fileUploadDao.save(uploadedFile);
+				if( !avatar.getOriginalFilename().isEmpty() 
+					&& avatar.getOriginalFilename().contains(".gif")
+					|| avatar.getOriginalFilename().contains(".png")
+					|| avatar.getOriginalFilename().contains(".jpg")) {
+						if (currentUser.getFile() != null) {
+									fileUploadDao.delete(currentUser.getFile().getId());
+							
+						}
+					File uploadedFile = new File();
+					uploadedFile.setFileName(avatar.getOriginalFilename());
+					uploadedFile.setData(avatar.getBytes());
+					uploadedFile.setUser4avatar(currentUser);
+					fileUploadDao.save(uploadedFile);
+        			} else {
+        				model.addAttribute("editing", true);
+        				model.addAttribute("filemessage", "Upload gif, jpg, png only");
+        				model.addAttribute("currentUser", currentUser);
+        				model.addAttribute("posts", ps.allPostsNew());
+        				model.addAttribute("announcements", as.findAll());
+        				model.addAttribute("quicklinks", qs.findAll());
+        				model.addAttribute("users", us.findByPoints());
+        				return "dashboard.jsp";
         			}
-//				}
 				us.save(currentUser);
 			}
 			us.save(currentUser);
@@ -185,7 +192,7 @@ public class UserController {
 		} else {
 			return "dashboard.jsp";
 		}
-		}
+	}
 	
 
 	@RequestMapping("/profile/{id}") 
