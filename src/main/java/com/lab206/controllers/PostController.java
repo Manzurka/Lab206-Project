@@ -86,12 +86,13 @@ public class PostController {
 		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
-        		if( !aFile.getOriginalFilename().isEmpty()) {
-	        		File uploadedFile = new File();
-	                uploadedFile.setFileName(aFile.getOriginalFilename());
-	                uploadedFile.setData(aFile.getBytes());
-	                uploadedFile.setPost4file(newPost);
-	                fileUploadDao.save(uploadedFile);
+        		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
+        			if (!aFile.getOriginalFilename().isEmpty()) {
+        				File uploadedFile = new File();
+    	                uploadedFile.setFileName(aFile.getOriginalFilename());
+    	                uploadedFile.setData(aFile.getBytes());
+    	                uploadedFile.setPost4file(newPost);
+    	                fileUploadDao.save(uploadedFile);
         			} else {
         				model.addAttribute("posting", true);
         				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
@@ -102,6 +103,7 @@ public class PostController {
         				model.addAttribute("users", us.findByPoints());
         				return "dashboard.jsp";
         			}
+        		}
         	}
 		return "redirect:/dashboard";
 	}

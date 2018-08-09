@@ -100,5 +100,7 @@ public class UserService {
 	public String getCommenterFirstName(Comment c) {
 		return ur.findCommenterOfCommentFirstName(c);
 	}
+
+	
   
 }
