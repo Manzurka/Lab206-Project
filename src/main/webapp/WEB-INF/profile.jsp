@@ -200,51 +200,54 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Avatar</span>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Name</span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="First name">
-                            <input type="text" class="form-control" placeholder="Last name">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Email</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Email" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Password</span>
-                            </div>
-                            <input type="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">GitHub</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="github" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">About Me</span>
-                            </div>
-                            <textarea class="form-control" aria-label="aboutme" aria-describedby="basic-addon1"></textarea>
-                        </div>
-                        
-                        <button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
-                    </div>
+                    <div class="modal-body">
+						<form:form action="/user/edit" modelAttribute="user" method="post" enctype="multipart/form-data">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Avatar</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+								</div>
+							</div>
+							<form:errors path="firstName"/>
+							<form:errors path="lastName"/>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Name</span>
+								</div>
+								<input type="text" name="firstName" class="form-control" value="<c:out value="${currentUser.firstName}"/>">
+								<input type="text" name="lastName" class="form-control" value="<c:out value="${currentUser.lastName}"/>">
+							</div>
+							<form:errors path="email"/>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">Email</span>
+								</div>
+								<input type="text" class="form-control" name="email" aria-label="Email" aria-describedby="basic-addon1" value="<c:out value="${currentUser.email}"/>">
+							</div>
+							<form:errors path="about"/>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">About Me<br>(Optional)</span>
+								</div>
+								<textarea name="about" placeholder='<c:out value="${currentUser.about}"/>'  class="form-control" aria-label="AboutMe"><c:out value="${currentUser.about}"/></textarea>
+							</div>
+							<form:errors path="passwordConfirmation"/>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Password Confirmation</span>
+								</div>
+								<input type="password" name="passwordConfirmation" class="form-control" aria-label="PC"/>
+							</div>
+							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
+						</form:form>
+			    	</div>
                 </div>
+                
             </div>
+            
         </div>
         <div id="projectsModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
