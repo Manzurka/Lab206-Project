@@ -245,9 +245,8 @@
 						</form:form>
 			    	</div>
                 </div>
-                
             </div>
-            
+            </div>
         </div>
         <div id="projectsModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -281,6 +280,7 @@
                     </form>
                 </div>
             </div>
+        </div>
             <!-- Help Modal -->
         <div id="helpModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
