@@ -140,8 +140,8 @@
                                     <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
                                     <p class="card-text">${project.about}</p>
                                     <c:if test="${user.id == currentUser.id}">
-                                       <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                       <a href="/project/${project.id}/delete" class="shoe-project"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                       <a href="" class="shoe-project text-gray-blue" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                       <a href="/project/${project.id}/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </c:if>
                             </div>
                         </c:forEach>    
@@ -158,7 +158,7 @@
     <c:forEach items="${user.post}" var="post">
             <div class="col-sm-12"> 
                 <div class="list-group">                    
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/post/<c:out value="${post.id}"/>/show" class="list-group-item list-group-item-action flex-column align-items-start">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">${post.title}</h5>
                         <small class="text-muted">${post.createdAt}</small>
@@ -177,7 +177,7 @@
         <c:forEach items="${user.comments}" var="comment">
             <div class="col-sm-12">
                 <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <a href="/post/<c:out value="${post.id}"/>/show" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                      
                       <small class="text-muted">${comment.createdAt}</small>
@@ -244,7 +244,7 @@
 							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
 						</form:form>
 			    	</div>
-                </div>
+                </div> 
             </div>
             </div>
         </div>
