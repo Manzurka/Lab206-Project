@@ -21,4 +21,10 @@ public class ProjectService {
 	public Project findProjectById(Long id) {
 		return pr.findById(id).get();
 	}
+
+	public void deleteProject(Long id) {
+		pr.deleteById(id);
+	
+		
+	}
 }

@@ -1,5 +1,6 @@
 package com.lab206.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,4 +68,12 @@ public class PostRestController {
 	public List<Comment> getCommentsByPost(@PathVariable("id") Long id) {
 		return cs.findByPostDesc(ps.findPostById(id));
 	}
+	
+//	@RequestMapping("/{id}/like")
+//	public void likePost(@PathVariable("id") Long id,
+//			Principal principal) {
+//		User currentUser = us.findByEmail(principal.getName());
+//		Post post = ps.findPostById(id);
+//		
+//	}
 }

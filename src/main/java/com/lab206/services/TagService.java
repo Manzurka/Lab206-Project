@@ -43,7 +43,7 @@ public class TagService {
 		if (course != null) {
 			tags.add(findTagBySubject("coursework"));
 		}
-		tags.add(findTagBySubject(language));
+		tags.add(findTagBySubject(language.toLowerCase()));
 		for (String sub : subjects) {
 			if (sub == "") {
 				continue;

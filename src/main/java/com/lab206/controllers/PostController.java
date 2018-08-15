@@ -1,6 +1,7 @@
 package com.lab206.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import com.lab206.models.Tag;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
+import com.lab206.services.CommentService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
 import com.lab206.services.TagService;
@@ -38,17 +40,20 @@ public class PostController {
 	private UserService us;
 	private AnnouncementService as;
 	private QuicklinkService qs;
+	private CommentService cs;
 	
 	public PostController(PostService ps,
 			TagService ts,
 			UserService us,
 			AnnouncementService as,
-			QuicklinkService qs) {
+			QuicklinkService qs,
+			CommentService cs) {
 		this.ps = ps;
 		this.ts = ts;
 		this.us = us;
 		this.as = as;
 		this.qs = qs;
+		this.cs = cs;
 	}
 
 	@PostMapping("/post/create")
@@ -78,15 +83,16 @@ public class PostController {
 		newPost.setTags(tags);
 		newPost.setAuthor(currentUser);
 		ps.createPost(newPost);
-		us.increasePoints(currentUser);
+		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
-        		if( !aFile.getOriginalFilename().isEmpty()) {
-	        		File uploadedFile = new File();
-	                uploadedFile.setFileName(aFile.getOriginalFilename());
-	                uploadedFile.setData(aFile.getBytes());
-	                uploadedFile.setPost4file(newPost);
-	                fileUploadDao.save(uploadedFile);
+        		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
+        			if (!aFile.getOriginalFilename().isEmpty()) {
+        				File uploadedFile = new File();
+    	                uploadedFile.setFileName(aFile.getOriginalFilename());
+    	                uploadedFile.setData(aFile.getBytes());
+    	                uploadedFile.setPost4file(newPost);
+    	                fileUploadDao.save(uploadedFile);
         			} else {
         				model.addAttribute("posting", true);
         				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
@@ -98,11 +104,29 @@ public class PostController {
         				return "dashboard.jsp";
         			}
         		}
+        	}
 		return "redirect:/dashboard";
+	}
+	
+	@RequestMapping("/post/{id}/show")
+	public String showPost(@PathVariable("id") Long id,
+			Principal principal,
+			Model model) {
+		User currentUser = us.findByEmail(principal.getName());
+		Post post = ps.findByPost(id);
+		String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("post", post);
+		model.addAttribute("announcements", as.findAll());
+		model.addAttribute("quicklinks", qs.findAll());
+		model.addAttribute("users", us.findByPoints());
+		model.addAttribute("languages", languages);
+		return "post.jsp";
 	}
 	
 	@RequestMapping("/post/{id}/delete")
 	public String deletePost(@PathVariable("id") Long id) {
+		us.decreasePoints(ps.findByPost(id).getAuthor(), 1);
 		ps.deletePost(id);
 		return "redirect:/dashboard";
 	}
@@ -124,14 +148,59 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/{id}/edit")
-	public String updatePost(Principal principal, @PathVariable("id") Long id, @Valid @ModelAttribute("post") Post post, BindingResult result) {
+	public String updatePost(@PathVariable("id") Long id, 
+			@Valid @ModelAttribute("post") Post post, 
+			BindingResult result,
+			@RequestParam(value = "currentCourse", required = false) String course,
+			@RequestParam(value = "currentLanguage") String language,
+			@RequestParam(value = "tag1") String tag1,
+			@RequestParam(value = "tag2") String tag2,
+			@RequestParam(value = "tag3") String tag3,
+			@Valid @RequestParam MultipartFile[] file,
+            HttpServletRequest request,
+			Principal principal) {
 		if (result.hasErrors()) {
 			return "dashboard.jsp";
 		}
 		User author = us.findByEmail(principal.getName());
+		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
+		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
+		List<Tag> tags_reversed = new ArrayList<Tag>();
+		for (int i = tags.size() - 1; i >= 0; i--) {
+			tags_reversed.add(tags.get(i));
+		}
+		post.setTags(tags_reversed);
 		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
-	
+  
+  @RequestMapping("/post/{id}/like")
+  public String likePost(@PathVariable("id") Long id, Principal principal) {
+    User user = us.findByEmail(principal.getName());
+    Post post = ps.findPostById(id);
+    ps.likePost(user, post);
+    us.increasePoints(post.getAuthor(), 1);
+    return "redirect:/post/" + id + "/show";
+  }
+  
+  @RequestMapping("/post/{id}/unlike")
+  public String unlikePost(@PathVariable("id") Long id, Principal principal) {
+    User user = us.findByEmail(principal.getName());
+    Post post = ps.findPostById(id);
+    ps.unlikePost(user, post);
+    us.decreasePoints(post.getAuthor(), 1);
+    return "redirect:/post/" + id + "/show";
+  }
+  
+  @RequestMapping("/post/{id}/answer/{commentId}")
+  public String answerPost(@PathVariable("id") Long id,
+		  @PathVariable("commentId") Long commentId,
+		  Principal principal) {
+	  Comment comment = cs.findById(commentId);
+	  Post post = ps.findByPost(id);
+	  ps.markAnswer(comment, post);
+	  us.increasePoints(comment.getCommenter(), 3);
+	  return "redirect:/post/" + id + "/show";
+  }
 
 }

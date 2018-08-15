@@ -31,6 +31,9 @@ body {
 	-moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.19);
 	box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.19);
 }
+.row-centered{
+	text-align: center;
+}
 .peccy {
     width: 150px;
     height: 150px;
@@ -69,25 +72,79 @@ body {
 	border: 1px solid #E9E9E9;
 	background-color: #FFF;
 }
+.content-panel2 {
+	margin: .5em auto;
+	padding: .5em;
+	border: 1px solid #E9E9E9;
+	background-color: #FFF;
+}
 .tag {
 	padding: 3px;
 	border-radius: 20px;
 }
+.line-breaks {
+	white-space: pre-line;
+}
 /* Colors for like, dislike, report */
 .like {
-	color: #FFD34F;
+	color: #C5CDDB;
+	float: right;
 }
 .like:hover {
 	color: #FFBB00;
 }
-.dislike {
-	color: #CFEBDF;
+.like:active {
+	color: #FFBB00;
+	text-shadow: 0 0 5px #FFE649;
 }
-.dislike:hover {
-	color: #63BCCC;
+.liked, .liked:hover {
+	color: #FFBB00;
+	float: right;
+}
+.liked:active {
+	color: #FFBB00;
+	text-shadow: 0 0 5px #FFE649;
+}
+.unliked {
+	color: #C5CDDB;
+}
+.unliked:hover {
+	color: #FFBB00;
+}
+.answer {
+	color: #C5CDDB;
+	float: right;
+}
+.answer:hover {
+	color: #3ACC35;
+}
+.answer:active {
+	color: #3ACC35;
+	text-shadow: 0 0 5px #62E55E;
+}
+.report {
+	color: #C5CDDB;
+	float: right;
 }
 .report:hover {
-	color: red;
+	color: #F73D5F;
+}
+.report:active {
+	color: #F73D5F;
+	text-shadow: 0 0 5px #FF5B5B;
+}
+/* Class for spacing on post header */
+.post-header {
+	position: relative;
+	top: 5px;
+}
+.post-footer {
+	position: relative;
+	bottom: 5px;
+}
+/* Class for green border on answer */
+.answered {
+	border-left: 5px solid #3ACC35;
 }
 /* Classes for background color */
 .bg-ghost-white {
