@@ -768,10 +768,35 @@
 							<div class="input-group-prepend">
 							</div>
 							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
-							<textarea class="form-control" aria-label="Content"></textarea>
-						</div>
+							
+						<form:form method="POST" action="/create/feedback" modelAttribute="feedb">	
+							
+							<form:textarea path="content" class="form-control" aria-label="Content"></form:textarea>
+							
+							<br>
+							
+							<form:label path="rating">Rate Feedback:
+							<form:input 
+								path="rating"
+								type="range"
+						        class="custom-range"
+						        name="weight"
+						        id="range_weight"
+						        value="5"
+						        min="1"
+						        max="10"
+						        oninput="range_weight_disp.value = range_weight.value"
+							/>
+							<output id="range_weight_disp"></output>
+							
+							</form:label>
+							
+							</div>
+							
+							
+							<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right" value="Submit"/>
 						
-						<button type="button" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
+						</form:form>
 			    	</div>
 				</div>
 			</div>

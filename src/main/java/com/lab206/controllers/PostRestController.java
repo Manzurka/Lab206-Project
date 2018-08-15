@@ -39,6 +39,12 @@ public class PostRestController {
 		this.fs = fs;
 		this.rs = rs;
 	}
+	
+	// For confirming the removal of a user
+	@RequestMapping("/remove/{id}")
+	public User removingAUser(@PathVariable("id") Long id) {
+		return us.findById(id);
+	}
 
 	@RequestMapping("/show/{id}")
 	public Post showPost(@PathVariable("id") Long id) {
