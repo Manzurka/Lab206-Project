@@ -50,6 +50,7 @@ public class Feedback {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler", "created"})
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User feedbackCreator;
 	
 	@PrePersist

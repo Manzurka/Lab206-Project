@@ -40,10 +40,9 @@ $('.c_report').click(function() {
 	$.ajax({
 		url: "/post/reports/" + displayReport
 	}).then(function(report) {
-		console.log(`Reporter: ${report.reporter.firstName}`);
 		$('#reportContent').html(report.content);
-		$('#reportBy').html(`${report.reported.firstName} ${report.reported.lastName}`);
 		$('#reporter').html(`${report.reporter.firstName} ${report.reporter.lastName}`);
+		$('#userReported').html(`${report.reported.firstName} ${report.reported.lastName}`);
 		$('#reportReview').html(report.reviewed);
 	
 		

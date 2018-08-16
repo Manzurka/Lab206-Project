@@ -28,7 +28,7 @@ public class Report {
     private Long id;
 	
 	@Column
-	@Min(2)
+	//@Min(2)
 	private String content;
 	
 	@Column

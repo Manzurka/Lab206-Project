@@ -183,8 +183,8 @@
 	<thead>
 	<tr>
 		<th scope="col">Content</th>
-		<th scope="col">Report By</th>
-		<th scope="col">Reporter</th>
+		<th scope="col">User Reported</th>
+		<th scope="col">Reported By</th>
 		<th scope="col">Reviewed</th>
 	</tr>
 	</thead>
@@ -224,8 +224,8 @@
 	<thead>
 	<tr>
 		<th scope="col">Content</th>
+		<th scope="col">User Reported</th>
 		<th scope="col">Reported By</th>
-		<th scope="col">Reporter</th>
 		<th scope="col">Reviewed</th>
 	</tr>
 	</thead>
@@ -233,7 +233,7 @@
 	
 	<tr>
 		<td><p id="reportContent"></p></td>
-		<td><p id="reportBy"></p></td>
+		<td><p id="userReported"></p></td>
 		<td><p id="reporter"></p></td>
 		<td><p id="reportReview"></p></td>
 	</tr>
