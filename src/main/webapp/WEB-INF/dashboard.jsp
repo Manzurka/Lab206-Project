@@ -44,6 +44,18 @@
 			<button class="close" type="button" data-toggle="dropdown">
 			<i class="fa fa-bars" aria-hidden="true"></i></button>
 			<ul class="dropdown-menu test">
+			
+			<!-- Mod Dash Link -->
+			<c:if test="${ currentUser.roles[0].name == 'ROLE_MOD' }">
+		    	<li><a href="/mod"><i class="fas fa-user-ninja nav-link"></i>Moderator</a></li>
+			</c:if>
+				
+			<!-- Admin Dash Link -->
+			<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
+		    	<li><a href="/admin"><i class="fas fa-user-shield nav-link"></i>Admin</a></li>
+				<li><a href="/mod"><i class="fas fa-user-ninja nav-link"></i>Moderator</a></li>
+			</c:if>
+				
             <!-- Settings button -->
 			    <li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
 					<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
@@ -787,7 +799,7 @@
 							
 						<form:form method="POST" action="/create/feedback" modelAttribute="feedb">	
 							
-							<form:textarea path="content" class="form-control" aria-label="Content"/>
+							<form:textarea path="content" class="form-control" aria-label="Content"></form:textarea>
 							
 							<br>
 							

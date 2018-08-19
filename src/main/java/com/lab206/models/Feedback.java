@@ -49,15 +49,21 @@ public class Feedback {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler", "created"})
-	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	//@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler", "created"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User feedbackCreator;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_reviewed_id")
+	//@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler", "created"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private User feedbackResolver;
 	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt=new Date();
 	}
-	
+
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt=new Date();
@@ -128,6 +134,14 @@ public class Feedback {
 
 	public void setFeedbackCreator(User user) {
 		this.feedbackCreator = user;
+	}
+	
+	public User getFeedbackResolver() {
+		return feedbackResolver;
+	}
+
+	public void setFeedbackResolver(User mod) {
+		this.feedbackResolver = mod;
 	}
 	
 }

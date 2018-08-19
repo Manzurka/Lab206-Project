@@ -17,10 +17,16 @@ import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "reports")
+@JsonIdentityInfo(
+		  scope = Report.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Report {
 
 	@Id
@@ -44,11 +50,12 @@ public class Report {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reported_id")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User reported;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reporter_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User reporter;
 	
 	@PrePersist

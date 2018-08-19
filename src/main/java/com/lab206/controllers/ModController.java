@@ -99,9 +99,10 @@ public class ModController {
 	
 	// Route for marking a Feedback as reviewed(true). This route is displaying within the feedback modal
 	@RequestMapping("/feedback/{id}/reviewed")
-    public String feedReview(@PathVariable("id") Long id, Model model) {
+    public String feedReview(@PathVariable("id") Long id, Model model, Principal p) {
 		Feedback feedback = fs.findFeedbackById(id);
-		fs.updateReview(feedback);
+				
+		fs.updateReview(feedback, us.findByEmail(p.getName()));
 		System.out.println("Updated Review: " + feedback.getReviewed());
 		
         return "redirect:/mod";

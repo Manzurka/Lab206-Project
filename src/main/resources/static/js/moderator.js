@@ -10,8 +10,7 @@ $('.c_feedback').click(function() {
 		$('#feedRating').html(feed.rating);
 		$('#feedSubmitter').html(`${feed.feedbackCreator.firstName} ${feed.feedbackCreator.lastName}`);
 		
-		if (feed.reviewed !== true) {
-			
+		if (!feed.reviewed) {
 			// Assigning the href to and grabbing the correct ID.
 			//This is marking the correct Feedback as of being reviewed
 			$('#reviewMark').html('<a>Mark as Reviewed</a>');
@@ -20,7 +19,7 @@ $('.c_feedback').click(function() {
 			$('#feedReview').html(feed.reviewed);
 		}
 		else {
-			$('#reviewMark').html('<span>This Feedback has been reviewed</span>');
+			$('#reviewMark').html(`<span>This Feedback has been reviewed by ${feed.feedbackResolver}</span>`);
 			$('#reviewMark').removeClass();
 			$('#reviewMark').removeAttr( "href" )
 		}

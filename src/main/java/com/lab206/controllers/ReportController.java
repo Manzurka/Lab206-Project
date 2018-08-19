@@ -25,13 +25,13 @@ public class ReportController {
 		this.us = us;
 		this.ps = ps;
 	}
-	
+		
 	@RequestMapping("/create/report")
 	public String createReport(@ModelAttribute("reportFrom") Report report, Principal p, HttpServletRequest request) {
 		report.setReporter(us.findByEmail(p.getName()));
 		report.setReviewed(false);
 		
-		//Is received from an hidden input in script.js
+		// Is received from an hidden input in script.js
 		String postID = request.getParameter("post_id");
 		
 		// Converting the String postID to a Long data type
@@ -43,6 +43,7 @@ public class ReportController {
 		System.out.println("Reported: " + report.getReported());
 		
 		rs.creatingReport(report);
+				
 		return "redirect:/dashboard";
 	}
 
