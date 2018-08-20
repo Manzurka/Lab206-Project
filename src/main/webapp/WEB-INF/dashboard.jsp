@@ -195,7 +195,7 @@
 								</c:if>
 		
 							<!-- Iterate through posts to fill recent posts -->
-							<c:forEach var="post" items="${posts}">
+							<c:forEach var="post" items="${posts.content}">
 								<c:choose>
 									<c:when test="${post.answer != null}">
 										<div class="col-12 content-panel answered">
@@ -262,7 +262,9 @@
     		<c:forEach begin="1" end="${totalPages}" var="index">
 	        	<nav aria-label="Page navigation example">
 				  <ul class="pagination justify-content-center">
+				  	<li class="page-item"><a class="page-link" href="/pages/${index - 1}">Previous</a></li>
 				    <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
+				    <li class="page-item"><a class="page-link" href="/pages/${index + 1}">Next</a></li>
 				  </ul>
 				</nav>
    			</c:forEach>

@@ -143,7 +143,7 @@
       
       <div class="modal-footer">
               
-        <a  id='reviewMark'>Mark as Reviewed></a>
+        <a  id='reviewMark'>Mark as Reviewed</a>
         
       </div>
       
