@@ -8,15 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lab206.models.Announcement;
 import com.lab206.models.Badge;
 import com.lab206.models.Feedback;
-import com.lab206.models.File;
 import com.lab206.models.Report;
-import com.lab206.models.User;
 
 import com.lab206.repositories.FileUploadDAO;
 
@@ -26,7 +23,6 @@ import com.lab206.services.FeedbackService;
 import com.lab206.services.ReportService;
 import com.lab206.services.UserService;
 
-import com.lab206.validator.UserValidator;
 
 @Controller
 public class ModController {
@@ -34,11 +30,11 @@ public class ModController {
 	@Autowired
     private FileUploadDAO fileUploadDao;
 	
-	private final UserService us;
-	private final FeedbackService fs;
-	private final ReportService rs;
-	private final AnnouncementService as;
-	private final BadgeService bs;
+	private UserService us;
+	private FeedbackService fs;
+	private ReportService rs;
+	private AnnouncementService as;
+	private BadgeService bs;
 	
 	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs) {
 		this.us = us;
@@ -101,7 +97,8 @@ public class ModController {
 	@RequestMapping("/feedback/{id}/reviewed")
     public String feedReview(@PathVariable("id") Long id, Model model, Principal p) {
 		Feedback feedback = fs.findFeedbackById(id);
-				
+		
+		// Grabs the feedback ID and the current signed in user to mark the feedback as reviewed
 		fs.updateReview(feedback, us.findByEmail(p.getName()));
 		System.out.println("Updated Review: " + feedback.getReviewed());
 		
