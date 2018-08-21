@@ -19,15 +19,19 @@ $('.c_feedback').click(function() {
 			$('#feedReview').html(feed.reviewed);
 		}
 		else {
-			$('#reviewMark').html(`<span>This Feedback has been reviewed by ${feed.feedbackResolver}</span>`);
+			// Performing another ajax call to grab the user who reviewed the feedback
+			$.ajax({
+				url: "/user/get/" + feed.feedbackResolver
+			}).then(function(user) {
+				console.log("Name: " + user.firstName);
+				$('#reviewMark').html(`<span>This Feedback has been reviewed by <a href="/profile/${user.id}" title="View Profile" target="_blank">${user.firstName} ${user.lastName}</a></span>`);
+			})
 			$('#reviewMark').removeClass();
 			$('#reviewMark').removeAttr( "href" )
 		}
 		
 		$('#feedReview').html(feed.reviewed);
 		
-		
-				
 	});
 });
 
