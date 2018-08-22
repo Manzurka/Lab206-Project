@@ -66,6 +66,10 @@ public class PostService {
 	public List<Post> postsContaining(String keyword){
 		return pr.findByContentContaining(keyword);
 	}
+	
+	public List<Post> postsContaining2(String query){
+		return pr.findByTitleOrContentContaining(query);
+	}
 
 	public Post findByPost(Long id) {
 		return pr.findById(id).get();	

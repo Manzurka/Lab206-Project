@@ -140,7 +140,7 @@
                                     <img class="avatar3" src="/projectImage?id=${project.id}" alt="Project Img"/>
                                     <p class="card-text">${project.about}</p>
                                     <c:if test="${user.id == currentUser.id}">
-                                       <a href="" class="shoe-project" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                       <a href="" class="shoe-project text-gray-blue" data-toggle="modal" data-project-id="<c:out value="${project.id}"/>"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                        <a href="/project/${project.id}/delete" class="shoe-project"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </c:if>
                             </div>

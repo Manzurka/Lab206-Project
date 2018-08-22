@@ -210,30 +210,30 @@ $(document).ready(function(){
 	// })
 
 	// Uses ajax to create a new comment and append to current comments
-	$('#newCommentForm').submit(function(event) {
-		event.preventDefault();
-		comment = $(this).serialize();
-		document.getElementById("newCommentForm").reset();
-		$.ajax({
-			type: "POST",
-			url: "/comment/create",
-			data: comment
-		}).then(function(com) {
-			console.log(com)
-			$('#showComments').append(`
-			<div class="row">
-				<div class="col-sm-12">
-					<h5>${com.commenter.firstName} replying to ${com.post}</h5>
-					<p class="line-breaks">${com.content}</p>
-					<ul class="time-list">
-						<li>Created At: ${com.createdAt}</li>
-					</ul>
-				</div>
-			</div>
-			<hr>
-		`);
-		})
-	});
+	// $('#newCommentForm').submit(function(event) {
+	// 	event.preventDefault();
+	// 	comment = $(this).serialize();
+	// 	document.getElementById("newCommentForm").reset();
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: "/comment/create",
+	// 		data: comment
+	// 	}).then(function(com) {
+	// 		console.log(com)
+	// 		$('#showComments').append(`
+	// 		<div class="row">
+	// 			<div class="col-sm-12">
+	// 				<h5>${com.commenter.firstName} replying to ${com.post}</h5>
+	// 				<p class="line-breaks">${com.content}</p>
+	// 				<ul class="time-list">
+	// 					<li>Created At: ${com.createdAt}</li>
+	// 				</ul>
+	// 			</div>
+	// 		</div>
+	// 		<hr>
+	// 	`);
+	// 	})
+	// });
 	
 	
 

@@ -16,4 +16,7 @@ public interface PostRepository extends CrudRepository<Post, Long>{
 	
 	List<Post> findByContentContaining(String keyword);
 	
+	@Query("SELECT p from Post p WHERE p.title LIKE %?1% OR p.content LIKE %?1% ORDER BY p.createdAt DESC")
+	List<Post> findByTitleOrContentContaining(String query);
+	
 }
