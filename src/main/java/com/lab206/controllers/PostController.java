@@ -41,7 +41,7 @@ public class PostController {
 	private AnnouncementService as;
 	private QuicklinkService qs;
 	private CommentService cs;
-	
+		
 	public PostController(PostService ps,
 			TagService ts,
 			UserService us,
@@ -109,18 +109,18 @@ public class PostController {
 	}
 	
 	@RequestMapping("/post/{id}/show")
-	public String showPost(@PathVariable("id") Long id,
+	public String showPost(@ModelAttribute("newComment") Comment newComment,
+			@PathVariable("id") Long id,
 			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
 		Post post = ps.findByPost(id);
-		String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", post);
 		model.addAttribute("announcements", as.findAll());
 		model.addAttribute("quicklinks", qs.findAll());
 		model.addAttribute("users", us.findByPoints());
-		model.addAttribute("languages", languages);
+		model.addAttribute("languages", Post.languages);
 		return "post.jsp";
 	}
 	

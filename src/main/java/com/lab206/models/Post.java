@@ -100,6 +100,8 @@ public class Post {
 		this.updatedAt=new Date();
 	}
 	
+	public static String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
+	
 	public Post() {
 		
 	}

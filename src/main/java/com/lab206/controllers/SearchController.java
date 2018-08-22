@@ -57,7 +57,7 @@ public class SearchController {
 			model.addAttribute("searchResults", true);
 			
 			if(category.equals("Posts")) {
-				model.addAttribute("posts", ps.postsContaining(keyword));		
+				model.addAttribute("posts", ps.postsContaining2(keyword));		
 			}
 			if (category.equals("Comments")) {
 				model.addAttribute("comments", cs.commentsContaining(keyword));
