@@ -29,9 +29,9 @@
 	<!-- If the user also has the ADMIN role, this button will display to direct over to the Admin dashboard -->
 	<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
 	   <a href="/admin" class="btn"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
+	   <br>
 	</c:if>
 	 
-	 <br>
 	 <br>
 	 
 	<!-- Upload new badge form -->
@@ -183,9 +183,10 @@
 	<thead>
 	<tr>
 		<th scope="col">Content</th>
-		<th scope="col">Report By</th>
-		<th scope="col">Reporter</th>
+		<th scope="col">User Reported</th>
+		<th scope="col">Reported By</th>
 		<th scope="col">Reviewed</th>
+		<th scope="col">View Post</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -197,6 +198,7 @@
 		<td><a href="profile/${report.reported.id}" title="View Profile" target='_blank'><c:out value="${report.reported.firstName} ${report.reported.lastName}"/></a></td>
 		<td><c:out value="${report.reporter.firstName} ${report.reporter.lastName}"/></td>
 		<td><c:out value="${report.reviewed}"/></td>
+		<td><c:out value="${thePost}"></c:out></td>
 	</tr>
 	
 	</c:forEach>
@@ -224,8 +226,8 @@
 	<thead>
 	<tr>
 		<th scope="col">Content</th>
+		<th scope="col">User Reported</th>
 		<th scope="col">Reported By</th>
-		<th scope="col">Reporter</th>
 		<th scope="col">Reviewed</th>
 	</tr>
 	</thead>
@@ -233,7 +235,7 @@
 	
 	<tr>
 		<td><p id="reportContent"></p></td>
-		<td><p id="reportBy"></p></td>
+		<td><p id="userReported"></p></td>
 		<td><p id="reporter"></p></td>
 		<td><p id="reportReview"></p></td>
 	</tr>

@@ -17,6 +17,9 @@ public class ReportService {
 		this.rr = rr;
 	}
 	
+	public void creatingReport(Report r) {
+		rr.save(r);
+	}
 	
 	public List<Report> findAll() {
 		return rr.findByOrderByIdDesc();

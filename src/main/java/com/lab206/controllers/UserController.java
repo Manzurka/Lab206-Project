@@ -27,6 +27,7 @@ import com.lab206.models.Feedback;
 import com.lab206.models.File;
 import com.lab206.models.Post;
 import com.lab206.models.Project;
+import com.lab206.models.Report;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
@@ -104,9 +105,10 @@ public class UserController {
 	public String dashboard(@ModelAttribute("newPost") Post newPost, @ModelAttribute("editPost") Post editPost, 
       @ModelAttribute("newComment") Comment newComment,
 			@ModelAttribute("user") User user,
+			@ModelAttribute("feedb") Feedback feedback,
+			@ModelAttribute("reportForm") Report report,
 			Principal principal,
-			Model model,
-			@ModelAttribute("feedb") Feedback feedback) {
+			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
 		model.addAttribute("posts", ps.allPostsNew());
 		model.addAttribute("currentUser", currentUser);

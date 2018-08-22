@@ -132,6 +132,9 @@ public class User {
 	@OneToMany(mappedBy = "feedbackCreator", fetch = FetchType.LAZY)
 	private List<Feedback> feedback;
 	
+	@OneToMany(mappedBy = "feedbackResolver", fetch = FetchType.LAZY)
+	private List<Feedback> feedbackReviewed;
+	
 	@OneToMany(mappedBy = "reported", fetch = FetchType.LAZY)
 	private List<Report> reportsAgainst;
 	
@@ -349,6 +352,14 @@ public class User {
 
 	public void setFeedback(List<Feedback> feedback) {
 		this.feedback = feedback;
+	}
+
+	public List<Feedback> getFeedbackReviewed() {
+		return feedbackReviewed;
+	}
+
+	public void setFeedbackReviewed(List<Feedback> feedback) {
+		this.feedbackReviewed = feedback;
 	}
 
 	public List<Report> getReportsAgainst() {

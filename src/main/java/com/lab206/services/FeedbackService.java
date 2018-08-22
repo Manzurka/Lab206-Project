@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.lab206.models.Feedback;
+import com.lab206.models.User;
 import com.lab206.repositories.FeedbackRepository;
 
 @Service
 public class FeedbackService {
 	
-	private final FeedbackRepository fr;
+	private FeedbackRepository fr;
 	
 	public FeedbackService(FeedbackRepository fr) {
 		this.fr = fr;
@@ -29,8 +30,9 @@ public class FeedbackService {
 		fr.save(f);
 	}
 	
-	// Update the Review status for Feedback
-	public void updateReview(Feedback review) {
+	// Update the Review status for Feedback and Grab the Moderators ID that approved the Feedback
+	public void updateReview(Feedback review, User reviewer) {
+		review.setFeedbackResolver(reviewer);
 		review.setReviewed(true);
 		fr.save(review);
 	}

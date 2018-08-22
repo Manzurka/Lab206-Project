@@ -4,8 +4,10 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lab206.models.Feedback;
 import com.lab206.models.User;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.UserService;
@@ -22,7 +24,7 @@ public class AnnouncementController {
 	}
 	
 	@RequestMapping("/announcements")
-	public String displayAllAnnouncements(Model model, Principal principal) {
+	public String displayAllAnnouncements(@ModelAttribute("feedb") Feedback feedback, Model model, Principal principal) {
 		User currentUser = us.findByEmail(principal.getName());
 		
 		model.addAttribute("users", us.findByPoints());
