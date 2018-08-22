@@ -10,8 +10,7 @@ $('.c_feedback').click(function() {
 		$('#feedRating').html(feed.rating);
 		$('#feedSubmitter').html(`${feed.feedbackCreator.firstName} ${feed.feedbackCreator.lastName}`);
 		
-		if (feed.reviewed !== true) {
-			
+		if (!feed.reviewed) {
 			// Assigning the href to and grabbing the correct ID.
 			//This is marking the correct Feedback as of being reviewed
 			$('#reviewMark').html('<a>Mark as Reviewed</a>');
@@ -20,15 +19,19 @@ $('.c_feedback').click(function() {
 			$('#feedReview').html(feed.reviewed);
 		}
 		else {
-			$('#reviewMark').html('<span>This Feedback has been reviewed</span>');
+			// Performing another ajax call to grab the user who reviewed the feedback
+			$.ajax({
+				url: "/user/get/" + feed.feedbackResolver
+			}).then(function(user) {
+				console.log("Name: " + user.firstName);
+				$('#reviewMark').html(`<span>This Feedback has been reviewed by <a href="/profile/${user.id}" title="View Profile" target="_blank">${user.firstName} ${user.lastName}</a></span>`);
+			})
 			$('#reviewMark').removeClass();
 			$('#reviewMark').removeAttr( "href" )
 		}
 		
 		$('#feedReview').html(feed.reviewed);
 		
-		
-				
 	});
 });
 
@@ -40,10 +43,9 @@ $('.c_report').click(function() {
 	$.ajax({
 		url: "/post/reports/" + displayReport
 	}).then(function(report) {
-		console.log(`Reporter: ${report.reporter.firstName}`);
 		$('#reportContent').html(report.content);
-		$('#reportBy').html(`${report.reported.firstName} ${report.reported.lastName}`);
 		$('#reporter').html(`${report.reporter.firstName} ${report.reporter.lastName}`);
+		$('#userReported').html(`${report.reported.firstName} ${report.reported.lastName}`);
 		$('#reportReview').html(report.reviewed);
 	
 		

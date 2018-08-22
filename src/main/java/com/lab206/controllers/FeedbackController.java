@@ -26,7 +26,7 @@ public class FeedbackController {
 	@RequestMapping("create/feedback")
 	public String creatingFeedback(@ModelAttribute("feedb") Feedback feedback, Principal p) {
 		
-		// Fetching the current signed in users email address to grab the Feedback Creator
+		// Fetching the current signed in user email address to grab the Feedback Creator
 		feedback.setFeedbackCreator(us.findByEmail(p.getName()));
 		fs.createFeedback(feedback);
 		return "redirect:/dashboard";

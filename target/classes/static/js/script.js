@@ -2,11 +2,14 @@
 
 
 $(document).ready(function(){
-	// For displaying the number 5 within the range input inside of the Feedback Modal
-	document.getElementById('range_weight_disp').innerHTML = 5;
 	
-	
-	
+	//When the report flag is clicked, this grabs its post ID in allowing us to fetch the author of the post name and email
+	$('.report').click(function() {
+		let displayReport = $(this).attr('data-report-id');
+		// Displaying an hidden input to grab the post ID
+		$('#reportsf').html(`<input type="hidden" value=${displayReport} name="post_id" />`)
+	});
+		
 	// Finds user based off of ID
 	var findUser = function(id) {
 		$.ajax({
@@ -242,6 +245,10 @@ $(document).ready(function(){
 		`);
 		})
 	});
+	
+	
+	// For displaying the number 5 within the range input inside of the Feedback Modal
+	document.getElementById('range_weight_disp').innerHTML = 5;
 	
 	
 
