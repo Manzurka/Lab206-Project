@@ -182,17 +182,16 @@
 						<div class="row mb-3">
 							<!-- New Comment form -->
 							<div class="col-sm-12" id="newComment">
-								<form name="newCommentForm" id="newCommentForm" method="post">
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								<form:form method="post" action="/comment/create" modelAttribute="newComment">
 									<input type="hidden" value="${post.id}" name="postId" id="commentPostId">
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text">Content</span>
 										</div>
-										<textarea id="newCommentContent" name="newCommentContent" placeholder="Enter comment here" class="form-control" aria-label="Comment text"></textarea>
+										<form:textarea path="content" placeholder="Enter comment here" class="form-control" aria-label="Comment text"/>
 									</div>
 									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-								</form>
+								</form:form>
 							</div>
 						</div>
 						<!-- Show comments -->
