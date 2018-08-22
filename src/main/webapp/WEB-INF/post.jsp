@@ -219,11 +219,22 @@
 								<c:if test="${comment != post.answer}">
 									<div class="row">
 										<div class="col-sm-12">
-											<c:if test="${currentUser == post.author && post.answer == null}">
-												<a href="/post/<c:out value="${post.id}"/>/answer/<c:out value="${comment.id}"/>" class="answer"><i class="fas fa-check-circle"></i></a>
+											<c:if test="${currentUser != comment.commenter}">
+												<c:if test="${currentUser == post.author && post.answer == null}">
+													<a href='/post/<c:out value="${post.id}"/>/answer/<c:out value="${comment.id}"/>' class="answer"><i class="fas fa-check-circle"></i></a>
+													<span class="float-right">&nbsp;&nbsp;</span>
+												</c:if>
+												<c:choose>
+													<c:when test="${comment.commentLikes.contains(currentUser)}">
+														<a href='/comment/<c:out value="${comment.id}"/>/unlike' class="liked"><i class="fas fa-thumbs-up"></i></a>
+													</c:when>
+													<c:otherwise>
+															<a href='/comment/<c:out value="${comment.id}"/>/like' class="like"><i class="fas fa-thumbs-up"></i></a>
+													</c:otherwise>
+												</c:choose>
 												<span class="float-right">&nbsp;&nbsp;</span>
+												<span class="small float-right"><c:out value="${comment.commentLikes.size()}"/></span>
 											</c:if>
-											<a href="" class="like"><i class="fas fa-thumbs-up"></i></a>
 											<h5><c:out value="${comment.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
 											<p class="line-breaks"><c:out value="${comment.content}"/></p>
 											<ul class="time-list">
