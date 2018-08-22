@@ -52,7 +52,21 @@ public class CommentController {
 	@RequestMapping("/comment/{id}/like")
 	public String likeComment(@PathVariable("id") Long id,
 			Principal principal) {
-		return "hello";
+		User currentUser = us.findByEmail(principal.getName());
+		Comment comment = cs.findById(id);
+		cs.likeComment(comment, currentUser);
+		us.increasePoints(comment.getCommenter(), 1);
+		return "redirect:/post/" + comment.getPost().getId() + "/show";
+	}
+	
+	@RequestMapping("/comment/{id}/unlike")
+	public String unlikeComment(@PathVariable("id") Long id,
+			Principal principal) {
+		User currentUser = us.findByEmail(principal.getName());
+		Comment comment = cs.findById(id);
+		cs.removeLikedComment(comment, currentUser);
+		us.decreasePoints(comment.getCommenter(), 1);
+		return "redirect:/post/" + comment.getPost().getId() + "/show";
 	}
 
 }
