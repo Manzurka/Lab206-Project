@@ -84,14 +84,32 @@ public class UserController {
 	@PostMapping("/user/create")
 	public String createUser(@Valid @ModelAttribute("newUser") User newUser,
 			BindingResult res,
+			@Valid @RequestParam("avatar") MultipartFile file,
 			HttpSession session,
 			HttpServletRequest request,
-			Model model) {
+			Model model) throws Exception {
 		uv.validate(newUser, res);
 		if (res.hasErrors()) {
+			System.out.println(res);
 			return "register.jsp";
 		}
 		us.saveWithUserRole(newUser);
+		if(!file.isEmpty()) {
+			if(!file.getOriginalFilename().isEmpty()) {
+				if(file.getOriginalFilename().contains(".jpg") 
+						|| file.getOriginalFilename().contains(".gif") 
+						|| file.getOriginalFilename().contains(".png")) {
+	    		File uploadedFile = new File();
+	            uploadedFile.setFileName(file.getOriginalFilename());
+	            uploadedFile.setData(file.getBytes());
+	    		uploadedFile.setUser4avatar(newUser);
+	            fileUploadDao.save(uploadedFile);
+				} else {
+					System.out.println("hello");
+					return "redirect:/user/new"; 
+				}
+			}      
+		}
 		try {
 			request.login(newUser.getEmail(),newUser.getPasswordConfirmation());
 			return "redirect:/dashboard";

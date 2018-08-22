@@ -67,9 +67,9 @@ public class ProjectController {
 	            fileUploadDao.save(uploadedFile);
 				} else {
 					return "redirect:/profile/"+id; 
-			}
-		}      
-	}
+				}
+			}      
+		}
 		return "redirect:/profile/"+id; 
   }
 	@PostMapping("/project/{id}/update")

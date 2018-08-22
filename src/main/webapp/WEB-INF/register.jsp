@@ -33,7 +33,8 @@
 		        			<h2>Register</h2>
 		        		</div>
 		        		<div class="card-body">
-				            <form:form method="POST" action="/user/create" modelAttribute="newUser" enctype="multipart/form-data">
+							<form:form method="POST" action="/user/create" modelAttribute="newUser" enctype="multipart/form-data">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				            	<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text">Name</span>
