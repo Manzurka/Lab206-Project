@@ -105,7 +105,7 @@
                             <li class="list-group-item">Points: ${user.points}</li>
                             <li class="list-group-item">Cohort: </li>
                             <li class="list-group-item">GitHub: <a target = "_blank" href="${user.github}">${user.github}</a></li>
-                            <li class="list-group-item">About me: </li> 
+                            <li class="list-group-item">About me:  ${user.about}</li> 
                         </ul>
                     </div>
                 </div>
@@ -149,12 +149,8 @@
                       </div>
                 </div>
     <div class="row">
-    <h2>Recent Posts <- </h2>
-        <label class="switch">
-            <input type="checkbox" id="profileComments" name="profileComments" aria-describedby="commentQuestions">
-            <span class="slider round"></span>
-        </label>
-    <h2>-> Recent Comments</h2> 
+    <h2>Recent Posts:</h2>
+        
     <c:forEach items="${user.post}" var="post">
             <div class="col-sm-12"> 
                 <div class="list-group">                    
