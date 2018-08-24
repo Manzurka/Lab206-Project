@@ -61,23 +61,24 @@ public class ModController {
 	
 	
 	//Uploading a new Badge
-	@RequestMapping("/new/badge")
-    public String badge(@ModelAttribute("badge") Badge badge, BindingResult result) {
-		System.out.println("Image: " + badge.getImage());
-		
-//		if (!badge.isEmpty()) {
-//			
-//	         if( !badge.getOriginalFilename().isEmpty()) {
-//        		File uploadedFile = new File();
-//                uploadedFile.setFileName(badge.getOriginalFilename());
-//                uploadedFile.setData(badge.getBytes());
-//                uploadedFile.setUserBadge(badge);
-//                fileUploadDao.save(uploadedFile);
-//    		}
-//
-//	         bs.save(badge);
-//		}
-		
+	@PostMapping("/new/badge")
+    public String badge(@Valid @ModelAttribute("badge") Badge badge,
+			BindingResult res,
+			@Valid @RequestParam("image") MultipartFile file,
+			HttpSession session,
+			HttpServletRequest request,
+			Model model,
+			Principal principal) throws Exception {
+	   	bs.save(badge);
+		if (!file.isEmpty()) {	
+	         if( !file.getOriginalFilename().isEmpty()) {
+        		File uploadedFile = new File();
+                uploadedFile.setFileName(file.getOriginalFilename());
+                uploadedFile.setData(file.getBytes());
+                uploadedFile.setBadgefile(badge);
+                fileUploadDao.save(uploadedFile);
+	         }
+		}
         return "redirect:/mod";
     }
 	
