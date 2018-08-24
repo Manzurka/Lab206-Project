@@ -44,6 +44,10 @@ public class File {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="post_id")
 	private Post post4file;
+	
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="badge_id")
+    private Badge badgefile;
     
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="project_id")
@@ -98,7 +102,14 @@ public class File {
 	public void setUser4avatar(User user4avatar) {
 		this.user4avatar = user4avatar;
 	}
+	
+	public Badge getBadgefile() {
+		return badgefile;
+	}
 
+	public void setBadgefile(Badge badgefile) {
+		this.badgefile = badgefile;
+	}
 	
 
 
