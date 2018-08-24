@@ -20,8 +20,8 @@ public class BadgeService {
 	}
 	
 	// Saving the new Badge
-	public void createBadge(@Valid Badge b) {
-		br.save(b);
+	public void save(Badge badge) {		
+		br.save(badge);
 	}
 
 }
