@@ -166,7 +166,6 @@
                     </a>
                 </div>
             </div>
-    </c:forEach>
     </div>
         <div class="row">
         <h2>Recent Comments:</h2>
@@ -185,6 +184,7 @@
             </div>
             </c:forEach>
         </div>
+        </c:forEach>
     </div>
         <div id="settingsModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
