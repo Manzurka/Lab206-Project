@@ -24,7 +24,7 @@ public class PostService {
 		this.cr = cr;
 		this.ur = ur;
 	}
-	
+
 	public List<Post> allPosts() {
 		return pr.findAll();
 	}
@@ -65,10 +65,6 @@ public class PostService {
 	
 	public List<Post> postsContaining(String keyword){
 		return pr.findByContentContaining(keyword);
-	}
-
-	public Post findByPost(Long id) {
-		return pr.findById(id).get();	
 	}
 	
 	public void likePost(User user,

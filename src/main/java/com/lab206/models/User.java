@@ -141,13 +141,6 @@ public class User {
 	@OneToMany(mappedBy = "reporter", fetch = FetchType.LAZY)
 	private List<Report> reportsFiled;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "user_patches",
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "patch_id"))
-    private List<Patch> patches;
-	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="cohort_id")
 	private Cohort cohort;
@@ -246,16 +239,8 @@ public class User {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public Date getUpdatedAt() {
 		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public List<Role> getRoles() {
@@ -376,14 +361,6 @@ public class User {
 
 	public void setReportsFiled(List<Report> reportsFiled) {
 		this.reportsFiled = reportsFiled;
-	}
-
-	public List<Patch> getPatches() {
-		return patches;
-	}
-
-	public void setPatches(List<Patch> patches) {
-		this.patches = patches;
 	}
 
 	public File getFile() {

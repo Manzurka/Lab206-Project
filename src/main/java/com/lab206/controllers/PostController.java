@@ -26,6 +26,7 @@ import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.CommentService;
+import com.lab206.services.FileService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
 import com.lab206.services.TagService;
@@ -41,19 +42,22 @@ public class PostController {
 	private AnnouncementService as;
 	private QuicklinkService qs;
 	private CommentService cs;
+	private FileService fs;
 	
 	public PostController(PostService ps,
 			TagService ts,
 			UserService us,
 			AnnouncementService as,
 			QuicklinkService qs,
-			CommentService cs) {
+			CommentService cs,
+			FileService fs){
 		this.ps = ps;
 		this.ts = ts;
 		this.us = us;
 		this.as = as;
 		this.qs = qs;
 		this.cs = cs;
+		this.fs = fs;
 	}
 
 	@PostMapping("/post/create")
@@ -72,7 +76,7 @@ public class PostController {
 		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
 		if (res.hasErrors()) {
 			model.addAttribute("posting", true);
-			model.addAttribute("currentUser", us.findByEmail(principal.getName()));
+			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("posts", ps.allPostsNew());
 			model.addAttribute("announcements", as.findAll());
 			model.addAttribute("quicklinks", qs.findAll());
@@ -86,23 +90,19 @@ public class PostController {
 		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
         	for (MultipartFile aFile : file){
-        		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
-        			if (!aFile.getOriginalFilename().isEmpty()) {
-        				File uploadedFile = new File();
-    	                uploadedFile.setFileName(aFile.getOriginalFilename());
-    	                uploadedFile.setData(aFile.getBytes());
-    	                uploadedFile.setPost4file(newPost);
-    	                fileUploadDao.save(uploadedFile);
-        			} else {
-        				model.addAttribute("posting", true);
-        				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
-        				model.addAttribute("currentUser", currentUser);
-        				model.addAttribute("posts", ps.allPostsNew());
-        				model.addAttribute("announcements", as.findAll());
-        				model.addAttribute("quicklinks", qs.findAll());
-        				model.addAttribute("users", us.findByPoints());
-        				return "dashboard.jsp";
-        			}
+        		File newFile = fs.createFile(aFile);
+        		if (newFile == null) {
+        			model.addAttribute("posting", true);
+    				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
+    				model.addAttribute("currentUser", currentUser);
+    				model.addAttribute("posts", ps.allPostsNew());
+    				model.addAttribute("announcements", as.findAll());
+    				model.addAttribute("quicklinks", qs.findAll());
+    				model.addAttribute("users", us.findByPoints());
+    				return "dashboard.jsp";
+        		} else {
+        			newFile.setPost4file(newPost);
+        			fileUploadDao.save(newFile);
         		}
         	}
 		return "redirect:/dashboard";
@@ -114,7 +114,8 @@ public class PostController {
 			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
-		Post post = ps.findByPost(id);
+		Post post = ps.findPostById(id);
+		System.out.println(post.getAttachments());
 		String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", post);
@@ -127,25 +128,9 @@ public class PostController {
 	
 	@RequestMapping("/post/{id}/delete")
 	public String deletePost(@PathVariable("id") Long id) {
-		us.decreasePoints(ps.findByPost(id).getAuthor(), 1);
+		us.decreasePoints(ps.findPostById(id).getAuthor(), 1);
 		ps.deletePost(id);
 		return "redirect:/dashboard";
-	}
-	
-	@RequestMapping("/post/{id}/edit")
-	public String editPost(@ModelAttribute("editPost") Post post, @PathVariable("id") Long id, Principal principal, Model model) {
-		User currentUser = us.findByEmail(principal.getName());
-		System.out.println("testing");
-		model.addAttribute("posts", ps.allPostsNew());
-		model.addAttribute("announcements", as.findAll());
-		model.addAttribute("quicklinks", qs.findAll());
-		model.addAttribute("users", us.findByPoints());
-		model.addAttribute("currentUser", currentUser);
-		model.addAttribute("post", ps.findPostById(id));
-		model.addAttribute("newPost", new Post());
-		model.addAttribute("newComment", new Comment());
-		model.addAttribute("editing", true);
-		return "dashboard.jsp";
 	}
 	
 	@PostMapping("/post/{id}/edit")
@@ -157,13 +142,18 @@ public class PostController {
 			@RequestParam(value = "tag1") String tag1,
 			@RequestParam(value = "tag2") String tag2,
 			@RequestParam(value = "tag3") String tag3,
-			@Valid @RequestParam MultipartFile[] file,
+			@Valid @RequestParam(value = "file1") MultipartFile file1,
+			@Valid @RequestParam(value = "file2") MultipartFile file2,
+			@Valid @RequestParam(value = "file3") MultipartFile file3,
+			@Valid @RequestParam(value = "file4") MultipartFile file4,
+			@Valid @RequestParam(value = "file5") MultipartFile file5,
             HttpServletRequest request,
 			Principal principal) {
 		if (result.hasErrors()) {
 			return "dashboard.jsp";
 		}
 		User author = us.findByEmail(principal.getName());
+		List<MultipartFile> files = Arrays.asList(file1, file2, file3, file4, file5);
 		List<String> subjects = Arrays.asList(tag1, tag2, tag3);
 		List<Tag> tags = ts.findTagsBySubject(course, language, subjects);
 		List<Tag> tags_reversed = new ArrayList<Tag>();
@@ -171,6 +161,9 @@ public class PostController {
 			tags_reversed.add(tags.get(i));
 		}
 		post.setTags(tags_reversed);
+		for (MultipartFile file : files) {
+			System.out.println(file);
+		}
 		ps.updatePost(post, author);
 		return "redirect:/dashboard";
 	}
@@ -198,7 +191,7 @@ public class PostController {
 		  @PathVariable("commentId") Long commentId,
 		  Principal principal) {
 	  Comment comment = cs.findById(commentId);
-	  Post post = ps.findByPost(id);
+	  Post post = ps.findPostById(id);
 	  ps.markAnswer(comment, post);
 	  us.increasePoints(comment.getCommenter(), 3);
 	  return "redirect:/post/" + id + "/show";

@@ -32,6 +32,7 @@ import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.CommentService;
+import com.lab206.services.FileService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
 import com.lab206.services.UserService;
@@ -48,18 +49,21 @@ public class UserController {
 	private UserValidator uv;
 	private AnnouncementService as;
 	private QuicklinkService qs;
+	private FileService fs;
 	
 	public UserController(UserService us,
 			PostService ps, CommentService cs,
 			UserValidator uv,
 			AnnouncementService as,
-			QuicklinkService qs) {
+			QuicklinkService qs,
+			FileService fs) {
 		this.us = us;
 		this.ps = ps;
 		this.uv = uv;
 		this.cs = cs;
 		this.qs = qs;
 		this.as = as;
+		this.fs = fs;
 	}
 
 	@RequestMapping("/login") 
@@ -90,25 +94,15 @@ public class UserController {
 			Model model) throws Exception {
 		uv.validate(newUser, res);
 		if (res.hasErrors()) {
-			System.out.println(res);
 			return "register.jsp";
 		}
 		us.saveWithUserRole(newUser);
-		if(!file.isEmpty()) {
-			if(!file.getOriginalFilename().isEmpty()) {
-				if(file.getOriginalFilename().contains(".jpg") 
-						|| file.getOriginalFilename().contains(".gif") 
-						|| file.getOriginalFilename().contains(".png")) {
-	    		File uploadedFile = new File();
-	            uploadedFile.setFileName(file.getOriginalFilename());
-	            uploadedFile.setData(file.getBytes());
-	    		uploadedFile.setUser4avatar(newUser);
-	            fileUploadDao.save(uploadedFile);
-				} else {
-					System.out.println("hello");
-					return "redirect:/user/new"; 
-				}
-			}      
+		File newFile = fs.createFile(file);
+		if (newFile == null) {
+			return "redirect:/user/new";
+		} else {
+			newFile.setUser4avatar(newUser);
+			fileUploadDao.save(newFile);
 		}
 		try {
 			request.login(newUser.getEmail(),newUser.getPasswordConfirmation());
@@ -165,36 +159,22 @@ public class UserController {
 			currentUser.setLastName(lastName);
 			currentUser.setEmail(email);
 			currentUser.setAbout(about);
-			
-			if (!avatar.isEmpty()) {
-				
-				if( !avatar.getOriginalFilename().isEmpty() 
-					&& avatar.getOriginalFilename().contains(".gif")
-					|| avatar.getOriginalFilename().contains(".png")
-					|| avatar.getOriginalFilename().contains(".jpg")) {
-						if (currentUser.getFile() != null) {
-									fileUploadDao.delete(currentUser.getFile().getId());
-							
-						}
-					File uploadedFile = new File();
-					uploadedFile.setFileName(avatar.getOriginalFilename());
-					uploadedFile.setData(avatar.getBytes());
-					uploadedFile.setUser4avatar(currentUser);
-					fileUploadDao.save(uploadedFile);
-        			} else {
-        				model.addAttribute("editing", true);
-        				model.addAttribute("filemessage", "Upload gif, jpg, png only");
-        				model.addAttribute("currentUser", currentUser);
-        				model.addAttribute("posts", ps.allPostsNew());
-        				model.addAttribute("announcements", as.findAll());
-        				model.addAttribute("quicklinks", qs.findAll());
-        				model.addAttribute("users", us.findByPoints());
-        				return "dashboard.jsp";
-        			}
-				us.save(currentUser);
+			File newFile = fs.createFile(avatar);
+			if (currentUser.getFile() != null && newFile != null) {
+				fileUploadDao.delete(currentUser.getFile().getId());
+				newFile.setUser4avatar(currentUser);
+				fileUploadDao.save(newFile);
+			} else {
+				model.addAttribute("editing", true);
+				model.addAttribute("filemessage", "Upload gif, jpg, png only");
+				model.addAttribute("currentUser", currentUser);
+				model.addAttribute("posts", ps.allPostsNew());
+				model.addAttribute("announcements", as.findAll());
+				model.addAttribute("quicklinks", qs.findAll());
+				model.addAttribute("users", us.findByPoints());
+				return "dashboard.jsp";
 			}
 			us.save(currentUser);
-
 			try {
 				request.login(user.getEmail(),user.getPasswordConfirmation());
 				return "redirect:/dashboard";
@@ -226,6 +206,5 @@ public class UserController {
 	    model.addAttribute("comments", cs.findAll());
 	    return "profile.jsp"; 
 	  }
-
 
 }

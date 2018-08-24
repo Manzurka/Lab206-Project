@@ -28,6 +28,7 @@ import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.BadgeService;
 import com.lab206.services.FeedbackService;
+import com.lab206.services.FileService;
 import com.lab206.services.ReportService;
 import com.lab206.services.UserService;
 
@@ -43,13 +44,15 @@ public class ModController {
 	private ReportService rs;
 	private AnnouncementService as;
 	private BadgeService bs;
+	private FileService fileService;
 	
-	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs) {
+	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs, FileService fileService) {
 		this.us = us;
 		this.fs = fs;
 		this.rs = rs;
 		this.as = as;
 		this.bs = bs;
+		this.fileService = fileService;
 	}
 	
 	@RequestMapping("/mod")
@@ -78,15 +81,11 @@ public class ModController {
 			Model model,
 			Principal principal) throws Exception {
 	   	bs.save(badge);
-		if (!file.isEmpty()) {	
-	         if( !file.getOriginalFilename().isEmpty()) {
-        		File uploadedFile = new File();
-                uploadedFile.setFileName(file.getOriginalFilename());
-                uploadedFile.setData(file.getBytes());
-                uploadedFile.setBadgefile(badge);
-                fileUploadDao.save(uploadedFile);
-	         }
-		}
+	    File newFile = fileService.createFile(file);
+	    if (newFile != null) {
+	    	newFile.setBadgefile(badge);
+	    	fileUploadDao.save(newFile);
+	    }
         return "redirect:/mod";
     }
 	

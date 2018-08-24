@@ -443,7 +443,7 @@
 									<span class="input-group-text">File#1</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile01">
+									<input type="file" name="file1" class="custom-file-input" id="currentInputGroupFile01">
 									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 								</div>
 							</div>
@@ -452,7 +452,7 @@
 									<span class="input-group-text">File#2</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile02">
+									<input type="file" name="file2" class="custom-file-input" id="currentInputGroupFile02">
 									<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
 								</div>	
 							</div>
@@ -461,7 +461,7 @@
 									<span class="input-group-text">File#3</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile03">
+									<input type="file" name="file3" class="custom-file-input" id="currentInputGroupFile03">
 									<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
 								</div>
 							</div>
@@ -470,7 +470,7 @@
 									<span class="input-group-text">File#4</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile04">
+									<input type="file" name="file4" class="custom-file-input" id="currentInputGroupFile04">
 									<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
 								</div>
 							</div>
@@ -479,7 +479,7 @@
 									<span class="input-group-text">File#5</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile05">
+									<input type="file" name="file5" class="custom-file-input" id="currentInputGroupFile05">
 									<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
 								</div>
 							</div>
