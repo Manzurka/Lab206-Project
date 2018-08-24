@@ -2,17 +2,25 @@ package com.lab206.controllers;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lab206.models.Announcement;
 import com.lab206.models.Badge;
 import com.lab206.models.Feedback;
+import com.lab206.models.File;
 import com.lab206.models.Report;
 
 import com.lab206.repositories.FileUploadDAO;
@@ -61,23 +69,24 @@ public class ModController {
 	
 	
 	//Uploading a new Badge
-	@RequestMapping("/new/badge")
-    public String badge(@ModelAttribute("badge") Badge badge, BindingResult result) {
-		System.out.println("Image: " + badge.getImage());
-		
-//		if (!badge.isEmpty()) {
-//			
-//	         if( !badge.getOriginalFilename().isEmpty()) {
-//        		File uploadedFile = new File();
-//                uploadedFile.setFileName(badge.getOriginalFilename());
-//                uploadedFile.setData(badge.getBytes());
-//                uploadedFile.setUserBadge(badge);
-//                fileUploadDao.save(uploadedFile);
-//    		}
-//
-//	         bs.save(badge);
-//		}
-		
+	@PostMapping("/new/badge")
+    public String badge(@Valid @ModelAttribute("badge") Badge badge,
+			BindingResult res,
+			@Valid @RequestParam("image") MultipartFile file,
+			HttpSession session,
+			HttpServletRequest request,
+			Model model,
+			Principal principal) throws Exception {
+	   	bs.save(badge);
+		if (!file.isEmpty()) {	
+	         if( !file.getOriginalFilename().isEmpty()) {
+        		File uploadedFile = new File();
+                uploadedFile.setFileName(file.getOriginalFilename());
+                uploadedFile.setData(file.getBytes());
+                uploadedFile.setBadgefile(badge);
+                fileUploadDao.save(uploadedFile);
+	         }
+		}
         return "redirect:/mod";
     }
 	

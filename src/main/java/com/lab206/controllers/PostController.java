@@ -110,6 +110,7 @@ public class PostController {
 	
 	@RequestMapping("/post/{id}/show")
 	public String showPost(@PathVariable("id") Long id,
+			@ModelAttribute("newComment") Comment newComment,
 			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
