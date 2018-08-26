@@ -193,9 +193,11 @@
 											</div>
 									</c:forEach>
 								</c:if>
-		
-							<!-- Iterate through posts to fill recent posts -->
-							<c:forEach var="post" items="${posts.content}">
+								
+	 							
+ 								<c:if test="${ totalPages != null }">
+ 								   <c:forEach var="post" items="${posts.content}">
+ 								
 								<c:choose>
 									<c:when test="${post.answer != null}">
 										<div class="col-12 content-panel answered">
@@ -255,21 +257,39 @@
 									</div>
 								</div>
 							</c:forEach>
+							</c:if>
 						</div>
 						
-			<!-- Pagination Links -->
-			
-    		<c:forEach begin="1" end="${totalPages}" var="index">
-	        	<nav aria-label="Page navigation example">
-				  <ul class="pagination justify-content-center">
-				  	<li class="page-item"><a class="page-link" href="/pages/${index - 1}">Previous</a></li>
-				    <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
-				    <li class="page-item"><a class="page-link" href="/pages/${index + 1}">Next</a></li>
-				  </ul>
-				</nav>
-   			</c:forEach>
+						
+			<!-- Pagination -->
+		    <nav>
+			    <c:if test="${ pageNumber != 1 }">
+					<ul class="pagination justify-content-center">
+					  	<li class="page-item"><a class="page-link" href="/pages/${pageNumber - 1}">Previous</a></li>
+					</ul>
+				</c:if>
+				
+				<!--
+					Create a variable that will increment through the forEach loop
+					to prevent from the next button in pagination appear as there is no more content
+				 -->
+				<c:set var="next" scope="application" value="${0}"/>
+				
+	    		<c:forEach begin="1" end="${totalPages}" var="index">
+					 <ul class="pagination justify-content-center">
+					   <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
+					 </ul>
+					 <c:set var="next" scope="application" value="${ next + 1}"/>
+	   			</c:forEach>
    			
-   			<!-- Pagination Links -->
+	   			<c:if test="${ pageNumber != next }">
+	   				<ul class="pagination justify-content-center">
+					    <li class="page-item"><a class="page-link" href="/pages/${pageNumber + 1}">Next</a></li>
+					</ul>
+				</c:if>
+			</nav>
+   			<!-- Pagination -->
+						
 						
 					</div>
 				</div>

@@ -17,7 +17,7 @@ public class PaginationService {
 	@Autowired 
 	PaginationRepository pr;
 	
-	private static final int PAGE_SIZE = 3;
+	private static final int PAGE_SIZE = 10;
 	
 	public Page<Post> postPerPage(int pageNumber) {
 		

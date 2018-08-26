@@ -47,7 +47,7 @@ public class PaginationController {
 	    // total number of pages that we have
 	    int totalPages = posts.getTotalPages();
 	    
-	    
+	    model.addAttribute("pageNumber", pageNumber);
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("posts", posts);
 	    model.addAttribute("currentUser", currentUser);
