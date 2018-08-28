@@ -39,6 +39,10 @@ public class PaginationController {
 		    @ModelAttribute("user") User user,Model model,
 		    @PathVariable("pageNumber") int pageNumber,
 		    Principal principal) {
+		
+		// If the page number is equal to or less than 0, redirect to the page 1
+		if (pageNumber <= 0) return "redirect:1";
+		
 	    Page<Post> posts = ps.postPerPage(pageNumber - 1);
 	    
 	    //Current signed in user
@@ -54,6 +58,7 @@ public class PaginationController {
 	    model.addAttribute("announcements", as.findAll());
 		model.addAttribute("quicklinks", qs.findAll());
 		model.addAttribute("users", us.findByPoints());
+		
 	    return "dashboard.jsp";
 	}
 
