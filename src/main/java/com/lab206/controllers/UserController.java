@@ -133,7 +133,7 @@ public class UserController {
 		model.addAttribute("announcements", as.findAll());
 		model.addAttribute("quicklinks", qs.findAll());
 		model.addAttribute("users", us.findByPoints());
-		return "dashboard.jsp";
+		return "redirect:pages/1";
 	}
 	
 	@RequestMapping("/feedback")

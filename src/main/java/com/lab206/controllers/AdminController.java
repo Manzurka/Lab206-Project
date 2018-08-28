@@ -74,7 +74,7 @@ public class AdminController {
         MimeMessageHelper helper = new MimeMessageHelper(message);
         
         // Creates a random string of nums and letters
-        String SALTCHARS = "ABCDEF012GHIJK3456LMNOPQRSTU789VWXYZ";
+        String SALTCHARS = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
         
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
