@@ -31,14 +31,12 @@ public class AdminController {
 	
 	private final UserService us;
 	private final AnnouncementService as;
-	private final UserValidator userValidator;
 	
 	@Autowired
     private JavaMailSender sender;
 	
-	public AdminController(UserService us, UserValidator userValidator, AnnouncementService as) {
+	public AdminController(UserService us, AnnouncementService as) {
 		this.us = us;
-		this.userValidator = userValidator;
 		this.as = as;
 
 	}
@@ -56,13 +54,11 @@ public class AdminController {
 	@RequestMapping("/announce")
     public String announce(Principal principal, Model model, @ModelAttribute("announce") Announcement announce, BindingResult result) {
 		if (result.hasErrors()) {
-			System.out.println("Nope, did not work");
 			model.addAttribute("all_announcements", as.findAll());
 			return "admin.jsp";
 		}
 		as.createAnnouncement(announce);
 		model.addAttribute("all_announcements", as.findAll());
-		System.out.println("WORKED");
         return "redirect:/admin";
     }
 	
@@ -106,11 +102,9 @@ public class AdminController {
 		String newRole = request.getParameter("newRole");
 		
 		if (newRole.equals("Moderator")) {
-			System.out.println("Mod");
 			us.updateUserWithModRole(us.findByEmail(newRoleEmailAddress));
 		}
 		else if (newRole.equals("Admin")) {
-			System.out.println("Admin");
 			us.updateUserWithAdminRole(us.findByEmail(newRoleEmailAddress));
 		}
 		
