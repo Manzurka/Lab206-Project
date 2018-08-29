@@ -50,7 +50,7 @@ public class Report {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reported_id")
-	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User reported;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
