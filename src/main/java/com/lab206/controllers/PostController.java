@@ -148,7 +148,8 @@ public class PostController {
 			@Valid @RequestParam(value = "file4") MultipartFile file4,
 			@Valid @RequestParam(value = "file5") MultipartFile file5,
             HttpServletRequest request,
-			Principal principal) {
+			Principal principal,
+			Model model) throws Exception {
 		if (result.hasErrors()) {
 			return "dashboard.jsp";
 		}
@@ -165,6 +166,27 @@ public class PostController {
 			System.out.println(file);
 		}
 		ps.updatePost(post, author);
+		// edit file upload stuff
+		for (MultipartFile aFile : file){
+    		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
+    			if (!aFile.getOriginalFilename().isEmpty()) {
+    				File uploadedFile = new File();
+	                uploadedFile.setFileName(aFile.getOriginalFilename());
+	                uploadedFile.setData(aFile.getBytes());
+	                uploadedFile.setPost4file(post);
+	                fileUploadDao.save(uploadedFile);
+    			} else {
+    				model.addAttribute("posting", true);
+    				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
+    				model.addAttribute("currentUser", author);
+    				model.addAttribute("posts", ps.allPostsNew());
+    				model.addAttribute("announcements", as.findAll());
+    				model.addAttribute("quicklinks", qs.findAll());
+    				model.addAttribute("users", us.findByPoints());
+    				return "dashboard.jsp";
+    			}
+    		}
+		}
 		return "redirect:/dashboard";
 	}
   

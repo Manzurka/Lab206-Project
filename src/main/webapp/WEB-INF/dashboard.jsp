@@ -142,7 +142,7 @@
 									</div>
 							</c:forEach>
 							<!--for users-->
-							<c:forEach var="user" items="${searchedusers}">
+							<c:forEach var="user" items="${searchedUsers}">
 									<div class="col-12 content-panel">
 										<div class="row">
 											<div class="col-12">
@@ -374,14 +374,14 @@
 			</div>
 			<!-- Announcements, leaderboards, quicklinks -->
 			<div class="col-md-3">
-				<div class="row">
+				<div class="row collapsible" data-target-div="announcements">
 					<div class="col-md-12 rounded-top bg-gunmetal">
 						<h1 class="text-ghost-white">Announcements</h1>
 					</div>
 				</div>
 				<div class="row">
 					<!-- Announcements go here-->
-					<div class="col-12 content-panel">
+					<div class="col-12 content-panel" id="announcements">
 						<c:forEach var="announcement" items="${announcements}" varStatus="status"> 
 								<c:if test="${status.count <= 5}">
 									<h3>${announcement.subject}</h3>
@@ -391,7 +391,7 @@
 						<a href="/announcements">View all</a>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row collapsible mt-1" data-target-div="leaderboard">
 					<!-- Leaderboard header -->
 					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
 						<h1>Leaderboard</h1>
@@ -399,29 +399,51 @@
 				</div>
 				<div class="row">
 					<!-- Leaderboard content -->
-					<div class="col-12 content-panel">
-						<ol>
-							<c:forEach var="user" items="${users}" varStatus="status"> 
-								<c:if test="${status.count <= 5}">
-									<li>
-										<a target="_blank" href="/profile/${user.id}">
-											<c:choose>
-												<c:when test="${user.file != null}">
-													<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-												</c:when>
-												<c:otherwise>
-													<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
-												</c:otherwise>
-											</c:choose>
-										</a>
-										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
-									</li>
-								</c:if>
-							</c:forEach>
-						</ol>
+					<div class="col-12 content-panel" id="leaderboard">
+						<c:forEach var="user" items="${users}" varStatus="status">
+							<c:if test="${status.count <= 5}">
+								<ol>
+								<div class="row mb-2 leader">
+										<c:if test="${status.index == 0}"><span class="badge bg-gold text-ghost-white"></c:if>
+										<c:if test="${status.index == 1}"><span class="badge bg-silver text-ghost-white"></c:if>
+										<c:if test="${status.index == 2}"><span class="badge bg-bronze text-ghost-white"></c:if>
+										<c:if test="${status.index == 3}"><span class="badge bg-onyx text-ghost-white"></c:if>
+										<c:if test="${status.index == 4}"><span class="badge bg-platinum text-ghost-white"></c:if>
+										${status.index + 1}</span>
+										<c:choose>
+											<c:when test="${user.file.getId() != null}">
+												<a href="/profile/${user.id}">
+													<img class="avatar float-left" src="/imageDisplay?id=${user.id}" width=100px alt="User Avatar"/>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a href="/profile/${post.author.id}">
+													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+												</a>
+											</c:otherwise>
+										</c:choose>
+											Name: ${user.firstName} ${user.lastName}<br>
+											Points: ${user.points}
+								</div>
+								</ol>
+								<!-- <li>
+									<a target="_blank" href="/profile/${user.id}">
+										<c:choose>
+											<c:when test="${user.file != null}">
+												<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+											</c:when>
+											<c:otherwise>
+												<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
+											</c:otherwise>
+										</c:choose>
+									</a>
+									<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
+								</li> -->
+							</c:if>
+						</c:forEach>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mt-1 collapsible" data-target-div="quicklinks">
 					<!-- Quicklink header -->
 					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
 							<h1>Quicklinks</h1>
@@ -429,7 +451,7 @@
 				</div>
 				<div class="row">
 					<!-- Quicklinks list; iterate through quicklinks -->
-					<div class="col-12 content-panel">
+					<div class="col-12 content-panel" id="quicklinks">
 						<form class="my-2 my-lg-0" method="post" id="quicklink" action="/quicklinks">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 							<div class="input-group">

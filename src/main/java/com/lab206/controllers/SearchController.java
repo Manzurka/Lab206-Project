@@ -62,7 +62,7 @@ public class SearchController {
 			if (category.equals("Comments")) {
 				model.addAttribute("comments", cs.commentsContaining(keyword));
 			}
-			if (category.equals("Users")) {
+			if (category.equals("searchedUsers")) {
 				model.addAttribute("searchedusers",us.findByName(keyword));
 			}
 			if (category.equals("Tags")) {
