@@ -22,7 +22,10 @@
 		        <div class="col text-center">
 		            <c:if test="${errorMessage != null}">
 		                <c:out value="${errorMessage}"></c:out>
-		            </c:if>
+					</c:if>
+					<c:if test="${logoutMessage != null}" >
+						<c:out value="${logoutMessage}"></c:out>
+					</c:if>
 		        </div>
 		    </div>
 		    <div class="row">

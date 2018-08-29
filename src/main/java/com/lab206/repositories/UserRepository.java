@@ -22,7 +22,8 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	
 	User findByEmail(String email);
 	
-	List<User> findByFirstNameContaining(String keyword);
+	@Query("SELECT u FROM User u WHERE u.firstName LIKE %?1% OR u.lastName LIKE %?1%")
+	List<User> findByFirstNameOrLastNameContaining(String keyword);
 
 	List<User> findByOrderByPointsDesc();
 

@@ -39,11 +39,12 @@
 	
 	<h4>Upload new Badge</h4>
 	
-	<form:form action="/new/badge" method="post" modelAttribute="badge">
+	<form:form action="/new/badge" method="post" modelAttribute="badge" enctype="multipart/form-data">
 		<div class="custom-file">
-			<form:label path="image" class="custom-file-label" for="badge">Choose Image</form:label>
-			<form:input path="image" type="file" name="badge" class="custom-file-input" id="badge" />
-			
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			<label class="custom-file-label" for="image">Choose Image</label>
+			<input id="image" type="file" name="image" class="custom-file-input"/>
+			<form:input path="name"></form:input>
 			<input type='submit' value='Upload' class='btn'/>
 		</div>
 	</form:form>

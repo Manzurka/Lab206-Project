@@ -142,7 +142,7 @@
 									</div>
 							</c:forEach>
 							<!--for users-->
-							<c:forEach var="user" items="${searchedusers}">
+							<c:forEach var="user" items="${searchedUsers}">
 									<div class="col-12 content-panel">
 										<div class="row">
 											<div class="col-12">
@@ -205,9 +205,76 @@
 											</div>
 									</c:forEach>
 								</c:if>
+								
+								
+	 						<c:choose>
+ 								<c:when test="${ totalPages != null }">
+ 								<c:forEach var="post" items="${posts.content}">
+ 								
+								<c:choose>
+									<c:when test="${post.answer != null}">
+										<div class="col-12 content-panel answered">
+									</c:when>
+									<c:otherwise>
+										<div class="col-12 content-panel">
+									</c:otherwise>
+								</c:choose>
+									<div class="row">
+										<c:choose>
+											<c:when test="${post.author.file.getId() != null}">
+												<a href="/profile/${post.author.id}">
+													<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a href="/profile/${post.author.id}">
+													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+												</a>
+											</c:otherwise>
+										</c:choose>
 		
-							<!-- Iterate through posts to fill recent posts -->
-							<c:forEach var="post" items="${posts}"> 
+										<div class="col-sm-6">
+											<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
+											Uploaded Files:
+											<c:forEach var="file" items="${post.attachments}">
+												(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
+											</c:forEach>
+											<p>${show}</p>
+										</div>
+										<div class="col-sm-3">
+											<i class="fa fa-tags"></i>
+											<ul class="list-inline">
+												<!-- Iterate through tags in each post -->
+												<c:forEach var="tag" items="${post.tags}">
+													<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+												</c:forEach>
+											</ul>
+										</div>
+										<div class="col-sm-1">
+											<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="container">
+											<div class="col-12">
+												<p class="line-breaks"><c:out value="${post.content}"/></p>
+											</div>
+											<div class="col-12">
+												<!-- Total comments and show -->
+												<p>
+													<c:out value="${post.comments.size()}"/> Comments 
+													<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							</c:when>
+							
+							<c:otherwise>
+								<c:forEach var="post" items="${posts}">
+ 								
 								<c:choose>
 									<c:when test="${post.answer != null}">
 										<div class="col-12 content-panel answered">
@@ -267,20 +334,55 @@
 									</div>
 								</div>
 							</c:forEach>
+							</c:otherwise>
+							
+						</c:choose>
 						</div>
+						
+						
+			<!-- Pagination -->
+		    <nav>
+			    <c:if test="${ pageNumber != 1 }">
+					<ul class="pagination justify-content-center">
+					  	<li class="page-item"><a class="page-link" href="/pages/${pageNumber - 1}">Previous</a></li>
+					</ul>
+				</c:if>
+				
+				<!--
+					Create a variable that will increment through the forEach loop
+					to prevent from the next button in pagination appear as there is no more content
+				 -->
+				<c:set var="next" scope="application" value="${0}"/>
+				
+	    		<c:forEach begin="1" end="${totalPages}" var="index">
+					 <ul class="pagination justify-content-center">
+					   <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
+					 </ul>
+					 <c:set var="next" scope="application" value="${ next + 1}"/>
+	   			</c:forEach>
+   			
+	   			<c:if test="${ pageNumber != next }">
+	   				<ul class="pagination justify-content-center">
+					    <li class="page-item"><a class="page-link" href="/pages/${pageNumber + 1}">Next</a></li>
+					</ul>
+				</c:if>
+			</nav>
+   			<!-- Pagination -->
+						
+						
 					</div>
 				</div>
 			</div>
 			<!-- Announcements, leaderboards, quicklinks -->
 			<div class="col-md-3">
-				<div class="row">
+				<div class="row collapsible" data-target-div="announcements">
 					<div class="col-md-12 rounded-top bg-gunmetal">
 						<h1 class="text-ghost-white">Announcements</h1>
 					</div>
 				</div>
 				<div class="row">
 					<!-- Announcements go here-->
-					<div class="col-12 content-panel">
+					<div class="col-12 content-panel" id="announcements">
 						<c:forEach var="announcement" items="${announcements}" varStatus="status"> 
 								<c:if test="${status.count <= 5}">
 									<h3>${announcement.subject}</h3>
@@ -290,7 +392,7 @@
 						<a href="/announcements">View all</a>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row collapsible mt-1" data-target-div="leaderboard">
 					<!-- Leaderboard header -->
 					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
 						<h1>Leaderboard</h1>
@@ -298,29 +400,51 @@
 				</div>
 				<div class="row">
 					<!-- Leaderboard content -->
-					<div class="col-12 content-panel">
-						<ol>
-							<c:forEach var="user" items="${users}" varStatus="status"> 
-								<c:if test="${status.count <= 5}">
-									<li>
-										<a target="_blank" href="/profile/${user.id}">
-											<c:choose>
-												<c:when test="${user.file != null}">
-													<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-												</c:when>
-												<c:otherwise>
-													<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
-												</c:otherwise>
-											</c:choose>
-										</a>
-										<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
-									</li>
-								</c:if>
-							</c:forEach>
-						</ol>
+					<div class="col-12 content-panel" id="leaderboard">
+						<c:forEach var="user" items="${users}" varStatus="status">
+							<c:if test="${status.count <= 5}">
+								<ol>
+								<div class="row mb-2 leader">
+										<c:if test="${status.index == 0}"><span class="badge bg-gold text-ghost-white"></c:if>
+										<c:if test="${status.index == 1}"><span class="badge bg-silver text-ghost-white"></c:if>
+										<c:if test="${status.index == 2}"><span class="badge bg-bronze text-ghost-white"></c:if>
+										<c:if test="${status.index == 3}"><span class="badge bg-onyx text-ghost-white"></c:if>
+										<c:if test="${status.index == 4}"><span class="badge bg-platinum text-ghost-white"></c:if>
+										${status.index + 1}</span>
+										<c:choose>
+											<c:when test="${user.file.getId() != null}">
+												<a href="/profile/${user.id}">
+													<img class="avatar float-left" src="/imageDisplay?id=${user.id}" width=100px alt="User Avatar"/>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a href="/profile/${post.author.id}">
+													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+												</a>
+											</c:otherwise>
+										</c:choose>
+											Name: ${user.firstName} ${user.lastName}<br>
+											Points: ${user.points}
+								</div>
+								</ol>
+								<!-- <li>
+									<a target="_blank" href="/profile/${user.id}">
+										<c:choose>
+											<c:when test="${user.file != null}">
+												<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+											</c:when>
+											<c:otherwise>
+												<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
+											</c:otherwise>
+										</c:choose>
+									</a>
+									<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
+								</li> -->
+							</c:if>
+						</c:forEach>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mt-1 collapsible" data-target-div="quicklinks">
 					<!-- Quicklink header -->
 					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
 							<h1>Quicklinks</h1>
@@ -328,7 +452,7 @@
 				</div>
 				<div class="row">
 					<!-- Quicklinks list; iterate through quicklinks -->
-					<div class="col-12 content-panel">
+					<div class="col-12 content-panel" id="quicklinks">
 						<form class="my-2 my-lg-0" method="post" id="quicklink" action="/quicklinks">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 							<div class="input-group">

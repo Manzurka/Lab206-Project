@@ -3,6 +3,7 @@ package com.lab206.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -29,9 +31,6 @@ public class Badge {
 	@Column
 	private String name;
 	
-	@Column
-	private String image;
-	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date createdAt;
@@ -39,6 +38,9 @@ public class Badge {
 	@Column
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date updatedAt;
+	
+	@OneToOne(mappedBy="badgefile", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private File image;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -60,12 +62,6 @@ public class Badge {
 	public Badge() {
 		
 	}
-	
-	public Badge(String name,
-			String image) {
-		this.name = name;
-		this.image = image;
-	}
 
 	public Long getId() {
 		return id;
@@ -83,28 +79,20 @@ public class Badge {
 		this.name = name;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
+	
+	public File getImage() {
+		return image;
+	}
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setImage(File image) {
+		this.image = image;
 	}
 
 	public List<User> getUsers() {

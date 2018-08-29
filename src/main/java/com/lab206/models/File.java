@@ -1,5 +1,7 @@
 package com.lab206.models;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,6 +42,14 @@ public class File {
     @Column
     private byte[] data;
     
+    @Column(updatable=false)
+	@DateTimeFormat(pattern="MM/dd/yyyy")
+	private Date createdAt;
+
+	@Column
+	@DateTimeFormat(pattern="MM/dd/yyyy")
+	private Date updatedAt;
+    
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -44,11 +58,25 @@ public class File {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="post_id")
 	private Post post4file;
+	
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="badge_id")
+    private Badge badgefile;
     
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="project_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Project project;
+    
+    @PrePersist
+	protected void onCreate() {
+		this.createdAt=new Date();
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt=new Date();
+	}
 
     
 	public Project getProject() {
@@ -98,7 +126,22 @@ public class File {
 	public void setUser4avatar(User user4avatar) {
 		this.user4avatar = user4avatar;
 	}
+	
+	public Badge getBadgefile() {
+		return badgefile;
+	}
 
+	public void setBadgefile(Badge badgefile) {
+		this.badgefile = badgefile;
+	}
+	
+	public Date getCreatedAt() {
+		return this.createdAt;
+	}
+	
+	public Date getUpdatedAt() {
+		return this.updatedAt;
+	}
 	
 
 
