@@ -25,10 +25,12 @@ public class PostService {
 		this.ur = ur;
 	}
 	
+	// tested
 	public List<Post> allPosts() {
 		return pr.findAll();
 	}
 	
+	//tested
 	public List<Post> allPostsNew() {
 		return pr.findAllNew();
 	}
