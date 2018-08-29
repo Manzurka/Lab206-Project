@@ -2,6 +2,34 @@
 
 
 $(document).ready(function(){
+
+	$('.collapsible').click(function() {
+		var target = $(this).attr('data-target-div');
+		if (target == 'announcements') {
+			if ($('#announcements').is(':visible')) {
+				$('#announcements').slideUp();
+			}
+			else {
+				$('#announcements').slideDown();
+			}
+		}
+		else if (target == 'leaderboard') {
+			if ($('#leaderboard').is(':visible')) {
+				$('#leaderboard').slideUp();
+			}
+			else {
+				$('#leaderboard').slideDown();
+			}
+		}
+		else if (target == 'quicklinks') {
+			if ($('#quicklinks').is(':visible')) {
+				$('#quicklinks').slideUp();
+			}
+			else {
+				$('#quicklinks').slideDown();
+			}
+		}
+	});
 	
 	//When the report flag is clicked, this grabs its post ID in allowing us to fetch the author of the post name and email
 	$('.report').click(function() {

@@ -90,7 +90,7 @@ public class UserService {
 	}
 	
 	public List<User> findByName(String keyword){
-		return ur.findByFirstNameContaining(keyword);	
+		return ur.findByFirstNameOrLastNameContaining(keyword);	
 	}
 	
 	public List<User> findByPoints(){

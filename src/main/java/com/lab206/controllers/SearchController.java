@@ -55,6 +55,7 @@ public class SearchController {
 			User currentUser = us.findByEmail(principal.getName());
 			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("searchResults", true);
+			model.addAttribute("query", keyword);
 			
 			if(category.equals("Posts")) {
 				model.addAttribute("posts", ps.postsContaining(keyword));		
@@ -63,7 +64,7 @@ public class SearchController {
 				model.addAttribute("comments", cs.commentsContaining(keyword));
 			}
 			if (category.equals("Users")) {
-				model.addAttribute("searchedusers",us.findByName(keyword));
+				model.addAttribute("searchedUsers",us.findByName(keyword));
 			}
 			if (category.equals("Tags")) {
 				Tag tag=ts.findTagBySubject(keyword);
