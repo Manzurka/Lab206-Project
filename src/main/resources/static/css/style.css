@@ -85,6 +85,9 @@ body {
 .line-breaks {
 	white-space: pre-line;
 }
+.leader {
+	margin-left: 10px;
+}
 /* Colors for like, dislike, report */
 .like {
 	color: #C5CDDB;
@@ -233,6 +236,23 @@ body {
 .bg-polished-pine-light {
 	background-color: #8FD3BC;
 }
+/* Background colors for leaderboard */
+.bg-gold {
+	background-color: #bf9b30;
+}
+.bg-silver {
+	background-color: #C0C0C0;
+}
+.bg-bronze {
+	background-color: #CD7F32;
+}
+.bg-onyx {
+	background-color: #353839;
+}
+.bg-platinum {
+	background-color: #e5e4e2;
+}
+
 /* Classes for text color */
 .text-ghost-white {
 	color: #F9FDFF;

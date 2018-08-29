@@ -64,7 +64,7 @@ public class PostService {
 		}
 	
 	public List<Post> postsContaining(String keyword){
-		return pr.findByContentContaining(keyword);
+		return pr.findByContentOrTitleContaining(keyword);
 	}
 	
 	public void likePost(User user,
