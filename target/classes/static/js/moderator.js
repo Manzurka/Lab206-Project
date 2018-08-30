@@ -23,7 +23,6 @@ $('.c_feedback').click(function() {
 			$.ajax({
 				url: "/user/get/" + feed.feedbackResolver
 			}).then(function(user) {
-				console.log("Name: " + user.firstName);
 				$('#reviewMark').html(`<span>This Feedback has been reviewed by <a href="/profile/${user.id}" title="View Profile" target="_blank">${user.firstName} ${user.lastName}</a></span>`);
 			})
 			$('#reviewMark').removeClass();
@@ -44,8 +43,14 @@ $('.c_report').click(function() {
 		url: "/post/reports/" + displayReport
 	}).then(function(report) {
 		$('#reportContent').html(report.content);
-		$('#reporter').html(`${report.reporter.firstName} ${report.reporter.lastName}`);
 		$('#userReported').html(`${report.reported.firstName} ${report.reported.lastName}`);
+		
+		$.ajax({
+			url: "/user/get/" + report.reporter
+		}).then(function(user) {
+			$('#reporter').html(`${user.firstName} ${user.lastName}`);
+		});
+		
 		$('#reportReview').html(report.reviewed);
 	
 		
@@ -54,11 +59,6 @@ $('.c_report').click(function() {
 		$('#reportMarkedAsReviewed').attr("href", `/report/${report.id}/reviewed`);
 	});
 });
-
-const limitText = (text, count) => {
-	text.slice(0, count) + (text.length > count ? "..." : "");
-}
-
 
 // For Displaying the loading screen
 let counter;

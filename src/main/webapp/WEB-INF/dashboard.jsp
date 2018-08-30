@@ -56,6 +56,10 @@
 				<li><a href="/mod"><i class="fas fa-user-ninja nav-link"></i>Moderator</a></li>
 			</c:if>
 				
+			<!-- Feed button -->
+			    <li><a href="#f" data-toggle="modal" data-target="#f" aria-label="Help">
+					<i class="fa fa-comment nav-link" aria-hidden="true"></i>Feedback</a>
+				</li>	
             <!-- Settings button -->
 			    <li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
 					<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
@@ -63,10 +67,6 @@
             <!-- Help button -->
 			    <li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
 					<i class="fa fa-question-circle nav-link" aria-hidden="true"></i>Help</a>
-				</li>
-            <!-- Feedback button -->
-				<li><a href="#feedbackModal" data-toggle="modal" data-target="#feedbackModal" aria-label="Feedback">
-					<i class="fa fa-comment nav-link" aria-hidden="true"></i>Feedback</a>
 				</li>
 				<li>
             <!-- Logout button -->
@@ -78,7 +78,7 @@
 			</ul>
 		</div>			
 			
-		<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>
+		<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>	
         	<!-- User profile image, show default if there is no image in the database -->
 			<c:choose>
 				<c:when test="${currentUser.file.getId() != null}">
@@ -263,7 +263,7 @@
 												<!-- Total comments and show -->
 												<p>
 													<c:out value="${post.comments.size()}"/> Comments 
-													<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+													<a href="" data-toggle="modal" data-target="#reportModal" data-report-id="<c:out value="${post.id}"/>" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
 												</p>
 											</div>
 										</div>
@@ -342,10 +342,10 @@
 						
 			<!-- Pagination -->
 		    <nav>
+			    <ul class="pagination justify-content-center">
 			    <c:if test="${ pageNumber != 1 }">
-					<ul class="pagination justify-content-center">
 					  	<li class="page-item"><a class="page-link" href="/pages/${pageNumber - 1}">Previous</a></li>
-					</ul>
+					
 				</c:if>
 				
 				<!--
@@ -355,19 +355,18 @@
 				<c:set var="next" scope="application" value="${0}"/>
 				
 	    		<c:forEach begin="1" end="${totalPages}" var="index">
-					 <ul class="pagination justify-content-center">
 					   <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
-					 </ul>
+					 
 					 <c:set var="next" scope="application" value="${ next + 1}"/>
 	   			</c:forEach>
    			
 	   			<c:if test="${ pageNumber != next }">
-	   				<ul class="pagination justify-content-center">
 					    <li class="page-item"><a class="page-link" href="/pages/${pageNumber + 1}">Next</a></li>
-					</ul>
+					
 				</c:if>
+				</ul>
 			</nav>
-   			<!-- Pagination -->
+   			<!-- Pagination -->   			
 						
 						
 					</div>
@@ -865,6 +864,52 @@
 				</div>
 			</div>
 			
+		
+		<!-- Feedback Modal -->
+		<div id="f" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Submit Feedback</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						
+							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
+							
+						<form:form method="POST" action="/create/feedback" modelAttribute="feedb">	
+							
+							<textarea name="content" class="form-control" aria-label="Content"></textarea>
+							
+							<br>
+							
+							<label path="rating">Rate Feedback:
+							<input 
+								name="rating"
+								type="range"
+						        class="custom-range"
+						        value="5"
+						        min="1"
+						        max="10"
+						        oninput="range_weight_disp.value = range_weight.value"
+							/>
+							<output id="range_weight_disp"></output>
+							
+							</label>
+							
+							
+							
+							<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right" value="Submit"/>
+						
+						</form:form>
+			    	</div>
+				</div>
+			</div>
+		</div>
+			
+			
 		<!-- Report Modal -->
 		<div id="reportModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -884,15 +929,15 @@
 							</p>
 														
 							<form:form method="POST" action="/create/report" modelAttribute="reportForm">	
-					
+
 							 <div align="center">
-					            <form:textarea path="content" rows="4" cols="50"/>
+					            <textarea name="content" id="content" rows="4" cols="50"></textarea>
 					            
 					            <br/>
 					            <br/>
-	
+					            
 					        	<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white" value="Submit"/>
-							 </div>	
+							 </div>
 					        	
 								<!-- Displaying an hidden input to grab the post ID and also displaying the input type='submit' button -->
 					        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -904,56 +949,6 @@
 				</div>
 			</div>
 		</div>
-		
-		<!-- Feedback Modal -->
-		<div id="feedbackModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Submit feedback</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-							</div>
-							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
-							
-						<form:form method="POST" action="/create/feedback" modelAttribute="feedb">	
-							
-							<form:textarea path="content" class="form-control" aria-label="Content"></form:textarea>
-							
-							<br>
-							
-							<form:label path="rating">Rate Feedback:
-							<form:input 
-								path="rating"
-								type="range"
-						        class="custom-range"
-						        name="weight"
-						        id="range_weight"
-						        value="5"
-						        min="1"
-						        max="10"
-						        oninput="range_weight_disp.value = range_weight.value"
-							/>
-							<output id="range_weight_disp"></output>
-							
-							</form:label>
-							
-							</div>
-							
-							
-							<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right" value="Submit"/>
-						
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-		
-		
+
 	</body>
 </html>
