@@ -62,6 +62,8 @@ public class AnnouncementServiceTest {
     @Test(expected = RuntimeException.class)
     public void testFindAllException() {
         Mockito.when(repository.findByOrderByIdDesc()).thenThrow(RuntimeException.class);
+        
+        service.findAll();
     }
 
     @Test
@@ -76,7 +78,9 @@ public class AnnouncementServiceTest {
     public void testFindByIdEmpty() {
         Optional<Announcement> optional = Optional.empty();
         Mockito.when(repository.findById(announcementId)).thenReturn(optional);
-		Assert.assertNull(Announcement);
+        Announcement announcement = service.findById(announcementId);
+        Assert.assertNull(announcement);
+		
     }
 
 }

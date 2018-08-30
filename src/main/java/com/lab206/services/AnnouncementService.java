@@ -1,6 +1,7 @@
 package com.lab206.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -23,7 +24,8 @@ public class AnnouncementService {
 	}
 	
 	public Announcement findById(Long id) {
-		return ar.findById(id).get();
+		Optional <Announcement> announcement = ar.findById(id);
+		return announcement.isPresent() ? announcement.get() : null;
 	}
 	
 	
