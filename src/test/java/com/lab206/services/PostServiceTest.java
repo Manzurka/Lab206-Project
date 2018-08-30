@@ -2,7 +2,6 @@ package com.lab206.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -100,5 +99,29 @@ public class PostServiceTest {
 		
 		List<Post> result = service.allPostsNew();
 	}
-	
 }
+	
+//	@Test
+//	public void setPostAuthor() {
+//		List<Post> posts = new ArrayList<>();
+//		posts.add(new Post());
+//		
+//		Mockito.when(pr.findAllNew()).thenReturn(posts);
+//		
+//		List<Post> result = service.allPostsNew();
+//		
+//		Assert.assertEquals(1, result.size());
+//	}
+//	
+//	@Test 
+//	public void setPostAuthorEmpty() {
+//		List<Post> posts = new ArrayList<>();
+//		
+//		Mockito.when(pr.save(null)).thenReturn(posts);
+//		
+//		List<Post> result = service.author();
+//		
+//		Assert.assertEquals(0, result.size());
+//	}
+	
+
