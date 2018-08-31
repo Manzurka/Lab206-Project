@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -166,13 +167,12 @@ public class PostController {
 			System.out.println(file);
 		}
 		ps.updatePost(post, author);
-		// edit file upload stuff
-		for (MultipartFile aFile : file){
-    		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
-    			if (!aFile.getOriginalFilename().isEmpty()) {
+		for (MultipartFile file : files){
+    		if( file.getBytes() != null && file.getBytes().length>0) {
+    			if (!file.getOriginalFilename().isEmpty()) {
     				File uploadedFile = new File();
-	                uploadedFile.setFileName(aFile.getOriginalFilename());
-	                uploadedFile.setData(aFile.getBytes());
+	                uploadedFile.setFileName(file.getOriginalFilename());
+	                uploadedFile.setData(file.getBytes());
 	                uploadedFile.setPost4file(post);
 	                fileUploadDao.save(uploadedFile);
     			} else {
