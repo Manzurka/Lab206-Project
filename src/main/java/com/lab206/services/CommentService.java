@@ -1,9 +1,11 @@
 package com.lab206.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.lab206.models.Announcement;
 import com.lab206.models.Comment;
 import com.lab206.models.Post;
 import com.lab206.models.User;
@@ -36,6 +38,7 @@ public class CommentService {
 		return cr.save(comment);
 	}
 	
+	// tested
 	public List<Comment> findAll() {
 		return cr.findAll();
 	}
@@ -44,8 +47,10 @@ public class CommentService {
 		return cr.findByPostDesc(post);
 	}
 	
+	//tested
 	public Comment findById(Long id) {
-		return cr.findById(id).get();
+		Optional <Comment> comment = cr.findById(id);
+		return comment.isPresent() ? comment.get() : null;
 	}
 	
 	public void likeComment(Comment comment,
