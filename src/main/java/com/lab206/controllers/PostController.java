@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -89,10 +91,16 @@ public class PostController {
 		ps.createPost(newPost);
 		us.increasePoints(currentUser, 1);
 		ps.setPostAuthor(currentUser, ps.savePost(newPost));
-        	for (MultipartFile aFile : file){
-        		File newFile = fs.createFile(aFile);
-        		if (newFile == null) {
-        			model.addAttribute("posting", true);
+		for (MultipartFile aFile : file){
+    		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
+    			if (!aFile.getOriginalFilename().isEmpty()) {
+    				File uploadedFile = new File();
+	                uploadedFile.setFileName(aFile.getOriginalFilename());
+	                uploadedFile.setData(aFile.getBytes());
+	                uploadedFile.setPost4file(newPost);
+	                fileUploadDao.save(uploadedFile);
+    			} else {
+    				model.addAttribute("posting", true);
     				model.addAttribute("filemessage", "Upload correct file type. Only gif, png, jpg are permitted");
     				model.addAttribute("currentUser", currentUser);
     				model.addAttribute("posts", ps.allPostsNew());
@@ -100,11 +108,9 @@ public class PostController {
     				model.addAttribute("quicklinks", qs.findAll());
     				model.addAttribute("users", us.findByPoints());
     				return "dashboard.jsp";
-        		} else {
-        			newFile.setPost4file(newPost);
-        			fileUploadDao.save(newFile);
-        		}
-        	}
+    			}
+    		}
+		}
 		return "redirect:/dashboard";
 	}
 	
@@ -167,7 +173,7 @@ public class PostController {
 		}
 		ps.updatePost(post, author);
 		// edit file upload stuff
-		for (MultipartFile aFile : file){
+		for (MultipartFile aFile : files){
     		if( aFile.getBytes() != null && aFile.getBytes().length>0) {
     			if (!aFile.getOriginalFilename().isEmpty()) {
     				File uploadedFile = new File();
@@ -188,6 +194,13 @@ public class PostController {
     		}
 		}
 		return "redirect:/dashboard";
+	}
+	
+	@RequestMapping("/showFile/{postid}/{fileId}/delete")
+	public String deleteFile(@PathVariable("postid") Long postId, @PathVariable("fileId") Long fileId) {
+		// All credit to noahendr@ 
+		fs.deleteFile(fileId);
+		return "redirect:/post/" + postId + "/show";
 	}
   
   @RequestMapping("/post/{id}/like")

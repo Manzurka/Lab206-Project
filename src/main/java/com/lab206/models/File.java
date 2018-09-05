@@ -142,6 +142,11 @@ public class File {
 	public Date getUpdatedAt() {
 		return this.updatedAt;
 	}
+
+	public Comment getFileCreator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 
