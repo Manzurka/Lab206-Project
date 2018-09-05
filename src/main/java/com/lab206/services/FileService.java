@@ -1,5 +1,7 @@
 package com.lab206.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +33,17 @@ public class FileService {
 	
 	public File replaceFile(MultipartFile multipartFile) {
 		return new File();
+	}
+
+	public Optional<File> findFileById(Long fileId) {
+		Optional<File> file= fileUploadDao.findById(fileId);
+		return file;
+	}
+
+	public void deleteFile(Long fileId) {
+		
+		fileUploadDao.delete(fileId);
+		
 	}
 
 }
