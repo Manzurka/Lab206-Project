@@ -34,6 +34,29 @@ $(document).ready(function(){
 		// Displaying an hidden input to grab the post ID
 		$('#reportsf').html(`<input type="hidden" value=${displayReport} name="post_id" />`)
 	});
+	
+	
+	// For the Feedback range slider as this continues to update the value
+	let rangeSlider = function(){
+	  let slider = $('.range-slider'),
+	      range = $('.range-slider__range'),
+	      value = $('.range-slider__value');
+
+	  slider.each(function(){
+
+	    value.each(function(){
+	      let value = $(this).prev().attr('value');
+	      $(this).html(value);
+	    });
+
+	    range.on('input', function(){
+	      $(this).next(value).html(this.value);
+	    });
+	  });
+	};
+
+	rangeSlider();
+	
 		
 	// Finds user based off of ID
 	var findUser = function(id) {
