@@ -123,6 +123,10 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "badge_id"))
     private List<Badge> badges;
 	
+	@OneToMany(mappedBy="requester", fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private List<BadgeRequest> badgeRequests;
+	
 	@OneToMany(mappedBy = "quicklinkCreator", fetch = FetchType.LAZY)
 	private List<Quicklink> quicklinks;
 	
@@ -313,6 +317,14 @@ public class User {
 
 	public void setBadges(List<Badge> badges) {
 		this.badges = badges;
+	}
+	
+	public List<BadgeRequest> getBadgeRequests() {
+		return badgeRequests;
+	}
+	
+	public void setBadgeRequests(List<BadgeRequest> badgeRequests) {
+		this.badgeRequests = badgeRequests;
 	}
 
 	public List<Quicklink> getQuicklinks() {

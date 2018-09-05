@@ -5,6 +5,30 @@ body {
 	background-repeat: repeat;
 	overflow-x: hidden;
 }
+table {
+	width: 100%;
+}
+th {
+	background-color: #C5CDDB;
+}
+th:first-child {
+	border-radius: 5px 0 0 0;
+}
+th:last-child {
+	border-radius: 0 5px 0 0;
+}
+tr {
+	border-bottom: 1px solid lightgray;
+}
+tr:hover {
+	background-color: #f7f7f7;
+}
+td a:hover {
+	color: #2E328E;
+}
+table, tr, td, th {
+	padding: 5px 30px;
+}
 /* Styles for specific IDs */
 #logo {
 	float: left;
@@ -54,6 +78,15 @@ body {
 	float: left;
 	margin: 0 .5em;
 	max-width: 75px;
+}
+.badge-img {
+	margin: 2px 0;
+	width: 60px;
+	height: 60px;
+}
+.badge-img-sm {
+	width: 30px;
+	height: 30px;
 }
 .nav-link {
 	color: #335C67;
@@ -304,10 +337,8 @@ body {
 	width: 60px;
 	height: 26px;
 }
-
 /* Hides checkbox */
 .switch input {display:none;}
-
 /* The slider */
 .slider {
 	position: absolute;
@@ -320,7 +351,6 @@ body {
 	-webkit-transition: .4s;
 	transition: .4s;
 }
-
 .slider:before {
 	position: absolute;
 	content: "";
@@ -332,26 +362,21 @@ body {
 	-webkit-transition: .4s;
 	transition: .4s;
 }
-
 input:checked + .slider {
 	background-color: #2E328E;
 }
-
 input:focus + .slider {
 	box-shadow: 0 0 1px #2E328E;
 }
-
 input:checked + .slider:before {
 	-webkit-transform: translateX(34px);
 	-ms-transform: translateX(34px);
 	transform: translateX(34px);
 }
-
 /* Rounded slider */
 .slider.round {
 	border-radius: 34px;
 }
-
 .slider.round:before {
 	border-radius: 50%;
 }

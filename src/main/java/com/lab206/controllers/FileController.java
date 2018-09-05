@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lab206.models.File;
 import com.lab206.repositories.FileUploadDAO;
+import com.lab206.services.BadgeService;
 import com.lab206.services.ProjectService;
 import com.lab206.services.UserService;
 
@@ -23,10 +24,12 @@ import com.lab206.services.UserService;
 public class FileController {
 	private UserService us;
 	private ProjectService ps;
+	private BadgeService bs;
 	
-	public FileController(UserService us, ProjectService ps) {
+	public FileController(UserService us, ProjectService ps, BadgeService bs) {
 		this.us = us;
 		this.ps = ps;
+		this.bs = bs;
 	}
 		
 	@Autowired
@@ -61,6 +64,16 @@ public class FileController {
 	  public void projectImage(@RequestParam("id") Long projectId, HttpServletResponse response,HttpServletRequest request) 
 	          throws ServletException, IOException{
 		Long imageId = ps.findProjectById(projectId).getThumbnail().getId();
+		File item = fileUploadDao.findById(imageId).get();      
+	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+	    response.getOutputStream().write(item.getData());
+	    response.getOutputStream().close();
+	}
+	
+	@RequestMapping(value = "/badgeImage", method = RequestMethod.GET)
+	  public void badgeImage(@RequestParam("id") Long badgeId, HttpServletResponse response,HttpServletRequest request) 
+	          throws ServletException, IOException{
+		Long imageId = bs.findById(badgeId).getImage().getId();
 		File item = fileUploadDao.findById(imageId).get();      
 	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 	    response.getOutputStream().write(item.getData());

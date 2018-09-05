@@ -121,7 +121,6 @@ public class PostController {
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
 		Post post = ps.findPostById(id);
-		System.out.println(post.getAttachments());
 		String[] languages = new String[]{"C++", "C#", "CSS", "HTML", "Java", "JavaScript", "Perl", "PHP", "Python", "Ruby"};
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("post", post);

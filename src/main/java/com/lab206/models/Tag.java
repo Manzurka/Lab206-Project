@@ -19,10 +19,17 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "tags")
+@JsonIdentityInfo(
+		  scope = Tag.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Tag {
   
 	@Id
@@ -50,7 +57,7 @@ public class Tag {
 			joinColumns = @JoinColumn(name = "tag_id"),
 			inverseJoinColumns = @JoinColumn(name = "post_id")
 	)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnore
 	private List<Post> posts;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -59,6 +66,7 @@ public class Tag {
 			joinColumns = @JoinColumn(name = "tag_id"),
 			inverseJoinColumns = @JoinColumn(name = "quicklink_id")
 	)
+	@JsonIgnore
 	private List<Quicklink> quicklinks;
 
 	

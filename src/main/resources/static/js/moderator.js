@@ -60,6 +60,17 @@ $('.c_report').click(function() {
 	});
 });
 
+$('#badges-list').change(function() {
+	var id = $(this).val();
+	console.log(id);
+	$('#badge-preview').attr('src', '/badgeImage?id=' + id);
+});
+
+const limitText = (text, count) => {
+	text.slice(0, count) + (text.length > count ? "..." : "");
+}
+
+
 // For Displaying the loading screen
 let counter;
 

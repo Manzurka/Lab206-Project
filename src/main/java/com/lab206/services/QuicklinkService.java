@@ -22,4 +22,8 @@ public class QuicklinkService {
 	public List<Quicklink> findByTag(Tag tag){
 		return qr.findByTags(tag);
 	}
+	
+	public void saveQuicklink(Quicklink quicklink) {
+		qr.save(quicklink);
+	}
 }

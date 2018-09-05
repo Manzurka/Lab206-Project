@@ -35,93 +35,28 @@
 
 	</head>
 	<body>
-		<c:if test="${logoutMessage != null}" >
-			<c:out value="${logoutMessage}"></c:out>
-		</c:if>
-    <!-- Nav bar -->
-		<nav class="navbar sticky-top shadow-small mb-3" id="navvy">
-		<div class="dropdown">
-			<button class="close" type="button" data-toggle="dropdown">
-			<i class="fa fa-bars" aria-hidden="true"></i></button>
-			<ul class="dropdown-menu test">
-			
-			<!-- Mod Dash Link -->
-			<c:if test="${ currentUser.roles[0].name == 'ROLE_MOD' }">
-		    	<li><a href="/mod"><i class="fas fa-user-ninja nav-link"></i>Moderator</a></li>
-			</c:if>
-				
-			<!-- Admin Dash Link -->
-			<c:if test="${ currentUser.roles[0].name == 'ROLE_ADMIN' }">
-		    	<li><a href="/admin"><i class="fas fa-user-shield nav-link"></i>Admin</a></li>
-				<li><a href="/mod"><i class="fas fa-user-ninja nav-link"></i>Moderator</a></li>
-			</c:if>
-				
-			<!-- Feed button -->
-			    <li><a href="#f" data-toggle="modal" data-target="#f" aria-label="Help">
-					<i class="fa fa-comment nav-link" aria-hidden="true"></i>Feedback</a>
-				</li>	
-            <!-- Settings button -->
-			    <li><a href="#settingsModal" data-toggle="modal" data-target="#settingsModal" aria-label="Settings">
-					<i class="fa fa-cog nav-link" aria-hidden="true"></i>Settings</a>
-				</li>
-            <!-- Help button -->
-			    <li><a href="#helpModal" data-toggle="modal" data-target="#helpModal" aria-label="Help">
-					<i class="fa fa-question-circle nav-link" aria-hidden="true"></i>Help</a>
-				</li>
-				<li>
-            <!-- Logout button -->
-					<form id="logoutForm" method="POST" action="/logout">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<button type="submit" class="text-button"><i class="fa fa-power-off nav-link" aria-hidden="true"></i>Logout</button>
-					</form>
-				</li>
-			</ul>
-		</div>			
-			
-		<a href="/dashboard"><img src="/img/logo.png" alt="Lab 206 Logo" id="logo"></a>	
-        	<!-- User profile image, show default if there is no image in the database -->
-			<c:choose>
-				<c:when test="${currentUser.file.getId() != null}">
-					<a href="/profile/${currentUser.id}">
-						<img class="avatar" src="/imageDisplay?id=${currentUser.id}" alt="User Avatar"/>
-					</a>
-				</c:when>
-				<c:otherwise>
-		        	<a href="/profile/${currentUser.id}">
-		                <img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-		            </a>
-				</c:otherwise>
-            </c:choose>
-
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">Name: <c:out value="${currentUser.firstName} ${currentUser.lastName}"/></li>
-				<li class="nav-item">Points: <c:out value="${currentUser.points}"/></li>
-			</ul>
-			
-			<!-- Search bar -->
-			<form class="my-2 my-lg-0" id="searchy" action="/search">
-				<div class="input-group">
-					<input name="keyword" type="text" class="form-control" placeholder="Search query..." aria-label="Search query"/>
-					<select name="category">
-						<option>Posts</option>
-						<option>Comments</option>
-						<option>Users</option>
-						<option>Tags</option>
-					</select>
-					<div class="input-group-append">
-						<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Search</button>
-					</div>
-				</div>
-			</form>
-		</nav>
+		<%@ include file = "snippets/header.jsp" %>
 
 		<div class="row" id="contentRow">
 			<!-- Show post -->
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-10 offset-md-1 rounded-top bg-gunmetal">
-						<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
-						<h1 class="text-ghost-white">Recent Posts</h1>
+						<c:choose>
+							<c:when test="${searchResults == true}">
+								<h1 class="text-ghost-white">Results for 
+									<c:if test="${posts != null}">posts</c:if>
+									<c:if test="${searchedUsers != null}">users</c:if>
+									<c:if test="${comments != null}">comments</c:if>
+									<c:if test="${tags != null}">tags</c:if>
+									<c:if test="${searchedBadges != null}">badges</c:if>
+								</h1>
+							</c:when>
+							<c:otherwise>
+								<button class="btn bg-blue-jean text-ghost-white float-right" id="newPost" data-toggle="modal" data-target="#newPostModal">New Post</button>
+								<h1 class="text-ghost-white">Recent Posts</h1>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<div class="row">
@@ -130,827 +65,280 @@
 							<!--Search Results-->
 							<!--for comments-->
 							<c:forEach var="comment" items="${comments}">
-									<div class="col-12 content-panel">
-										<div class="row">
-												<div class="container">
-													<div class="col-12">
-														<p><c:out value="${comment.content}"/></p>
-														<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href=#>${comment.post.title}</a></p>
-													</div>
-												</div>
-										</div>		
-									</div>
-							</c:forEach>
-							<!--for users-->
-							<c:forEach var="user" items="${searchedUsers}">
-									<div class="col-12 content-panel">
-										<div class="row">
-											<div class="col-12">
-												<div class="col-sm-6">
-													<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
-												</div>
-												<div class="col-sm-2">
-												<!-- User profile image, show default if there is no image in the database -->
-													<c:choose>
-															<c:when test="${user.file.getId() != null}">
-																<a href="/profile/${user.id}">
-																<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-																</a>
-															</c:when>
-															<c:otherwise>
-															<a href="/profile/${user.id}">
-																<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-															</a>
-															</c:otherwise>
-													</c:choose>
-												</div>
-											</div>			
-										</div>
-									</div>
-							</c:forEach>
-							<!--for tags-->
-							<c:if test="${tags != null}">
-									<c:forEach var="post" items="${tags}">
-											<div class="col-12 content-panel">
-													<div class="row">
-														<div class="col-12">
-															<h4><a href=#>${post.title}</a></h4>
-															<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-																<ul class="list-inline">
-																	<i class="fa fa-tags"></i>
-																	<!-- Iterate through tags in each post -->
-																	<c:forEach var="tag" items="${post.tags}">
-																		<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-																	</c:forEach>
-																</ul>
-															<p>Uploaded Files:
-																<c:forEach var="file" items="${post.attachments}">
-																	<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-																</c:forEach>
-															</ul>
-														<p>Uploaded Files:
-															<c:forEach var="file" items="${post.attachments}">
-																<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
-															</c:forEach>
-														</p>
-														<p>${post.content}</p>
-														<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
-															value ="${post.createdAt}"></fmt:formatDate></i></p>
-														<p>
-															<c:out value="${post.comments.size()}"/> Comments
-															<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-														</p>
-													</div>
-												</div>
-											</div>
-									</c:forEach>
-								</c:if>
-								
-								
-	 						<c:choose>
- 								<c:when test="${ totalPages != null }">
- 								<c:forEach var="post" items="${posts.content}">
- 								
-								<c:choose>
-									<c:when test="${post.answer != null}">
-										<div class="col-12 content-panel answered">
-									</c:when>
-									<c:otherwise>
-										<div class="col-12 content-panel">
-									</c:otherwise>
-								</c:choose>
-									<div class="row">
-										<c:choose>
-											<c:when test="${post.author.file.getId() != null}">
-												<a href="/profile/${post.author.id}">
-													<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/profile/${post.author.id}">
-													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-												</a>
-											</c:otherwise>
-										</c:choose>
-		
-										<div class="col-sm-6">
-											<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
-											Uploaded Files:
-											<c:forEach var="file" items="${post.attachments}">
-												(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
-											</c:forEach>
-											<p>${show}</p>
-										</div>
-										<div class="col-sm-3">
-											<i class="fa fa-tags"></i>
-											<ul class="list-inline">
-												<!-- Iterate through tags in each post -->
-												<c:forEach var="tag" items="${post.tags}">
-													<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
-												</c:forEach>
-											</ul>
-										</div>
-										<div class="col-sm-1">
-											<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-										</div>
-									</div>
+								<div class="col-12 content-panel">
 									<div class="row">
 										<div class="container">
 											<div class="col-12">
-												<p class="line-breaks"><c:out value="${post.content}"/></p>
+												<p><c:out value="${comment.content}"/></p>
+												<p>commented <a href="/profile/${comment.commenter.id}">${comment.commenter.firstName}</a> to the post: <a href=#>${comment.post.title}</a></p>
 											</div>
+										</div>
+									</div>		
+								</div>
+							</c:forEach>
+							<!--for users-->
+							<c:forEach var="user" items="${searchedUsers}">
+								<div class="col-12 content-panel">
+									<div class="row">
+										<div class="col-12">
+											<div class="col-sm-6">
+												<p><a href="/profile/${user.id}">${user.firstName} ${user.lastName}</a></p>
+											</div>
+											<div class="col-sm-2">
+											<!-- User profile image, show default if there is no image in the database -->
+												<c:choose>
+														<c:when test="${user.file.getId() != null}">
+															<a href="/profile/${user.id}">
+															<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
+															</a>
+														</c:when>
+														<c:otherwise>
+														<a href="/profile/${user.id}">
+															<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+														</a>
+														</c:otherwise>
+												</c:choose>
+											</div>
+										</div>			
+									</div>
+								</div>
+							</c:forEach>
+							<!--for tags-->
+							<c:if test="${tags != null}">
+								<c:forEach var="post" items="${tags}">
+									<div class="col-12 content-panel">
+										<div class="row">
 											<div class="col-12">
-												<!-- Total comments and show -->
+												<h4><a href=#>${post.title}</a></h4>
+												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
+												<ul class="list-inline">
+													<i class="fa fa-tags"></i>
+													<!-- Iterate through tags in each post -->
+													<c:forEach var="tag" items="${post.tags}">
+														<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+													</c:forEach>
+												</ul>
+												<p>Uploaded Files:
+													<c:forEach var="file" items="${post.attachments}">
+														<a target="_blank" href='/showFile/<c:out value="${file.id}"/>'><c:out value="${file.fileName}"/></a>  
+													</c:forEach>
+												</p>
+												<p>${post.content}</p>
+												<p><i>created by <a href="/profile/${post.author.id}"></a>${post.author.firstName}</a> on <fmt:formatDate type = "date" 
+													value ="${post.createdAt}"></fmt:formatDate></i></p>
 												<p>
-													<c:out value="${post.comments.size()}"/> Comments 
-													<a href="" data-toggle="modal" data-target="#reportModal" data-report-id="<c:out value="${post.id}"/>" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+													<c:out value="${post.comments.size()}"/> Comments
+													<a href="" data-toggle="modal" data-target="#reportModal" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
 												</p>
 											</div>
 										</div>
 									</div>
+								</c:forEach>
+								
+							</c:if>
+							<c:if test="${searchedBadges != null}">
+								<div class="col-12 content-panel">
+									<table>
+										<tbody>
+											<c:forEach var="badge" items="${searchedBadges}">
+												<tr class="clickable-row" data-href="badge/${badge.id}">
+													<td><img src="/badgeImage?id=${badge.id}" class="badge-img"></td>
+													<td><c:out value="${badge.name}"/></td>
+													<td><c:out value="${badge.description}"/></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
 								</div>
-							</c:forEach>
+							</c:if>
+							<c:choose>
+								<c:when test="${ totalPages != null }">
+									<c:forEach var="post" items="${posts.content}">
+										<c:choose>
+											<c:when test="${post.answer != null}">
+												<div class="col-12 content-panel answered">
+											</c:when>
+											<c:otherwise>
+												<div class="col-12 content-panel">
+											</c:otherwise>
+										</c:choose>
+										<div class="row">
+											<c:choose>
+												<c:when test="${post.author.file.getId() != null}">
+													<a href="/profile/${post.author.id}">
+														<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a href="/profile/${post.author.id}">
+														<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+													</a>
+												</c:otherwise>
+											</c:choose>
+			
+											<div class="col-sm-6">
+												<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
+												Uploaded Files:
+												<c:forEach var="file" items="${post.attachments}">
+													(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
+												</c:forEach>
+												<p>${show}</p>
+											</div>
+											<div class="col-sm-3">
+												<i class="fa fa-tags"></i>
+												<ul class="list-inline">
+													<!-- Iterate through tags in each post -->
+													<c:forEach var="tag" items="${post.tags}">
+														<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+													</c:forEach>
+												</ul>
+											</div>
+											<div class="col-sm-1">
+												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="container">
+												<div class="col-12">
+													<p class="line-breaks"><c:out value="${post.content}"/></p>
+												</div>
+												<div class="col-12">
+													<!-- Total comments and show -->
+													<p>
+														<c:out value="${post.comments.size()}"/> Comments 
+														<a href="" data-toggle="modal" data-target="#reportModal" data-report-id="<c:out value="${post.id}"/>" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
 							</c:when>
 							
 							<c:otherwise>
 								<c:forEach var="post" items="${posts}">
- 								
-								<c:choose>
-									<c:when test="${post.answer != null}">
-										<div class="col-12 content-panel answered">
-									</c:when>
-									<c:otherwise>
-										<div class="col-12 content-panel">
-									</c:otherwise>
-								</c:choose>
-									<div class="row">
-										<c:choose>
-											<c:when test="${post.author.file.getId() != null}">
-												<a href="/profile/${post.author.id}">
-													<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/profile/${post.author.id}">
-													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-												</a>
-											</c:otherwise>
-										</c:choose>
-		
-										<div class="col-sm-6">
-											<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
-											Uploaded Files:
-											<c:forEach var="file" items="${post.attachments}">
-												(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
-											</c:forEach>
-											<p>${show}</p>
-										</div>
-										<div class="col-sm-3">
-											<i class="fa fa-tags"></i>
-											<ul class="list-inline">
-												<!-- Iterate through tags in each post -->
-												<c:forEach var="tag" items="${post.tags}">
-													<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+									<c:choose>
+										<c:when test="${post.answer != null}">
+											<div class="col-12 content-panel answered">
+										</c:when>
+										<c:otherwise>
+											<div class="col-12 content-panel">
+										</c:otherwise>
+									</c:choose>
+										<div class="row">
+											<c:choose>
+												<c:when test="${post.author.file.getId() != null}">
+													<a href="/profile/${post.author.id}">
+														<img class="avatar" src="/imageDisplay?id=${post.author.id}" width=100px alt="User Avatar"/>
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a href="/profile/${post.author.id}">
+														<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
+													</a>
+												</c:otherwise>
+											</c:choose>
+			
+											<div class="col-sm-6">
+												<h4><a href="/post/<c:out value="${post.id}"/>/show"><c:out value="${post.title}"/></a></h4>
+												Uploaded Files:
+												<c:forEach var="file" items="${post.attachments}">
+													(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
 												</c:forEach>
-											</ul>
-										</div>
-										<div class="col-sm-1">
-											<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="container">
-											<div class="col-12">
-												<p class="line-breaks"><c:out value="${post.content}"/></p>
+												<p>${show}</p>
 											</div>
-											<div class="col-12">
-												<!-- Total comments and show -->
-												<p>
-													<c:out value="${post.comments.size()}"/> Comments 
-													<a href="" data-toggle="modal" data-target="#reportModal" data-report-id="<c:out value="${post.id}"/>" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
-												</p>
+											<div class="col-sm-3">
+												<i class="fa fa-tags"></i>
+												<ul class="list-inline">
+													<!-- Iterate through tags in each post -->
+													<c:forEach var="tag" items="${post.tags}">
+														<li class="list-inline-item"><span class="badge badge-pill text-ghost-white <c:out value="${tag.color}"/>"><c:out value="${tag.subject}"/></span></li>
+													</c:forEach>
+												</ul>
+											</div>
+											<div class="col-sm-1">
+												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
 											</div>
 										</div>
+										<div class="row">
+											<div class="container">
+												<div class="col-12">
+													<p class="line-breaks"><c:out value="${post.content}"/></p>
+												</div>
+												<div class="col-12">
+													<!-- Total comments and show -->
+													<p>
+														<c:out value="${post.comments.size()}"/> Comments 
+														<a href="" data-toggle="modal" data-target="#reportModal" data-report-id="<c:out value="${post.id}"/>" class="report text-gray-blue float-right"><i class="fa fa-flag" aria-hidden="true"></i></a>
+													</p>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-							</c:forEach>
+								</c:forEach>
 							</c:otherwise>
 							
 						</c:choose>
 						</div>
-						
-						
-			<!-- Pagination -->
-		    <nav>
-			    <ul class="pagination justify-content-center">
-			    <c:if test="${ pageNumber != 1 }">
-					  	<li class="page-item"><a class="page-link" href="/pages/${pageNumber - 1}">Previous</a></li>
-					
-				</c:if>
-				
-				<!--
-					Create a variable that will increment through the forEach loop
-					to prevent from the next button in pagination appear as there is no more content
-				 -->
-				<c:set var="next" scope="application" value="${0}"/>
-				
-	    		<c:forEach begin="1" end="${totalPages}" var="index">
-					   <li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
-					 
-					 <c:set var="next" scope="application" value="${ next + 1}"/>
-	   			</c:forEach>
-   			
-	   			<c:if test="${ pageNumber != next }">
-					    <li class="page-item"><a class="page-link" href="/pages/${pageNumber + 1}">Next</a></li>
-					
-				</c:if>
-				</ul>
-			</nav>
-   			<!-- Pagination -->   			
-						
+
+						<!-- Pagination -->
+						<c:if test="${totalPages > 1}">
+							<nav>
+								<ul class="pagination justify-content-center">
+									<c:if test="${ pageNumber != 1 }">
+											<li class="page-item"><a class="page-link" href="/pages/${pageNumber - 1}">&laquo;</a></li>
+									</c:if>
+									
+									<!--
+										Create a variable that will increment through the forEach loop
+										to prevent from the next button in pagination appear as there is no more content
+									-->
+									<c:set var="next" scope="application" value="${0}"/>
+									
+									<c:forEach begin="1" end="${totalPages}" var="index">
+										<c:choose>
+											<c:when test="${pageNumber == index}">
+												<li class="page-item active"><a class="page-link" href="/pages/${index}">${index}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a class="page-link" href="/pages/${index}">${index}</a></li>
+											</c:otherwise>
+										</c:choose>
+										<c:set var="next" scope="application" value="${ next + 1}"/>
+									</c:forEach>
+									<c:if test="${ pageNumber != next }">
+										<li class="page-item"><a class="page-link" href="/pages/${pageNumber + 1}">&raquo;</a></li>
+									</c:if>
+								</ul>
+							</nav>
+						</c:if>		
 						
 					</div>
 				</div>
 			</div>
 			<!-- Announcements, leaderboards, quicklinks -->
-			<div class="col-md-3">
-				<div class="row collapsible" data-target-div="announcements">
-					<div class="col-md-12 rounded-top bg-gunmetal">
-						<h1 class="text-ghost-white">Announcements</h1>
-					</div>
-				</div>
-				<div class="row">
-					<!-- Announcements go here-->
-					<div class="col-12 content-panel" id="announcements">
-						<c:forEach var="announcement" items="${announcements}" varStatus="status"> 
-								<c:if test="${status.count <= 5}">
-									<h3>${announcement.subject}</h3>
-									<p>${announcement.content}</p>
-								</c:if>
-						</c:forEach>
-						<a href="/announcements">View all</a>
-					</div>
-				</div>
-				<div class="row collapsible mt-1" data-target-div="leaderboard">
-					<!-- Leaderboard header -->
-					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
-						<h1>Leaderboard</h1>
-					</div>
-				</div>
-				<div class="row">
-					<!-- Leaderboard content -->
-					<div class="col-12 content-panel" id="leaderboard">
-						<c:forEach var="user" items="${users}" varStatus="status">
-							<c:if test="${status.count <= 5}">
-								<ol>
-								<div class="row mb-2 leader">
-										<c:if test="${status.index == 0}"><span class="badge bg-gold text-ghost-white"></c:if>
-										<c:if test="${status.index == 1}"><span class="badge bg-silver text-ghost-white"></c:if>
-										<c:if test="${status.index == 2}"><span class="badge bg-bronze text-ghost-white"></c:if>
-										<c:if test="${status.index == 3}"><span class="badge bg-onyx text-ghost-white"></c:if>
-										<c:if test="${status.index == 4}"><span class="badge bg-platinum text-ghost-white"></c:if>
-										${status.index + 1}</span>
-										<c:choose>
-											<c:when test="${user.file.getId() != null}">
-												<a href="/profile/${user.id}">
-													<img class="avatar float-left" src="/imageDisplay?id=${user.id}" width=100px alt="User Avatar"/>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/profile/${post.author.id}">
-													<img src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar" class="avatar">
-												</a>
-											</c:otherwise>
-										</c:choose>
-											Name: ${user.firstName} ${user.lastName}<br>
-											Points: ${user.points}
-								</div>
-								</ol>
-								<!-- <li>
-									<a target="_blank" href="/profile/${user.id}">
-										<c:choose>
-											<c:when test="${user.file != null}">
-												<img class="avatar" src="/imageDisplay?id=${user.id}" alt="User Avatar"/>
-											</c:when>
-											<c:otherwise>
-												<img class="avatar" src="https://www.in-depthoutdoors.com/wp-content/themes/ido/img/ido-avatar.png" alt="User Avatar"/>
-											</c:otherwise>
-										</c:choose>
-									</a>
-									<p>${user.firstName} ${user.lastName} | ${user.points} points</p>
-								</li> -->
-							</c:if>
-						</c:forEach>
-					</div>
-				</div>
-				<div class="row mt-1 collapsible" data-target-div="quicklinks">
-					<!-- Quicklink header -->
-					<div class="col-12 rounded-top text-ghost-white bg-gunmetal">
-							<h1>Quicklinks</h1>
-					</div>
-				</div>
-				<div class="row">
-					<!-- Quicklinks list; iterate through quicklinks -->
-					<div class="col-12 content-panel" id="quicklinks">
-						<form class="my-2 my-lg-0" method="post" id="quicklink" action="/quicklinks">
-							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							<div class="input-group">
-								<select name="language">
-									<option>C++</option>
-									<option>C#</option>
-									<option>CSS</option>
-									<option>HTML</option>
-									<option>Java</option>
-									<option>JavaScript</option>
-									<option>Perl</option>
-									<option>PHP</option>
-									<option>Python</option>
-									<option>Ruby</option>
-								</select>
-								<div class="input-group-append">
-									<button class="btn bg-cosmic-cobalt text-white my-2 my-sm-0" type="submit">Filter</button>
-								</div>
-							</div>
-						</form>
-					</div>
-						<ul>
-						<c:forEach var="quicklink" items="${quicklinks}" varStatus="status">
-							<c:if test="${status.count <= 10}">
-								<li><a target="_blank" href="${quicklink.url}">${quicklink.name}</a></li>
-							</c:if>
-						</c:forEach>
-						</ul>
-					</div>
-				</div>
-			</div>
+			<%@ include file = "snippets/sidebar.jsp" %>
 		</div>
 		
-		<!-- New Post modal -->
-		<div id="newPostModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">New Post</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form:form action="/post/create" modelAttribute="newPost" method="post" enctype="multipart/form-data">
-						<div class="row mb-3">
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="courseRelated">Course Related</span>
-									</div>
-									<label class="switch">
-										<input type="checkbox" id="course" name="course" aria-describedby="courseRelated">
-										<span class="slider round"></span>
-									</label>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="newPostLanguage">Language</span>
-									</div>
-									<select class="form-control" id="language" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option>C++</option>
-										<option>C#</option>
-										<option>CSS</option>
-										<option>HTML</option>
-										<option>Java</option>
-										<option>JavaScript</option>
-										<option>Perl</option>
-										<option>PHP</option>
-										<option>Python</option>
-										<option>Ruby</option>
-									</select>
-								</div>
-							</div>
-						</div>
-			            <form:errors path="title"/>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">	
-								<span class="input-group-text" id="newPost-title">Title</span>
-							</div>
-							<input name="title" class="form-control" aria-label="Title" aria-describedby="newPost-title"/>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Tags</span>
-							</div>
-							<input type="text" class="form-control" id="tag1" name="tag1">
-							<input type="text" class="form-control" id="tag2" name="tag2">
-							<input type="text" class="form-control" id="tag3" name="tag3">
-						</div>
-						<form:errors path="content"/>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text">Content</span>
-							</div>
-							<textarea name="content" class="form-control" aria-label="Content"></textarea>
-						</div>
-						<p>${filemessage}</p>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									
-									<span class="input-group-text">File#1</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#2</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile02">
-									<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-								</div>	
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#3</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile03">
-									<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#4</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile04">
-									<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#5</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="inputGroupFile05">
-									<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
-								</div>
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
+		<!-- New Post Modal -->
+		<%@ include file = "snippets/newPost.jsp" %>
 		
-		<!-- Edit modal -->
-		<div id="editModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Edit</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form:form action="/post/{id}/edit" modelAttribute="editPost" method="post" enctype="multipart/form-data" id="editIdPost">
-						<div class="row mb-3">
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="courseRelated">Course Related</span>
-									</div>
-									<label class="switch">
-										<input type="checkbox" id="currentCourse" value="coursework" name="course" aria-describedby="courseRelated">
-										<span class="slider round"></span>
-									</label>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="newPostLanguage">Language</span>
-									</div>
-									<select class="form-control" id="currentLanguage" name="language" aria-label="Language" aria-describedby="newPostLanguage">
-										<option value="c++">C++</option>
-										<option value="c#">C#</option>
-										<option value="css">CSS</option>
-										<option value="html">HTML</option>
-										<option value="java">Java</option>
-										<option value="javascript">JavaScript</option>
-										<option value="perl">Perl</option>
-										<option value="php">PHP</option>
-										<option value="python">Python</option>
-										<option value="ruby">Ruby</option>
-									</select>
-								</div>
-							</div>
-						</div>
-			            <form:errors path="title"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">	
-									<span class="input-group-text" id="newPost-title">Title</span>
-								</div>
-								<input name="title" id="currentTitle" class="form-control" aria-label="Title"/>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Tags</span>
-								</div>
-								<input type="text" class="form-control" id="currentTag1" name="tag1">
-								<input type="text" class="form-control" id="currentTag2" name="tag2">
-								<input type="text" class="form-control" id="currentTag3" name="tag3">
-							</div>
-							<form:errors path="content"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Content</span>
-								</div>
-								<textarea name="content" id="currentContent" class="form-control" aria-label="Content"></textarea>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									
-									<span class="input-group-text">File#1</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#2</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile02">
-									<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-								</div>	
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#3</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile03">
-									<label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#4</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile04">
-									<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-								</div>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">File#5</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="file" class="custom-file-input" id="currentInputGroupFile05">
-									<label class="custom-file-label" for="inputGroupFile05">Choose file</label>
-								</div>
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-
 		<!-- Settings Modal -->
-		<div id="settingsModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Settings</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form:form action="/user/edit" modelAttribute="user" method="post" enctype="multipart/form-data">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Avatar</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01">
-									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-								</div>
-							</div>
-							<form:errors path="firstName"/>
-							<form:errors path="lastName"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Name</span>
-								</div>
-								<input type="text" name="firstName" class="form-control" value="<c:out value="${currentUser.firstName}"/>">
-								<input type="text" name="lastName" class="form-control" value="<c:out value="${currentUser.lastName}"/>">
-							</div>
-							<form:errors path="email"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Email</span>
-								</div>
-								<input type="text" class="form-control" name="email" aria-label="Email" aria-describedby="basic-addon1" value="<c:out value="${currentUser.email}"/>">
-							</div>
-							<form:errors path="about"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">About Me<br>(Optional)</span>
-								</div>
-								<textarea name="about" placeholder='<c:out value="${currentUser.about}"/>'  class="form-control" aria-label="AboutMe"><c:out value="${currentUser.about}"/></textarea>
-							</div>
-							<form:errors path="passwordConfirmation"/>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Password Confirmation</span>
-								</div>
-								<input type="password" name="passwordConfirmation" class="form-control" aria-label="PC"/>
-							</div>
-							<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Save</button>
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-		
-		<!-- View Post Modal -->
-		<div id="showPostModal" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<!-- Post title -->
-					<div class="modal-header" id="postTitle">
-					
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<!-- Post author info -->
-							<div class="col-sm-5" id="userInfo">
-								
-							</div>
-							<!-- Post files -->
-							<div class="col-sm-7" id="postFiles">
-								<ul class="list-inline">
-									<li class="list-inline-item">Files:</li>
-									<li class="list-inline-item"><a href="">item1.js</a></li>
-									<li class="list-inline-item"><a href="">item2.js</a></li>
-									<li class="list-inline-item"><a href="">item3.js</a></li>
-									<li class="list-inline-item"><a href="">item4.js</a></li>
-									<li class="list-inline-item"><a href="">item5.js</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="row">
-							<!-- Post Content -->
-				    		<div class="col-sm-12" id="postContent">
-				    			
-				    		</div>
-				    	</div>
-				    	<div class="row mb-3">
-				    		<!-- New Comment form -->
-				    		<div class="col-sm-12" id="newComment">
-								<form name="newCommentForm" id="newCommentForm" method="post">
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-									<input type="hidden" value="" name="postId" id="commentPostId">
-				    				<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Content</span>
-										</div>
-										<textarea id="newCommentContent" name="newCommentContent" placeholder="Enter comment here" class="form-control" aria-label="Comment text"></textarea>
-									</div>
-									<button type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right">Submit</button>
-				    			</form>
-				    		</div>
-				    	</div>
-				    	<div class="row" id="showComments">
-				    		<!-- Show comments -->
-				    		
-				    	</div>
-			    	</div>
-				</div>
-			</div>
-		</div>
+		<%@ include file = "snippets/settings.jsp" %>
 		
 		<!-- Help Modal -->
-		<div id="helpModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Help</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<h3>FAQ: Rules and Etiquette</h3>
-						<ul>
-							<li>Please be professional and respectful of others.</li>
-							<li>Do not share exam codes. Plagiarism is not tolerated on this platform and will be reported.</li>
-							<li>Do not share ANY Amazon related information and internal links.</li>
-							<li>If you have any suggestion(s) or if something is not working, please submit your feedback on the top left menu and click on the <i class="fa fa-comment text-gunmetal" aria-hidden="true"></i>.</a></li>
-							<li>If you would like to file a report, please click the <i class="fa fa-flag text-gunmetal" aria-hidden="true"></i> on a post located on the bottom right.</li>
-							<li>Please mark comments wisely. Use "check" <i class="fas fa-check-circle text-gunmetal"></i> if it was helpful for you so other users are able to see correct solutions.</li>
-						</ul>
-						</div>
-			    	</div>
-				</div>
-			</div>
-			
-		
+		<%@ include file = "snippets/help.jsp" %>
+
+		<!-- Quicklink Modal -->
+		<%@ include file = "snippets/quicklinks.jsp" %>
+
 		<!-- Feedback Modal -->
-		<div id="f" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">Submit Feedback</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						
-							<p>Please provide feedback on how we can improve Teccy Space or if something is not working.</p>
-							
-						<form:form method="POST" action="/create/feedback" modelAttribute="feedb">	
-							
-							<textarea name="content" class="form-control" aria-label="Content"></textarea>
-							
-							<br>
-							
-							<div class="range-slider">
-								<label path="rating">Rate Feedback:
-								<input
-									name="rating"
-									type="range"
-									class="range-slider__range"
-									value="5"
-									min="1"
-									max="10"
-									oninput="range_weight_disp.value = range_weight.value"
-								/>
-								<span class="range-slider__value">0</span>
-								
-								</label>
-							</div>
-							
-							
-							
-							<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white float-right" value="Submit"/>
-						
-						</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-			
+		<%@ include file = "snippets/feedback.jsp" %>
 			
 		<!-- Report Modal -->
-		<div id="reportModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h2 class="modal-title">File a Report</h2>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-							<p>
-								If this post or comment(s) related have abusive or 
-								unprofessional content, please submit your report. 
-								We will review the content and remove anything that does not follow 
-								our platform's Rules and Etiquette found on the help page.
-							</p>
-														
-							<form:form method="POST" action="/create/report" modelAttribute="reportForm">	
+		<%@ include file = "snippets/report.jsp" %>
 
-							 <div align="center">
-					            <textarea name="content" id="content" rows="4" cols="50"></textarea>
-					            
-					            <br/>
-					            <br/>
-					            
-					        	<input type="submit" class="btn bg-cosmic-cobalt text-ghost-white" value="Submit"/>
-							 </div>
-					        	
-								<!-- Displaying an hidden input to grab the post ID and also displaying the input type='submit' button -->
-					        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					        	
-					        	<div id="reportsf"/>
-					        	
-							</form:form>
-			    	</div>
-				</div>
-			</div>
-		</div>
-
+		
+		
 	</body>
 </html>

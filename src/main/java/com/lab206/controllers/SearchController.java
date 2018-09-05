@@ -13,6 +13,7 @@ import com.lab206.models.Post;
 import com.lab206.models.Tag;
 import com.lab206.models.User;
 import com.lab206.services.AnnouncementService;
+import com.lab206.services.BadgeService;
 import com.lab206.services.CommentService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
@@ -27,19 +28,22 @@ public class SearchController {
 	private final TagService ts;
 	private AnnouncementService as;
 	private QuicklinkService qs;
+	private BadgeService bs;
 	
 	public SearchController(PostService ps, 
 			UserService us, 
 			CommentService cs,
 			TagService ts, 
 			AnnouncementService as,
-			QuicklinkService qs) {
+			QuicklinkService qs,
+			BadgeService bs) {
 		this.ps = ps;
 		this.us = us;
 		this.cs = cs;
 		this.ts = ts;
 		this.as = as;
 		this.qs = qs;
+		this.bs = bs;
 	}
 
 	@RequestMapping("/search")
@@ -62,12 +66,15 @@ public class SearchController {
 			if (category.equals("Comments")) {
 				model.addAttribute("comments", cs.commentsContaining(keyword));
 			}
-			if (category.equals("searchedUsers")) {
-				model.addAttribute("searchedusers",us.findByName(keyword));
+			if (category.equals("Users")) {
+				model.addAttribute("searchedUsers",us.findByName(keyword));
 			}
 			if (category.equals("Tags")) {
 				Tag tag=ts.findTagBySubject(keyword);
 				model.addAttribute("tags", tag.getPosts());
+			}
+			if (category.equals("Badges")) {
+				model.addAttribute("searchedBadges", bs.findBadgesContaining(keyword));
 			}
 	
 			model.addAttribute("announcements", as.findAll());
@@ -75,7 +82,6 @@ public class SearchController {
 			model.addAttribute("users", us.findByPoints());
 			model.addAttribute("currentUser", currentUser);
 			model.addAttribute("newPost", new Post());
-			model.addAttribute("newComment", new Comment());
 			return "dashboard.jsp"; 
 					
 	}

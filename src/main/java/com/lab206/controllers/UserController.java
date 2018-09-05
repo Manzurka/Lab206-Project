@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lab206.models.BadgeRequest;
 import com.lab206.models.Comment;
 import com.lab206.models.Feedback;
 import com.lab206.models.File;
@@ -31,6 +32,7 @@ import com.lab206.models.Report;
 import com.lab206.models.User;
 import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
+import com.lab206.services.BadgeService;
 import com.lab206.services.CommentService;
 import com.lab206.services.FileService;
 import com.lab206.services.PostService;
@@ -50,13 +52,15 @@ public class UserController {
 	private AnnouncementService as;
 	private QuicklinkService qs;
 	private FileService fs;
+	private BadgeService bs;
 	
 	public UserController(UserService us,
 			PostService ps, CommentService cs,
 			UserValidator uv,
 			AnnouncementService as,
 			QuicklinkService qs,
-			FileService fs) {
+			FileService fs,
+			BadgeService bs) {
 		this.us = us;
 		this.ps = ps;
 		this.uv = uv;
@@ -64,6 +68,7 @@ public class UserController {
 		this.qs = qs;
 		this.as = as;
 		this.fs = fs;
+		this.bs = bs;
 	}
 
 	@RequestMapping("/login") 
@@ -114,11 +119,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/", "/dashboard"})
-	public String dashboard(@ModelAttribute("newPost") Post newPost, @ModelAttribute("editPost") Post editPost, 
-      @ModelAttribute("newComment") Comment newComment,
+	public String dashboard(@ModelAttribute("newPost") Post newPost, 
+			@ModelAttribute("editPost") Post editPost, 
+			@ModelAttribute("newComment") Comment newComment,
 			@ModelAttribute("user") User user,
 			@ModelAttribute("feedb") Feedback feedback,
 			@ModelAttribute("reportForm") Report report,
+			@ModelAttribute("badgeRequest") BadgeRequest badgeRequest,
 			Principal principal,
 			Model model) {
 		User currentUser = us.findByEmail(principal.getName());
@@ -127,6 +134,7 @@ public class UserController {
 		model.addAttribute("announcements", as.findAll());
 		model.addAttribute("quicklinks", qs.findAll());
 		model.addAttribute("users", us.findByPoints());
+		model.addAttribute("badges", bs.findAll());
 		return "redirect:pages/1";
 	}
 	

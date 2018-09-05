@@ -1,6 +1,7 @@
 package com.lab206.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,8 @@ import com.lab206.models.Badge;
 import com.lab206.models.Feedback;
 import com.lab206.models.File;
 import com.lab206.models.Report;
-
+import com.lab206.models.User;
+import com.lab206.repositories.BadgeRequestRepo;
 import com.lab206.repositories.FileUploadDAO;
 
 import com.lab206.services.AnnouncementService;
@@ -45,14 +47,17 @@ public class ModController {
 	private AnnouncementService as;
 	private BadgeService bs;
 	private FileService fileService;
+	private BadgeRequestRepo brr;
 	
-	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs, FileService fileService) {
+	public ModController(UserService us, FeedbackService fs, AnnouncementService as, ReportService rs, BadgeService bs, FileService fileService,
+			BadgeRequestRepo brr) {
 		this.us = us;
 		this.fs = fs;
 		this.rs = rs;
 		this.as = as;
 		this.bs = bs;
 		this.fileService = fileService;
+		this.brr = brr;
 	}
 	
 	@RequestMapping("/mod")
@@ -64,6 +69,9 @@ public class ModController {
 		model.addAttribute("all_announcements", as.findAll());
 		model.addAttribute("all_feedback", fs.findAll());
 		model.addAttribute("all_reports", rs.findAll());
+		model.addAttribute("all_users", us.findAll());
+		model.addAttribute("all_badges", bs.findAll());
+		model.addAttribute("badgeRequests", brr.findAllUnapproved());
 				
 		String email = principal.getName();
 		model.addAttribute("currentUser", us.findByEmail(email));
@@ -83,8 +91,11 @@ public class ModController {
 	   	bs.save(badge);
 	    File newFile = fileService.createFile(file);
 	    if (newFile != null) {
+	    	System.out.println(newFile);
+	    	badge.setImage(newFile);
 	    	newFile.setBadgefile(badge);
 	    	fileUploadDao.save(newFile);
+	    	bs.save(badge);
 	    }
         return "redirect:/mod";
     }
@@ -129,6 +140,20 @@ public class ModController {
 		as.removeAnnouncement(archive);
         return "redirect:/mod";
     }
+	
+	@PostMapping("/badge/assign")
+	public String assignBadge(@RequestParam("badgeId") Long badgeId,
+			@RequestParam("userId") Long userId) {
+		System.out.println(badgeId);
+		System.out.println(userId);
+		User user = us.findById(userId);
+		Badge badge = bs.findById(badgeId);
+		List<Badge> userBadges = user.getBadges();
+		userBadges.add(badge);
+		user.setBadges(userBadges);
+		us.save(user);
+		return "redirect:/mod";
+	}
 	
 
 }

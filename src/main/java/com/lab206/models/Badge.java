@@ -13,12 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "badges")
@@ -30,6 +33,9 @@ public class Badge {
 	
 	@Column
 	private String name;
+	
+	@Column
+	private String description;
 	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
@@ -48,6 +54,10 @@ public class Badge {
         joinColumns = @JoinColumn(name = "badge_id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
+	
+	@OneToMany(mappedBy="requestedBadge", fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private List<BadgeRequest> badgeRequests;
 	
 	@PrePersist
 	protected void onCreate() {
@@ -77,6 +87,14 @@ public class Badge {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String desc) {
+		this.description = desc;
 	}
 
 	public Date getCreatedAt() {

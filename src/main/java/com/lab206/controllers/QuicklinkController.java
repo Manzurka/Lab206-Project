@@ -1,18 +1,22 @@
 package com.lab206.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lab206.models.Quicklink;
 import com.lab206.models.Tag;
 import com.lab206.models.User;
-import com.lab206.repositories.FileUploadDAO;
 import com.lab206.services.AnnouncementService;
 import com.lab206.services.PostService;
 import com.lab206.services.QuicklinkService;
@@ -56,6 +60,25 @@ public class QuicklinkController {
 		System.out.println(quicklinks);
 		return "dashboard.jsp";
 		
+	}
+	
+	@PostMapping("/quicklink/create")
+	public String createQuicklink(@Valid @ModelAttribute("quicklink") Quicklink quicklink,
+			BindingResult result,
+			@RequestParam("quicklinkLanguage") String language,
+			Model model,
+			Principal principal) {
+		if (result.hasErrors()) {
+			System.out.println(result);
+			return "redirect:/dashboard";
+		}
+		Tag lang = ts.findTagBySubject(language.toLowerCase());
+		List<Tag> tags = new ArrayList<Tag>();
+		tags.add(lang);
+		quicklink.setTags(tags);
+		quicklink.setQuicklinkCreator(us.findByEmail(principal.getName()));
+		qs.saveQuicklink(quicklink);
+		return "redirect:/dashboard";
 	}
 
 }
