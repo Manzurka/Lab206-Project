@@ -885,19 +885,21 @@
 							
 							<br>
 							
-							<label path="rating">Rate Feedback:
-							<input 
-								name="rating"
-								type="range"
-						        class="custom-range"
-						        value="5"
-						        min="1"
-						        max="10"
-						        oninput="range_weight_disp.value = range_weight.value"
-							/>
-							<output id="range_weight_disp"></output>
-							
-							</label>
+							<div class="range-slider">
+								<label path="rating">Rate Feedback:
+								<input
+									name="rating"
+									type="range"
+									class="range-slider__range"
+									value="5"
+									min="1"
+									max="10"
+									oninput="range_weight_disp.value = range_weight.value"
+								/>
+								<span class="range-slider__value">0</span>
+								
+								</label>
+							</div>
 							
 							
 							
