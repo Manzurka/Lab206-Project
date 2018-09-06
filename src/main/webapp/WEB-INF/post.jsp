@@ -97,9 +97,10 @@
 								<i class="far fa-folder-open"></i>
 								<!-- Iterate through tags in each post -->
 								<c:forEach var="file" items="${post.attachments}">
-									(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>
-									 <a href="/showFile/<c:out value="${post.id}"/>/<c:out value="${file.id}"/>/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
-									)&nbsp;
+									(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)&nbsp;
+									<c:if test="${post.author == currentUser}">
+									 <a href="/showFile/<c:out value="${post.id}"/><c:out value="${file.id}"/>/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									</c:if>
 								</c:forEach>
 							</div>
 						</div>
