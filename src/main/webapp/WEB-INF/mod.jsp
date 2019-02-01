@@ -35,7 +35,7 @@
 	<br>
 
 	<!-- Assign badge to user -->
-		<div class="col-md-6">
+		<!-- <div class="col-md-6">
 			<h4>Assign Badge to User</h4>
 			<form action="/badge/assign" method="POST">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -44,7 +44,7 @@
 						<option value="${badge.id}">${badge.name}</option>
 					</c:forEach>
 				</select>
-				<img src="/badgeImage?id=1" id="badge-preview">
+				<img src="/badgeImage?id=1" id="badge-preview" style="width:60px; height:60px">
 				<select name="userId">
 					<c:forEach var="u" items="${all_users}">
 						<option value="${u.id}">${u.firstName} ${u.lastName}</option>
@@ -53,7 +53,7 @@
 				<button type="submit" class="btn bg-cosmic-cobalt text-gray-blue">Assign Badge</button>
 			</form>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- BADGE CREATION -->
 		<div class="col-md-6 badgeCreate float-left">
@@ -125,7 +125,7 @@
 							<td>${request.requestedBadge.name}</td>
 							<td><img src="/badgeImage?id=${request.requestedBadge.id}" style="width:60px;height:60px"></td>
 							<td><fmt:formatDate value="${request.createdAt}" pattern="MM-dd-yyyy hh:mm a" /></td>
-							<td><a href='/badgeRequest/approve/${request.id}'>Approve</a></td>
+							<td><a href='/badge/request/${request.id}/approve'>Approve</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>

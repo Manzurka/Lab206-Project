@@ -97,10 +97,11 @@
 								<i class="far fa-folder-open"></i>
 								<!-- Iterate through tags in each post -->
 								<c:forEach var="file" items="${post.attachments}">
-									(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)&nbsp;
-									<c:if test="${post.author == currentUser}">
-									 <a href="/showFile/<c:out value="${post.id}"/><c:out value="${file.id}"/>/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									(<a href='/showFile/<c:out value="${file.id}"/>' target="_blank"><c:out value="${file.fileName}"/></a>)
+									<c:if test="${currentUser == post.author}">
+									 	<a href="/showFile/<c:out value="${post.id}"/>/<c:out value="${file.id}"/>/delete" class="shoe-project text-gray-blue"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									</c:if>
+									&nbsp;
 								</c:forEach>
 							</div>
 						</div>
@@ -139,8 +140,23 @@
 							<c:if test="${post.answer != null}">
 								<div class="row">
 									<div class="col-sm-12 answered">
-										<a href="" class="like"><i class="fas fa-thumbs-up"></i></a>
-										<h5><c:out value="${post.answer.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
+										<c:if test="${currentUser != post.answer.commenter}">
+											<c:if test="${currentUser == post.author && post.answer == null}">
+												<a href='/post/<c:out value="${post.id}"/>/answer/<c:out value="${post.answer.id}"/>' class="answer"><i class="fas fa-check-circle"></i></a>
+												<span class="float-right">&nbsp;&nbsp;</span>
+											</c:if>
+											<c:choose>
+												<c:when test="${post.answer.commentLikes.contains(currentUser)}">
+													<a href='/comment/<c:out value="${post.answer.id}"/>/unlike' class="liked"><i class="fas fa-thumbs-up"></i></a>
+												</c:when>
+												<c:otherwise>
+														<a href='/comment/<c:out value="${post.answer.id}"/>/like' class="like"><i class="fas fa-thumbs-up"></i></a>
+												</c:otherwise>
+											</c:choose>
+											<span class="float-right">&nbsp;&nbsp;</span>
+											<span class="small float-right"><c:out value="${post.answer.commentLikes.size()}"/></span>
+										</c:if>
+										<h5><c:out value="${post.answer.commenter.firstName} ${post.answer.commenter.lastName}"/> replying to <c:out value="${post.author.firstName} ${post.author.lastName}"/></h5>
 										<p class="line-breaks"><c:out value="${post.answer.content}"/></p>
 										<ul class="time-list">
 											<li>Created At: <fmt:formatDate type="both" 
@@ -174,7 +190,7 @@
 												<span class="float-right">&nbsp;&nbsp;</span>
 												<span class="small float-right"><c:out value="${comment.commentLikes.size()}"/></span>
 											</c:if>
-											<h5><c:out value="${comment.commenter.firstName}"/> replying to <c:out value="${post.author.firstName}"/></h5>
+											<h5><c:out value="${comment.commenter.firstName} ${comment.commenter.lastName}"/> replying to <c:out value="${post.author.firstName} ${post.author.lastName}"/></h5>
 											<p class="line-breaks"><c:out value="${comment.content}"/></p>
 											<ul class="time-list">
 												<li>Created At: <fmt:formatDate type="both" 

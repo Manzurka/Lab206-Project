@@ -121,13 +121,14 @@ $(document).ready(function(){
 		$.ajax({
 			url: "/quicklink/filter/" + $(this).attr('data-language')
 		}).then(function(quicklinks) {
-			console.log(quicklinks);
 			$('#quicklinkList').html(``);
+			var color = quicklinks[0].tags[0].color;
+			var subject = quicklinks[0].tags[0].subject;
 			for (i = 0; i < quicklinks.length; i++) {
 				$('#quicklinkList').append(`
 					<li>
 						<a target="_blank" href="${quicklinks[i].url}">${quicklinks[i].name}</a>
-						<span class="badge badge-pill text-ghost-white ${quicklinks[i].tags[0].color} post-footer">${quicklinks[i].tags[0].subject}</span>
+						<span class="badge badge-pill text-ghost-white ${color} post-footer">${subject}</span>
 					</li>
 				`)
 			};

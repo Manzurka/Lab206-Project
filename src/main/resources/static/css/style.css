@@ -81,12 +81,10 @@ table, tr, td, th {
 }
 .badge-img {
 	margin: 2px 0;
-	width: 60px;
-	height: 60px;
+	max-width: 60px;
 }
 .badge-img-sm {
-	width: 30px;
-	height: 30px;
+	max-width: 30px;
 }
 .nav-link {
 	color: #335C67;

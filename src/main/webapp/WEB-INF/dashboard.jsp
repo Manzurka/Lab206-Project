@@ -110,7 +110,16 @@
 										<div class="row">
 											<div class="col-12">
 												<h4><a href=#>${post.title}</a></h4>
-												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
+												<!-- <c:choose>
+													<c:when test="${currentUser == post.author}">
+														${post.postLikes.size()}<span class="like text-gray-blue"><i class="fa fa-thumps-up float-right"></i></span>
+													</c:when>
+													<c:otherwise>
+														<c:if test="${post.postLikes.contains(currentUser)}">
+															
+														</c:if>
+													</c:otherwise>
+												</c:choose> -->
 												<ul class="list-inline">
 													<i class="fa fa-tags"></i>
 													<!-- Iterate through tags in each post -->
@@ -184,7 +193,7 @@
 												</c:forEach>
 												<p>${show}</p>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<i class="fa fa-tags"></i>
 												<ul class="list-inline">
 													<!-- Iterate through tags in each post -->
@@ -193,9 +202,23 @@
 													</c:forEach>
 												</ul>
 											</div>
-											<div class="col-sm-1">
-												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-											</div>
+											<!-- <div class="col-sm-1">
+												<c:choose>
+													<c:when test="${currentUser == post.author}">
+														<span class="text-gray-blue post-header"><i class="fa fa-thumbs-up float-right"></i></span><span class="float-right">${post.postLikes.size()}&nbsp;&nbsp;</span>
+													</c:when>
+													<c:otherwise>
+														<c:choose>
+															<c:when test="${currentUser.likedPosts.contains(post)}">
+																<a href='/post/<c:out value="${post.id}"/>/unlike' class="liked post-header"><i class="fa fa-thumbs-up"></i></a></span><span class="float-right">${post.postLikes.size()}&nbsp;&nbsp;</span>
+															</c:when>
+															<c:otherwise>
+																<a href='/post/<c:out value="${post.id}"/>/like' class="like post-header"><i class="fa fa-thumbs-up"></i></a></span><span class="float-right">${post.postLikes.size()}&nbsp;&nbsp;</span>
+															</c:otherwise>
+														</c:choose>
+													</c:otherwise>
+												</c:choose>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="container">
@@ -247,7 +270,7 @@
 												</c:forEach>
 												<p>${show}</p>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<i class="fa fa-tags"></i>
 												<ul class="list-inline">
 													<!-- Iterate through tags in each post -->
@@ -256,9 +279,18 @@
 													</c:forEach>
 												</ul>
 											</div>
-											<div class="col-sm-1">
-												<a href="#" class="like text-gray-blue"><i class="fa fa-thumbs-up float-right"></i></a>
-											</div>
+											<!-- <div class="col-sm-1">
+												<c:choose>
+													<c:when test="${currentUser == post.author}">
+														${post.postLikes.size()}<span class="like text-gray-blue"><i class="fa fa-thumps-up float-right"></i></span>
+													</c:when>
+													<c:otherwise>
+														<c:if test="${post.postLikes.contains(currentUser)}">
+															
+														</c:if>
+													</c:otherwise>
+												</c:choose>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="container">

@@ -70,7 +70,6 @@
                         <div class="col-sm-12">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Points: ${user.points}</li>
-                                <li class="list-group-item">Cohort: ${user.cohort}</li>
                                 <li class="list-group-item">GitHub: <a target = "_blank" href="${user.github}">${user.github}</a></li>
                                 <li class="list-group-item">About me: ${user.about}</li> 
                             </ul>
@@ -79,7 +78,7 @@
                 </div>
                 <div class="col-sm-5">
                     <div class="card bg-light mb-3" style="max-width: 30rem;">
-                        <div class="card-header">Badge</div>
+                        <div class="card-header">Badges</div>
                         <div class="card-body">
                             <c:forEach var="badge" items="${user.badges}">
                                 <img class="badge-img" src="/badgeImage?id=${badge.id}">

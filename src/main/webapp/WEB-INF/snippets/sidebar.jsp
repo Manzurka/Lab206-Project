@@ -14,9 +14,10 @@
         <!-- Announcements go here-->
         <div class="col-12 content-panel" id="announcements">
             <c:forEach var="announcement" items="${announcements}" varStatus="status"> 
-                    <c:if test="${status.count <= 5}">
-                        <h3>${announcement.subject}</h3>
+                    <c:if test="${status.count <= 3}">
+                        <h5>${announcement.subject}</h5>
                         <p>${announcement.content}</p>
+                        <hr>
                     </c:if>
             </c:forEach>
             <a href="/announcements">View all</a>

@@ -25,6 +25,10 @@ public class QuicklinkRestController {
 	
 	@RequestMapping("/quicklink/filter/{language}")
 	public List<Quicklink> filterQuicklinks(@PathVariable("language") String language) {
+		if (language.equals("C")) {
+			Tag cTag = ts.findTagBySubject("c#");
+			return qs.findByTag(cTag);
+		}
 		Tag tag = ts.findTagBySubject(language.toLowerCase());
 		return qs.findByTag(tag);
 	}

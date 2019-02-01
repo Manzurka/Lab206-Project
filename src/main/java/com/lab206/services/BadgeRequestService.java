@@ -22,12 +22,20 @@ public class BadgeRequestService {
 		this.us = us;
 	}
 	
-	public void saveBadgeRequest(BadgeRequest badgeRequest,
+	public void saveBadgeRequest(BadgeRequest badgeRequest) {
+		brr.save(badgeRequest);
+	}
+	
+	public void saveBadgeRequestWithUser(BadgeRequest badgeRequest,
 			User user, 
 			Badge badge) {
 		badgeRequest.setRequester(user);
 		badgeRequest.setRequestedBadge(badge);
 		brr.save(badgeRequest);
+	}
+	
+	public BadgeRequest findById(Long id) {
+		return brr.findById(id).get();
 	}
 	
 	public BadgeRequest findByUserAndBadge(User user,

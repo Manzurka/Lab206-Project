@@ -61,8 +61,25 @@ public class BadgeController {
 			Principal principal) {
 		User currentUser = us.findByEmail(principal.getName());
 		Badge badge = bs.findById(badgeId);
-		brs.saveBadgeRequest(badgeRequest, currentUser, badge);
+		brs.saveBadgeRequestWithUser(badgeRequest, currentUser, badge);
 		return "redirect:/badge/" + badgeId;
 	}
+	
+	@RequestMapping("/badge/request/{id}/approve")
+	public String approveBadgeRequest(@PathVariable("id") Long id,
+			Principal principal,
+			Model model) {
+		BadgeRequest request = brs.findById(id);
+		User requester = request.getRequester();
+		Badge badge = request.getRequestedBadge();
+		List<Badge> badges = requester.getBadges();
+		badges.add(badge);
+		requester.setBadges(badges);
+		us.save(requester);
+		request.setReviewed(true);
+		brs.saveBadgeRequest(request);
+		return "redirect:/mod";
+	}
+	
 
 }
